@@ -1,7 +1,8 @@
+import { HeaderText } from 'components/Text'
 import { observer } from 'mobx-react-lite'
 
 function Main() {
-  return <h1>Hello</h1>
+  return <HeaderText>Hello</HeaderText>
 }
 
 export default observer(Main)

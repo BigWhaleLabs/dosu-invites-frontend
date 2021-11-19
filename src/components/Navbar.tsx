@@ -23,11 +23,6 @@ const themeToggleBox = classnames(
   'justify-end',
   'items-center'
 )
-const mobileHeader = classnames(
-  'md:flex-none',
-  flexGrowRow(true),
-  'justify-end'
-)
 
 function Navbar() {
   return (
