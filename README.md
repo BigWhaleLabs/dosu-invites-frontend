@@ -14,6 +14,12 @@
 - List of recommended extensions for VSCode
 - It is important to keep the bundle small, so a `stats.html` file is generated on `yarn build` to visually show you the bundle size
 
+## Environment variables
+
+| Name              | Description  |
+| ----------------- | ------------ |
+| REACT_APP_BACKEND | API root URL |
+
 ## Local launch
 
 1. Install dependencies with `yarn`
