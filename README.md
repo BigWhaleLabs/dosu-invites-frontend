@@ -1,6 +1,4 @@
-# Frontend code template in React
-
-This template is to be used for frontend applications.
+# Frontend code for dosu-invites
 
 ## Features
 
