@@ -1,7 +1,7 @@
 import { Idea, Moon } from 'icons'
 import { animated, useSpring } from 'react-spring'
 import { classnames } from 'classnames/tailwind'
-import { observer } from 'mobx-react-lite'
+import { useSnapshot } from 'valtio'
 import AppStore from 'stores/AppStore'
 
 const toggleContainer = classnames(
@@ -28,7 +28,7 @@ const toggleButton = classnames(
 const iconDiv = classnames('w-7', 'h-7', toggleButton)
 
 const ThemeToggle = () => {
-  const theme = AppStore.theme
+  const { theme } = useSnapshot(AppStore)
 
   const moonAnimation = useSpring({
     transform: theme === 'light' ? 'rotate(360deg)' : 'rotate(0deg)',
@@ -62,4 +62,4 @@ const ThemeToggle = () => {
   )
 }
 
-export default observer(ThemeToggle)
+export default ThemeToggle

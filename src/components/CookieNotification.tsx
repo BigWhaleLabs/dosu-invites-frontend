@@ -2,7 +2,6 @@ import { BodyText } from 'components/Text'
 import { Button } from 'components/Button'
 import { animated, useSpring } from 'react-spring'
 import { classnames } from 'classnames/tailwind'
-import { observer } from 'mobx-react-lite'
 import AppStore from 'stores/AppStore'
 
 const CookieNotification = () => {
@@ -42,4 +41,4 @@ const CookieNotification = () => {
   ) : null
 }
 
-export default observer(CookieNotification)
+export default CookieNotification

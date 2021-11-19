@@ -1,11 +1,11 @@
 import { classnames } from 'classnames/tailwind'
-import { observer } from 'mobx-react-lite'
+import { useSnapshot } from 'valtio'
 import AppStore from 'stores/AppStore'
 
 const whale = classnames('mx-auto')
-const Whale = observer(() => {
-  const theme = AppStore.theme
+const Whale = () => {
+  const { theme } = useSnapshot(AppStore)
   return <img className={whale} src={`/img/whale-${theme}.svg`} alt="whale" />
-})
+}
 
 export default Whale

@@ -1,5 +1,4 @@
 import { classnames } from 'classnames/tailwind'
-import { observer } from 'mobx-react-lite'
 import Logo from 'components/Logo'
 import ThemeToggle from 'components/ThemeToggle'
 
@@ -36,4 +35,4 @@ function Navbar() {
   )
 }
 
-export default observer(Navbar)
+export default Navbar

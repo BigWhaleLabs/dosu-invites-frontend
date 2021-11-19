@@ -1,5 +1,5 @@
+import { Button } from 'components/Button'
 import AppStore from 'stores/AppStore'
-import Button from 'components/Button'
 import Language from 'models/Language'
 
 export default function LanguageButtons() {
