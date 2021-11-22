@@ -6,7 +6,7 @@ import AppStore from 'stores/AppStore'
 const ThemeProvider: FC = ({ children }) => {
   const backgroundStyle = classnames(
     'bg-background',
-    'h-screen',
+    'h-full',
     'transition-colors'
   )
   const root = window.document.documentElement

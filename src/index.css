@@ -73,3 +73,29 @@ a {
   --rounded-xl: 0.75rem;
   --leading-loose: 200%;
 }
+
+/* Video Player */
+vm-player {
+  --vm-player-theme: var(--accent);
+  --vm-player-border-radius: 24px;
+  --vm-control-padding: 12px;
+  --vm-icon-fill: var(--primary);
+}
+
+vm-scrubber-control {
+  top: 25px;
+}
+
+vm-control-group {
+  background-color: var(--background);
+  border-radius: 48px;
+}
+
+@media screen and (max-width: 1024px) {
+  vm-player {
+    --vm-control-padding: 4px;
+  }
+  vm-scrubber-control {
+    top: 17px;
+  }
+}

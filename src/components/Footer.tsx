@@ -17,9 +17,13 @@ const Footer = () => {
   return (
     <div className={footerContainer}>
       <FooterText>
-        <Link to="/privacy">Privacy</Link>
+        <Link to={{ pathname: 'https://dosu.io/p/dosu/2' }} target="_blank">
+          Privacy
+        </Link>
         <span className={dotPadding}>{'•'}</span>
-        <Link to="/terms">Terms</Link>
+        <Link to={{ pathname: 'https://dosu.io/p/dosu/1' }} target="_blank">
+          Terms
+        </Link>
       </FooterText>
     </div>
   )
