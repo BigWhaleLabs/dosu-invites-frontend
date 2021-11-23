@@ -1,10 +1,4 @@
-import {
-  Link,
-  Redirect,
-  Route,
-  BrowserRouter as Router,
-  Switch,
-} from 'react-router-dom'
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import LocalizationProvider from 'localization/LocalizationProvider'
 import Main from 'pages/Main'
 import Navbar from 'components/Navbar'

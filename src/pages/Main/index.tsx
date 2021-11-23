@@ -3,18 +3,20 @@ import {
   ControlGroup,
   Controls,
   CurrentTime,
+  DblClickFullscreen,
   FullscreenControl,
   IconLibrary,
   LoadingScreen,
   PlaybackControl,
   Player,
+  Poster,
   ScrubberControl,
   Ui,
   Video,
   VolumeControl,
 } from '@vime/react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { TinyText } from 'components/Text'
+import { TinyText, primaryText } from 'components/Text'
 import { classnames } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
 import { useSnapshot } from 'valtio'
@@ -78,18 +80,36 @@ function Main() {
 
           <Ui>
             <ClickToPlay />
+            <DblClickFullscreen />
+            <Poster fit="fill" />
 
             <Controls fullWidth>
               <ControlGroup>
-                <PlaybackControl />
+                <PlaybackControl
+                  icons="dosu-invite-icons"
+                  pauseIcon="pause"
+                  playIcon="play"
+                  hideTooltip
+                />
                 <ScrubberControl />
-                <CurrentTime />
-                <VolumeControl />
-                <FullscreenControl />
+                <CurrentTime className={primaryText} />
+                <VolumeControl
+                  hideTooltip
+                  icons="dosu-invite-icons"
+                  highVolumeIcon="highvolume"
+                  lowVolumeIcon="highvolume"
+                  mutedIcon="highvolume"
+                />
+                <FullscreenControl
+                  icons="dosu-invite-icons"
+                  enterIcon="enterfullscreen"
+                  exitIcon="enterfullscreen"
+                  hideTooltip
+                />
               </ControlGroup>
             </Controls>
 
-            <LoadingScreen>
+            <LoadingScreen hideDots>
               <Loader />
             </LoadingScreen>
           </Ui>

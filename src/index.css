@@ -80,6 +80,9 @@ vm-player {
   --vm-player-border-radius: 24px;
   --vm-control-padding: 12px;
   --vm-icon-fill: var(--primary);
+  --vm-time-color: var(--primary);
+  --vm-slider-track-color: var(--border);
+  --vm-scrubber-buffered-bg: var(--primary-disabled-text);
 }
 
 vm-scrubber-control {
@@ -93,9 +96,10 @@ vm-control-group {
 
 @media screen and (max-width: 1024px) {
   vm-player {
-    --vm-control-padding: 4px;
+    --vm-control-padding: 6px;
+    --vm-control-icon-size: 1em;
   }
   vm-scrubber-control {
-    top: 17px;
+    top: 12px;
   }
 }
