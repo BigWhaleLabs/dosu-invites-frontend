@@ -77,8 +77,10 @@ a {
 /* Video Player */
 vm-player {
   --vm-player-theme: var(--accent);
+  --vm-player-font-family: var(--font-primary);
   --vm-player-border-radius: 24px;
   --vm-control-padding: 12px;
+  --vm-control-border-radius: 100%;
   --vm-icon-fill: var(--primary);
   --vm-time-color: var(--primary);
   --vm-slider-track-color: var(--border);
