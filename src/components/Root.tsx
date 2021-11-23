@@ -11,7 +11,7 @@ const root = classnames(
   'max-w-4xl',
   'pt-4',
   'px-4',
-  'h-auto'
+  'h-screen'
 )
 const Root: FC = ({ children }) => {
   return (
