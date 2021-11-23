@@ -98,12 +98,12 @@ function Main() {
                   icons="dosu-invite-icons"
                   highVolumeIcon="highvolume"
                   lowVolumeIcon="highvolume"
-                  mutedIcon="highvolume"
+                  mutedIcon="mutedvolume"
                 />
                 <FullscreenControl
                   icons="dosu-invite-icons"
                   enterIcon="enterfullscreen"
-                  exitIcon="enterfullscreen"
+                  exitIcon="exitfullscreen"
                   hideTooltip
                 />
               </ControlGroup>
