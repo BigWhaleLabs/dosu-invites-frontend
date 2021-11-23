@@ -1,4 +1,5 @@
 import {
+  Link,
   Redirect,
   Route,
   BrowserRouter as Router,
@@ -21,10 +22,19 @@ const App = () => {
             <Switch>
               <Route exact path="/" component={Main} />
               <Route
-                path="/privacy"
-                render={() => <Redirect to="/p/dosu/2" />}
+                path="/terms"
+                component={() => {
+                  window.location.replace('https://dosu.io/p/dosu/1')
+                  return null
+                }}
               />
-              <Route path="/terms" render={() => <Redirect to="/p/dosu/1" />} />
+              <Route
+                path="/privacy"
+                component={() => {
+                  window.location.replace('https://dosu.io/p/dosu/2')
+                  return null
+                }}
+              />
               <Route exact path="/404" component={NotFound} />
               <Route path="*" component={NotFound} />
             </Switch>
