@@ -19,10 +19,12 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { TinyText, primaryText } from 'components/Text'
 import { classnames } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
+import { useEffect, useRef } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import { useState } from 'react'
 import AppStore from 'stores/AppStore'
 import Loader from 'components/Loader'
+import useMain from 'pages/Main/useMain'
 
 const mainBox = classnames('flex', 'flex-col', 'content-center', 'items-center')
 
@@ -53,13 +55,26 @@ const ethText = (copied?: boolean) =>
 
 function Main() {
   const { theme } = useSnapshot(AppStore)
+  const [frame, setFrame] = useState(1)
+
+  const { framesToEthMap } = useMain()
 
   const videoLink = `http://localhost:1337/video`
+
+  const videoRef = useRef(null) as React.MutableRefObject<HTMLVmVideoElement>
 
   const [ethAddress, setEthAddress] = useState(
     '0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7'
   )
   const [copied, setCopied] = useState(false)
+
+  useEffect(() => {
+    if (frame) {
+      console.log(videoRef.current)
+      console.log(frame)
+      setEthAddress(framesToEthMap[frame])
+    }
+  }, [frame, framesToEthMap])
 
   return (
     <div className={mainBox}>
@@ -70,7 +85,7 @@ function Main() {
             resolver={(iconName) => `/icons/${iconName}.svg`}
           />
 
-          <Video crossOrigin="anonymous" poster="img/poster">
+          <Video crossOrigin="anonymous" poster="img/poster" ref={videoRef}>
             <source data-src={videoLink} type="video/mp4" />
           </Video>
 
