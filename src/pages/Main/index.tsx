@@ -54,6 +54,8 @@ const ethText = (copied?: boolean) =>
 function Main() {
   const { theme } = useSnapshot(AppStore)
 
+  const videoLink = `http://localhost:1337/video`
+
   const [ethAddress, setEthAddress] = useState(
     '0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7'
   )
@@ -68,14 +70,8 @@ function Main() {
             resolver={(iconName) => `/icons/${iconName}.svg`}
           />
 
-          <Video
-            crossOrigin="anonymous"
-            poster="https://media.vimejs.com/poster.png"
-          >
-            <source
-              data-src="https://media.vimejs.com/720p.mp4"
-              type="video/mp4"
-            />
+          <Video crossOrigin="anonymous" poster="img/poster">
+            <source data-src={videoLink} type="video/mp4" />
           </Video>
 
           <Ui>
