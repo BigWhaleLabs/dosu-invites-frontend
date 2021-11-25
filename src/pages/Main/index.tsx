@@ -1,22 +1,13 @@
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 import {
-  ClickToPlay,
-  ControlGroup,
-  Controls,
-  CurrentTime,
-  DblClickFullscreen,
-  FullscreenControl,
+  DefaultUi,
   IconLibrary,
   LoadingScreen,
-  PlaybackControl,
   Player,
   Poster,
-  ScrubberControl,
-  Ui,
   Video,
-  VolumeControl,
 } from '@vime/react'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { TinyText, primaryText } from 'components/Text'
+import { TinyText } from 'components/Text'
 import { classnames } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
 import { useEffect } from 'preact/hooks'
@@ -90,45 +81,17 @@ function Main() {
             crossOrigin="anonymous"
             poster="img/poster"
             onTimeUpdate={(time) => console.log(time)}
+            disablePiP
           >
             <source data-src={videoLink} type="video/mp4" />
           </Video>
+          <Poster fit="fill" />
 
-          <Ui>
-            <ClickToPlay />
-            <DblClickFullscreen />
-            <Poster fit="fill" />
-
-            <Controls fullWidth>
-              <ControlGroup>
-                <PlaybackControl
-                  icons="dosu-invite-icons"
-                  pauseIcon="pause"
-                  playIcon="play"
-                  hideTooltip
-                />
-                <ScrubberControl />
-                <CurrentTime className={primaryText} />
-                <VolumeControl
-                  hideTooltip
-                  icons="dosu-invite-icons"
-                  highVolumeIcon="highvolume"
-                  lowVolumeIcon="highvolume"
-                  mutedIcon="mutedvolume"
-                />
-                <FullscreenControl
-                  icons="dosu-invite-icons"
-                  enterIcon="enterfullscreen"
-                  exitIcon="exitfullscreen"
-                  hideTooltip
-                />
-              </ControlGroup>
-            </Controls>
-
+          <DefaultUi noCaptions noLoadingScreen noSettings noSpinner>
             <LoadingScreen hideDots>
               <Loader />
             </LoadingScreen>
-          </Ui>
+          </DefaultUi>
         </Player>
       </div>
 

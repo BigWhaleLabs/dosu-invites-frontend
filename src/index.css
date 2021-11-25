@@ -79,29 +79,12 @@ vm-player {
   --vm-player-theme: var(--accent);
   --vm-player-font-family: var(--font-primary);
   --vm-player-border-radius: 24px;
-  --vm-control-padding: 12px;
   --vm-control-border-radius: 100%;
-  --vm-icon-fill: var(--primary);
-  --vm-time-color: var(--primary);
-  --vm-slider-track-color: var(--border);
-  --vm-scrubber-buffered-bg: var(--primary-disabled-text);
-}
-
-vm-scrubber-control {
-  top: 25px;
-}
-
-vm-control-group {
-  background-color: var(--background);
-  border-radius: 48px;
 }
 
 @media screen and (max-width: 1024px) {
   vm-player {
-    --vm-control-padding: 6px;
+    --vm-control-padding: 8px;
     --vm-control-icon-size: 1em;
-  }
-  vm-scrubber-control {
-    top: 12px;
   }
 }
