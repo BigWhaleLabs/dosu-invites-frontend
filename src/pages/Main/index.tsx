@@ -19,7 +19,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { TinyText, primaryText } from 'components/Text'
 import { classnames } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
-import { useEffect, useRef } from 'preact/hooks'
+import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import { useState } from 'react'
 import AppStore from 'stores/AppStore'
@@ -61,19 +61,20 @@ function Main() {
 
   const videoLink = `http://localhost:1337/video`
 
-  const videoRef = useRef(null) as React.MutableRefObject<HTMLVmVideoElement>
-
-  const [ethAddress, setEthAddress] = useState(
-    '0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7'
-  )
+  const [ethAddress, setEthAddress] = useState('')
   const [copied, setCopied] = useState(false)
 
+  const video = window.document.getElementsByTagName('video')[0]
+  if (video) {
+    video.addEventListener('timeupdate', function () {
+      const seconds = video.currentTime * 24
+      const frame = Math.floor(seconds)
+      setFrame(frame)
+    })
+  }
+
   useEffect(() => {
-    if (frame) {
-      console.log(videoRef.current)
-      console.log(frame)
-      setEthAddress(framesToEthMap[frame])
-    }
+    setEthAddress(framesToEthMap[frame])
   }, [frame, framesToEthMap])
 
   return (
@@ -85,7 +86,11 @@ function Main() {
             resolver={(iconName) => `/icons/${iconName}.svg`}
           />
 
-          <Video crossOrigin="anonymous" poster="img/poster" ref={videoRef}>
+          <Video
+            crossOrigin="anonymous"
+            poster="img/poster"
+            onTimeUpdate={(time) => console.log(time)}
+          >
             <source data-src={videoLink} type="video/mp4" />
           </Video>
 
