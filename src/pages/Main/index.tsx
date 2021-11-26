@@ -77,7 +77,7 @@ function Main() {
             resolver={(iconName) => `/icons/${iconName}.svg`}
           />
 
-          <Video crossOrigin="anonymous" poster="img/poster">
+          <Video poster="img/poster">
             <source data-src={videoLink} type="video/mp4" />
           </Video>
           <Poster fit="fill" />

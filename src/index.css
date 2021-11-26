@@ -84,7 +84,7 @@ vm-player {
 
 @media screen and (max-width: 1024px) {
   vm-player {
-    --vm-control-padding: 8px;
+    --vm-control-padding: 15px;
     --vm-control-icon-size: 1em;
   }
 }
