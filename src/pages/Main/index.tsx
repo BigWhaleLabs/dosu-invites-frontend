@@ -9,7 +9,6 @@ import {
 } from '@vime/react'
 import { TinyText } from 'components/Text'
 import { classnames } from 'classnames/tailwind'
-import { objectPrototype } from 'mobx/dist/internal'
 import { observer } from 'mobx-react-lite'
 import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
