@@ -9,19 +9,36 @@ import {
 } from '@vime/react'
 import { TinyText } from 'components/Text'
 import { classnames } from 'classnames/tailwind'
+import { objectPrototype } from 'mobx/dist/internal'
 import { observer } from 'mobx-react-lite'
 import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import { useState } from 'react'
 import AppStore from 'stores/AppStore'
+import Draggable from 'react-draggable'
 import Loader from 'components/Loader'
 import useMain from 'pages/Main/useMain'
 
 const mainBox = classnames('flex', 'flex-col', 'content-center', 'items-center')
 
 const playerBox = classnames('flex', 'items-center', 'w-full', 'rounded-3xl')
-
 const playerStyles = classnames('w-full')
+
+const draggableBox = classnames(
+  'flex',
+  'flex-col',
+  'w-full',
+  'box-content',
+  'text-left',
+  'overflow-hidden',
+  'rounded-3xl',
+  'border-2',
+  'border-border',
+  'mt-12',
+  'p-6'
+)
+const draggableText = classnames('w-full', 'flex', 'flex-row', 'text-primary')
+const draggableSymbox = classnames('w-6', 'mx-2', 'text-center')
 
 const ethAddressBox = classnames(
   'flex',
@@ -46,26 +63,39 @@ const ethText = (copied?: boolean) =>
 
 function Main() {
   const { theme } = useSnapshot(AppStore)
-  const [frame, setFrame] = useState(1)
 
   const { framesToEthMap } = useMain()
 
-  const videoLink = `http://localhost:1337/video`
-
-  const [ethAddress, setEthAddress] = useState('')
+  const [frame, setFrame] = useState(0)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [ethAddress, setEthAddress] = useState('0x')
   const [copied, setCopied] = useState(false)
 
+  const videoLink = `http://localhost:1337/video`
   const video = window.document.getElementsByTagName('video')[0]
-  if (video) {
-    video.addEventListener('timeupdate', function () {
-      const seconds = video.currentTime * 24
-      const frame = Math.floor(seconds)
-      setFrame(frame)
-    })
-  }
+
+  useEffect(() => {
+    if (video) {
+      video.addEventListener('timeupdate', function (event) {
+        event.preventDefault()
+        setCurrentTime(
+          Math.round((video.currentTime + Number.EPSILON) * 100) / 100
+        )
+      })
+    }
+  }, [video])
+
+  useEffect(() => {
+    const seconds = currentTime * 24
+    const frame = Math.floor(seconds)
+    setFrame(frame)
+  }, [currentTime])
+
+  const draggableGrid = 13
 
   useEffect(() => {
     setEthAddress(framesToEthMap[frame])
+    setCopied(false)
   }, [frame, framesToEthMap])
 
   return (
@@ -88,6 +118,29 @@ function Main() {
             </LoadingScreen>
           </DefaultUi>
         </Player>
+      </div>
+
+      <div className={draggableBox}>
+        <TinyText>DRAGGABLE FRAMES</TinyText>
+        <Draggable
+          bounds={{ left: -draggableGrid * 1000, right: draggableGrid * 1000 }}
+          grid={[draggableGrid, draggableGrid]}
+          positionOffset={{ x: -frame * draggableGrid, y: 0 }}
+          axis="x"
+          onDrag={(e, data) => {
+            console.log(data.x)
+            setFrame(-data.x / draggableGrid)
+          }}
+        >
+          <div className={draggableText}>
+            {framesToEthMap &&
+              Object.keys(framesToEthMap).map((frame) => (
+                <div className={draggableSymbox}>
+                  <p>{frame}</p>
+                </div>
+              ))}
+          </div>
+        </Draggable>
       </div>
 
       <div className={ethAddressBox}>
