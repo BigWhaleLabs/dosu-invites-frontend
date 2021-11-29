@@ -27,8 +27,6 @@ const draggableBox = classnames(
   'flex',
   'flex-col',
   'w-full',
-  'box-content',
-  'text-left',
   'overflow-hidden',
   'rounded-3xl',
   'border-2',
@@ -36,8 +34,23 @@ const draggableBox = classnames(
   'mt-12',
   'p-6'
 )
-const draggableText = classnames('w-full', 'flex', 'flex-row', 'text-primary')
-const draggableSymbox = classnames('w-6', 'mx-2', 'text-center')
+const draggableText = classnames(
+  'w-full',
+  'items-center',
+  'flex',
+  'flex-row',
+  'text-primary',
+  'font-mono'
+)
+const draggableSymbol = classnames(
+  'w-8',
+  'text-center',
+  'overflow-clip',
+  'overflow-hidden',
+  'whitespace-nowrap'
+)
+
+const draggableSymbolBox = classnames('block')
 
 const ethAddressBox = classnames(
   'flex',
@@ -90,7 +103,7 @@ function Main() {
     setFrame(frame)
   }, [currentTime])
 
-  const draggableGrid = 13
+  const draggableGrid = 16
 
   useEffect(() => {
     setEthAddress(framesToEthMap[frame])
@@ -127,15 +140,14 @@ function Main() {
           positionOffset={{ x: -frame * draggableGrid, y: 0 }}
           axis="x"
           onDrag={(e, data) => {
-            console.log(data.x)
             setFrame(-data.x / draggableGrid)
           }}
         >
           <div className={draggableText}>
             {framesToEthMap &&
               Object.keys(framesToEthMap).map((frame) => (
-                <div className={draggableSymbox}>
-                  <p>{frame}</p>
+                <div className={draggableSymbolBox}>
+                  <p className={draggableSymbol}>{frame}</p>
                 </div>
               ))}
           </div>
