@@ -89,11 +89,10 @@ function Main() {
     if (video) {
       video.addEventListener('timeupdate', function (event) {
         event.preventDefault()
-        setCurrentTime(
-          Math.round((video.currentTime + Number.EPSILON) * 100) / 100
-        )
+        setCurrentTime(Math.round(video.currentTime * 100) / 100)
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [video])
 
   useEffect(() => {
@@ -134,7 +133,7 @@ function Main() {
       <div className={draggableBox}>
         <TinyText>DRAGGABLE FRAMES</TinyText>
         <Draggable
-          bounds={{ left: -draggableGrid * 1000, right: draggableGrid * 1000 }}
+          bounds={{ left: -draggableGrid * 1000, right: draggableGrid }}
           grid={[draggableGrid, draggableGrid]}
           positionOffset={{ x: -frame * draggableGrid, y: 0 }}
           axis="x"
