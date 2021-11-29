@@ -135,7 +135,7 @@ function Main() {
         <Draggable
           bounds={{ left: -draggableGrid * 1000, right: draggableGrid }}
           grid={[draggableGrid, draggableGrid]}
-          positionOffset={{ x: -frame * draggableGrid, y: 0 }}
+          positionOffset={{ x: -frame * 2 * draggableGrid, y: 0 }}
           axis="x"
           onDrag={(_e, data) => {
             setFrame(-data.x / draggableGrid)
