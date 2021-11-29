@@ -6,7 +6,6 @@ module.exports = {
     fontFamily: {
       logo: 'Poppins',
       primary: 'Manrope',
-      mono: 'Consolas',
     },
     extend: {
       borderRadius: {

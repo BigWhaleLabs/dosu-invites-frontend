@@ -3865,7 +3865,7 @@ export type TWhitespace =
 
 export type TWordBreak = 'break-normal' | 'break-words' | 'break-all'
 
-export type TFontFamily = 'font-logo' | 'font-primary' | 'font-mono'
+export type TFontFamily = 'font-logo' | 'font-primary'
 
 export type TFontSize =
   | 'text-xs'
@@ -8449,11 +8449,6 @@ export type TPseudoClasses =
   | 'lg:font-primary'
   | 'xl:font-primary'
   | '2xl:font-primary'
-  | 'sm:font-mono'
-  | 'md:font-mono'
-  | 'lg:font-mono'
-  | 'xl:font-mono'
-  | '2xl:font-mono'
   | 'sm:text-xs'
   | 'md:text-xs'
   | 'lg:text-xs'
