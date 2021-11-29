@@ -37,6 +37,7 @@ const draggableBox = classnames(
 )
 const draggableText = classnames(
   'w-full',
+  'cursor-move',
   'items-center',
   'flex',
   'flex-row',
