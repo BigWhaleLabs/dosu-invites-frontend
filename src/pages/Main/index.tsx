@@ -92,7 +92,6 @@ function Main() {
         setCurrentTime(Math.round(video.currentTime * 100) / 100)
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [video])
 
   useEffect(() => {
@@ -135,10 +134,10 @@ function Main() {
         <Draggable
           bounds={{ left: -draggableGrid * 1000, right: draggableGrid }}
           grid={[draggableGrid, draggableGrid]}
-          positionOffset={{ x: -frame * 2 * draggableGrid, y: 0 }}
+          position={{ x: -frame * draggableGrid * 2, y: 0 }}
           axis="x"
           onDrag={(_e, data) => {
-            setFrame(-data.x / draggableGrid)
+            setFrame(-data.x / draggableGrid / 2)
           }}
         >
           <div className={draggableText}>
