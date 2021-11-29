@@ -26,6 +26,7 @@ const playerStyles = classnames('w-full')
 const draggableBox = classnames(
   'flex',
   'flex-col',
+  'relative',
   'w-full',
   'overflow-hidden',
   'rounded-3xl',
@@ -39,7 +40,8 @@ const draggableText = classnames(
   'items-center',
   'flex',
   'flex-row',
-  'text-primary'
+  'text-primary',
+  'ml-100'
 )
 const draggableSymbol = classnames(
   'w-8',
@@ -48,8 +50,16 @@ const draggableSymbol = classnames(
   'overflow-hidden',
   'whitespace-nowrap'
 )
-
 const draggableSymbolBox = classnames('block')
+const indicator = classnames(
+  'absolute',
+  'bottom-0',
+  'left-1/2',
+  'w-1',
+  'h-8',
+  'bg-border',
+  'rounded-md'
+)
 
 const ethAddressBox = classnames(
   'flex',
@@ -140,14 +150,15 @@ function Main() {
           }}
         >
           <div className={draggableText}>
-            {framesToEthMap &&
-              Object.keys(framesToEthMap).map((frame) => (
-                <div className={draggableSymbolBox}>
-                  <p className={draggableSymbol}>{frame}</p>
-                </div>
-              ))}
+            {Object.keys(framesToEthMap).map((frame) => (
+              <div className={draggableSymbolBox}>
+                <p className={draggableSymbol}>{frame}</p>
+              </div>
+            ))}
           </div>
         </Draggable>
+
+        <div className={indicator} />
       </div>
 
       <div className={ethAddressBox}>
