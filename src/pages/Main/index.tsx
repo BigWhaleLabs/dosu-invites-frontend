@@ -78,7 +78,7 @@ function Main() {
   const { framesToEthMap } = useMain()
 
   const [frame, setFrame] = useState(0)
-  const [currentTime, setCurrentTime] = useState(0)
+  const [dragFrame, setDragFrame] = useState(0)
   const [ethAddress, setEthAddress] = useState('0x')
   const [copied, setCopied] = useState(false)
 
@@ -87,18 +87,11 @@ function Main() {
 
   useEffect(() => {
     if (video) {
-      video.addEventListener('timeupdate', function (event) {
-        event.preventDefault()
-        setCurrentTime(Math.round(video.currentTime * 100) / 100)
+      video.addEventListener('timeupdate', () => {
+        setFrame(Math.round((Math.round(video.currentTime * 100) / 100) * 24))
       })
     }
   }, [video])
-
-  useEffect(() => {
-    const seconds = currentTime * 24
-    const frame = Math.floor(seconds)
-    setFrame(frame)
-  }, [currentTime])
 
   const draggableGrid = 16
 
@@ -106,6 +99,12 @@ function Main() {
     setEthAddress(framesToEthMap[frame])
     setCopied(false)
   }, [frame, framesToEthMap])
+
+  useEffect(() => {
+    if (video) {
+      video.currentTime = Math.round((dragFrame / 24) * 100) / 100
+    }
+  }, [dragFrame, video])
 
   return (
     <div className={mainBox}>
@@ -132,12 +131,12 @@ function Main() {
       <div className={draggableBox}>
         <TinyText>DRAGGABLE FRAMES</TinyText>
         <Draggable
-          bounds={{ left: -draggableGrid * 1000, right: draggableGrid }}
+          bounds={{ left: -draggableGrid * 1000, right: 0 }}
           grid={[draggableGrid, draggableGrid]}
           position={{ x: -frame * draggableGrid * 2, y: 0 }}
           axis="x"
           onDrag={(_e, data) => {
-            setFrame(-data.x / draggableGrid / 2)
+            setDragFrame(frame + -data.deltaX / draggableGrid)
           }}
         >
           <div className={draggableText}>
