@@ -56,7 +56,7 @@ const indicator = classnames(
   'bottom-0',
   'left-1/2',
   'w-1',
-  'h-8',
+  'h-6',
   'bg-border',
   'rounded-md'
 )
