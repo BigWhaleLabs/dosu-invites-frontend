@@ -11,7 +11,8 @@ import Draggable from 'react-draggable'
 import Loader from 'components/Loader'
 import useMain from 'pages/Main/useMain'
 
-const backend = (import.meta.env.BACKEND as string) || 'http://localhost:1337'
+const backend =
+  (import.meta.env.BACKEND as string) || 'https://backend.invites.dosu.io'
 
 const mainBox = classnames('flex', 'flex-col', 'content-center', 'items-center')
 
@@ -131,25 +132,30 @@ function Main() {
 
       <div className={draggableBox}>
         <TinyText>DRAGGABLE FRAMES</TinyText>
-        <Draggable
-          bounds={{ left: -draggableGrid * 1000, right: 0 }}
-          grid={[draggableGrid, draggableGrid]}
-          position={{ x: -frame * draggableGrid * 2, y: 0 }}
-          axis="x"
-          onDrag={(_e, data) => {
-            setDragFrame(frame + -data.deltaX / draggableGrid)
-          }}
-        >
-          <div className={draggableText}>
-            {Object.keys(framesToEthMap).map((frame) => (
-              <div className={draggableSymbolBox}>
-                <p className={draggableSymbol}>{frame}</p>
+        {framesToEthMap ? (
+          <Loader size="small" />
+        ) : (
+          <>
+            <Draggable
+              bounds={{ left: -draggableGrid * 1000, right: 0 }}
+              grid={[draggableGrid, draggableGrid]}
+              position={{ x: -frame * draggableGrid * 2, y: 0 }}
+              axis="x"
+              onDrag={(_e, data) => {
+                setDragFrame(frame + -data.deltaX / draggableGrid)
+              }}
+            >
+              <div className={draggableText}>
+                {Object.keys(framesToEthMap).map((frame) => (
+                  <div className={draggableSymbolBox}>
+                    <p className={draggableSymbol}>{frame}</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </Draggable>
-
-        <div className={indicator} />
+            </Draggable>
+            <div className={indicator} />
+          </>
+        )}
       </div>
 
       <div className={ethAddressBox}>
