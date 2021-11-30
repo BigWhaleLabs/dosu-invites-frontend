@@ -2,10 +2,11 @@ import { BodyText } from 'components/Text'
 import { Button } from 'components/Button'
 import { animated, useSpring } from 'react-spring'
 import { classnames } from 'classnames/tailwind'
+import { useSnapshot } from 'valtio'
 import AppStore from 'stores/AppStore'
 
 const CookieNotification = () => {
-  const hasCookie = AppStore.cookieAccepted
+  const { cookieAccepted } = useSnapshot(AppStore)
 
   const cookieContainer = classnames(
     'sticky',
@@ -29,11 +30,11 @@ const CookieNotification = () => {
   )
 
   const notifyAnimation = useSpring({
-    transform: hasCookie ? 'translate(0px, 110px)' : 'translate(0px, 0px)',
+    transform: cookieAccepted ? 'translate(0px, 110px)' : 'translate(0px, 0px)',
     config: { mass: 1, tension: 210, friction: 30 },
   })
 
-  return !hasCookie ? (
+  return !cookieAccepted ? (
     <animated.div className={cookieContainer} style={notifyAnimation}>
       <BodyText>🍪 This website uses cookies</BodyText>
       <Button onClick={() => AppStore.acceptCookie()}>Got it!</Button>
