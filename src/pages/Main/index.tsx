@@ -38,7 +38,8 @@ const draggableText = classnames(
   'flex',
   'flex-row',
   'text-primary',
-  'ml-100'
+  'lg:ml-100',
+  'ml-46'
 )
 const draggableSymbol = classnames(
   'w-8',
