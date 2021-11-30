@@ -1,7 +1,9 @@
 import arrayToHashMap from 'helpers/arrayToHashMap'
 import fetch from 'unfetch'
 
-const backend = process.env.REACT_APP_BACKEND || 'http://localhost:1337'
+const backend = (import.meta.env.BACKEND as string) || 'http://localhost:1337'
+
+console.log(backend)
 
 export default async function getFramesToEthMap() {
   const ethAddresses: string[] = await (
