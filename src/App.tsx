@@ -18,14 +18,14 @@ const App = () => {
               <Route
                 path="/terms"
                 component={() => {
-                  window.location.replace('https://dosu.io/p/dosu/1')
+                  location.replace('https://dosu.io/p/dosu/1')
                   return null
                 }}
               />
               <Route
                 path="/privacy"
                 component={() => {
-                  window.location.replace('https://dosu.io/p/dosu/2')
+                  location.replace('https://dosu.io/p/dosu/2')
                   return null
                 }}
               />
