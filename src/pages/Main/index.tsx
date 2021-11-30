@@ -132,7 +132,7 @@ function Main() {
 
       <div className={draggableBox}>
         <TinyText>DRAGGABLE FRAMES</TinyText>
-        {framesToEthMap ? (
+        {!framesToEthMap ? (
           <Loader size="small" />
         ) : (
           <>
