@@ -11,6 +11,8 @@ import Draggable from 'react-draggable'
 import Loader from 'components/Loader'
 import useMain from 'pages/Main/useMain'
 
+const backend = process.env.REACT_APP_BACKEND || 'http://localhost:1337'
+
 const mainBox = classnames('flex', 'flex-col', 'content-center', 'items-center')
 
 const playerBox = classnames('flex', 'items-center', 'w-full', 'rounded-3xl')
@@ -86,7 +88,7 @@ function Main() {
   const [ethAddress, setEthAddress] = useState('0x')
   const [copied, setCopied] = useState(false)
 
-  const videoLink = `http://localhost:1337/video`
+  const videoLink = `${backend}/video`
   const video = window.document.getElementsByTagName('video')[0]
 
   useEffect(() => {
