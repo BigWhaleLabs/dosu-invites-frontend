@@ -16,8 +16,8 @@
 
 ## Environment variables
 
-| Name              | Description  |
-| ----------------- | ------------ |
+| Name              | Description                                                 |
+| ----------------- | ----------------------------------------------------------- |
 | REACT_APP_BACKEND | API root URL, defaults to `https://backend.invites.dosu.io` |
 
 ## Local launch

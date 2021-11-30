@@ -1,8 +1,7 @@
 import arrayToHashMap from 'helpers/arrayToHashMap'
 import fetch from 'unfetch'
 
-const backend =
-  (import.meta.env.BACKEND as string) || 'https://backend.invites.dosu.io'
+const backend = import.meta.env.BACKEND || 'https://backend.invites.dosu.io'
 
 export default async function getFramesToEthMap() {
   const ethAddresses: string[] = await (
