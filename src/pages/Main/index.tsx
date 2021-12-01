@@ -92,7 +92,7 @@ function Main() {
   useEffect(() => {
     if (video) {
       video.addEventListener('timeupdate', () => {
-        setFrame(Math.round((Math.round(video.currentTime * 100) / 100) * 24))
+        setFrame(Math.floor(video.currentTime + 1))
       })
     }
   }, [video])
@@ -105,7 +105,7 @@ function Main() {
 
   useEffect(() => {
     if (video) {
-      video.currentTime = Math.round((dragFrame / 24) * 100) / 100
+      video.currentTime = Math.floor(dragFrame)
     }
   }, [dragFrame, video])
 
@@ -127,7 +127,7 @@ function Main() {
       </div>
 
       <div className={draggableBox}>
-        <TinyText>DRAGGABLE FRAMES</TinyText>
+        <TinyText>DRAGGABLE SECONDS</TinyText>
         {!framesToEthMap ? (
           <Loader size="small" />
         ) : (
