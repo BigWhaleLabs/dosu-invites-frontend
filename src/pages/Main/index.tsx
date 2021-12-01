@@ -37,9 +37,7 @@ const draggableText = classnames(
   'items-center',
   'flex',
   'flex-row',
-  'text-primary',
-  'lg:ml-100',
-  'ml-46'
+  'text-primary'
 )
 const draggableSymbol = classnames(
   'w-8',
@@ -140,6 +138,10 @@ function Main() {
             <Draggable
               bounds={{ left: -draggableGrid * 1000, right: 0 }}
               grid={[draggableGrid, draggableGrid]}
+              positionOffset={{
+                x: `calc(50% + 1.1rem)`,
+                y: 0,
+              }}
               position={{ x: -frame * draggableGrid * 2, y: 0 }}
               axis="x"
               onDrag={(_e, data) => {

@@ -35,12 +35,6 @@ module.exports = {
         '2xl': 'var(--text-2xl)',
         '6xl': 'var(--text-6xl)',
       },
-      margin: {
-        46: 'var(--m-46)',
-        '-46': '-var(--m-46)',
-        100: 'var(--m-100)',
-        '-100': '-var(--m-100)',
-      },
       keyframes: {
         'fade-in': {
           '0%': {
