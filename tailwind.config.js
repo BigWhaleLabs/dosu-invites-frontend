@@ -35,28 +35,6 @@ module.exports = {
         '2xl': 'var(--text-2xl)',
         '6xl': 'var(--text-6xl)',
       },
-      keyframes: {
-        'fade-in': {
-          '0%': {
-            background: 'var(--transparent)',
-          },
-          '100%': {
-            background: 'var(--gray-semi-transparent)',
-          },
-        },
-        'fade-out': {
-          '0%': {
-            background: 'var(--gray-semi-transparent)',
-          },
-          '100%': {
-            background: 'var(--transparent)',
-          },
-        },
-      },
-      animation: {
-        'fade-in': 'both fade-in 0.125s ease-in',
-        'fade-out': 'both fade-out 0.125s ease-out',
-      },
     },
   },
 }
