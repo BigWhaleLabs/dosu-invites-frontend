@@ -1,5 +1,5 @@
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { DefaultUi, LoadingScreen, Player, Poster, Video } from '@vime/react'
+import { Link } from 'react-router-dom'
 import { TinyText } from 'components/Text'
 import { classnames } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
@@ -65,18 +65,17 @@ const ethAddressBox = classnames(
   'border-2',
   'border-border',
   'mx-auto',
-  'mt-12',
+  'my-12',
   'p-6'
 )
 
-const ethText = (copied?: boolean) =>
-  classnames(
-    copied ? 'text-success' : 'text-primary',
-    'md:text-lg',
-    'text-sm',
-    'select-text',
-    'truncate'
-  )
+const ethText = classnames(
+  'text-primary',
+  'md:text-lg',
+  'text-sm',
+  'select-text',
+  'truncate'
+)
 
 function Main() {
   const { theme } = useSnapshot(AppStore)
@@ -86,7 +85,6 @@ function Main() {
   const [frame, setFrame] = useState(0)
   const [dragFrame, setDragFrame] = useState(0)
   const [ethAddress, setEthAddress] = useState('0x')
-  const [copied, setCopied] = useState(false)
 
   const videoLink = `${backend}/video`
   const video = window.document.getElementsByTagName('video')[0]
@@ -103,7 +101,6 @@ function Main() {
 
   useEffect(() => {
     setEthAddress(framesToEthMap[frame])
-    setCopied(false)
   }, [frame, framesToEthMap])
 
   useEffect(() => {
@@ -164,9 +161,12 @@ function Main() {
       <div className={ethAddressBox}>
         <TinyText>ETH ADDRESS</TinyText>
 
-        <CopyToClipboard text={ethAddress} onCopy={() => setCopied(true)}>
-          <span className={ethText(copied)}>{ethAddress}</span>
-        </CopyToClipboard>
+        <Link
+          to={{ pathname: `https://etherscan.io/address/${ethAddress}` }}
+          target="_blank"
+        >
+          <span className={ethText}>{ethAddress}</span>
+        </Link>
       </div>
     </div>
   )

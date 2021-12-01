@@ -1186,8 +1186,6 @@ export type TAnimation =
   | 'animate-ping'
   | 'animate-pulse'
   | 'animate-bounce'
-  | 'animate-fade-in'
-  | 'animate-fade-out'
 
 export type TTransitionsAndAnimations =
   | TTransitionProperty
@@ -4276,16 +4274,6 @@ export type TPseudoClasses =
   | 'lg:animate-bounce'
   | 'xl:animate-bounce'
   | '2xl:animate-bounce'
-  | 'sm:animate-fade-in'
-  | 'md:animate-fade-in'
-  | 'lg:animate-fade-in'
-  | 'xl:animate-fade-in'
-  | '2xl:animate-fade-in'
-  | 'sm:animate-fade-out'
-  | 'md:animate-fade-out'
-  | 'lg:animate-fade-out'
-  | 'xl:animate-fade-out'
-  | '2xl:animate-fade-out'
   | 'sm:appearance-none'
   | 'md:appearance-none'
   | 'lg:appearance-none'
