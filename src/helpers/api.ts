@@ -10,7 +10,7 @@ export default async function getFramesToEthMap() {
   ).json()
   const framesToEthMap: { [frame: number]: string } = arrayToHashMap(
     ethAddresses,
-    1
+    0
   )
   return framesToEthMap
 }
