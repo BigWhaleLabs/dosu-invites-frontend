@@ -12,7 +12,7 @@ import Loader from 'components/Loader'
 import useMain from 'pages/Main/useMain'
 
 const backend =
-  (import.meta.env.BACKEND as string) || 'https://backend.invites.dosu.io'
+  (import.meta.env.VITE_BACKEND as string) || 'https://backend.invites.dosu.io'
 
 const mainBox = classnames('flex', 'flex-col', 'content-center', 'items-center')
 
@@ -42,6 +42,7 @@ const draggableText = classnames(
 const draggableSymbol = classnames(
   'w-8',
   'text-center',
+  'select-none',
   'overflow-clip',
   'overflow-hidden',
   'whitespace-nowrap'
@@ -73,7 +74,7 @@ const ethText = classnames(
   'text-primary',
   'md:text-lg',
   'text-sm',
-  'select-text',
+  'select-all',
   'truncate'
 )
 
@@ -83,21 +84,18 @@ function Main() {
   const { framesToEthMap } = useMain()
 
   const [frame, setFrame] = useState(0)
-  const [dragFrame, setDragFrame] = useState(0)
   const [ethAddress, setEthAddress] = useState('0x')
 
   const videoLink = `${backend}/video`
-  const video = window.document.getElementsByTagName('video')[0]
+  const video = window.document.querySelector('video')
 
   useEffect(() => {
     if (video) {
       video.addEventListener('timeupdate', () => {
-        setFrame(Math.floor(video.currentTime + 1))
+        setFrame(Math.ceil(video.currentTime * frameRate))
       })
     }
   }, [video])
-
-  const draggableGrid = 16
 
   useEffect(() => {
     setEthAddress(framesToEthMap[frame])
@@ -105,9 +103,12 @@ function Main() {
 
   useEffect(() => {
     if (video) {
-      video.currentTime = Math.floor(dragFrame)
+      video.currentTime = frame / frameRate
     }
-  }, [dragFrame, video])
+  }, [frame, video])
+
+  const frameRate = 24
+  const draggableGrid = 16
 
   return (
     <div className={mainBox}>
@@ -127,13 +128,16 @@ function Main() {
       </div>
 
       <div className={draggableBox}>
-        <TinyText>DRAGGABLE SECONDS</TinyText>
+        <TinyText>DRAGGABLE FRAMES</TinyText>
         {!framesToEthMap ? (
           <Loader size="small" />
         ) : (
           <>
             <Draggable
-              bounds={{ left: -draggableGrid * 1000, right: 0 }}
+              bounds={{
+                left: -draggableGrid * 1000,
+                right: 0,
+              }}
               grid={[draggableGrid, draggableGrid]}
               positionOffset={{
                 x: `calc(50% + 1.1rem)`,
@@ -142,7 +146,7 @@ function Main() {
               position={{ x: -frame * draggableGrid * 2, y: 0 }}
               axis="x"
               onDrag={(_e, data) => {
-                setDragFrame(frame + -data.deltaX / draggableGrid)
+                setFrame(frame + -data.deltaX / draggableGrid)
               }}
             >
               <div className={draggableText}>
