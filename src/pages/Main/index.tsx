@@ -84,6 +84,7 @@ function Main() {
   const { framesToEthMap } = useMain()
 
   const [frame, setFrame] = useState(0)
+  const [dragFrame, setDragFrame] = useState(0)
   const [ethAddress, setEthAddress] = useState('0x')
 
   const videoLink = `${backend}/video`
@@ -104,9 +105,9 @@ function Main() {
 
   useEffect(() => {
     if (video) {
-      video.currentTime = frame
+      video.currentTime = dragFrame
     }
-  }, [frame, video])
+  }, [dragFrame, video])
 
   const draggableGrid = 16
   const framesToEthMapKeys = Object.keys(framesToEthMap)
@@ -146,7 +147,7 @@ function Main() {
               position={{ x: -frame * draggableGrid * 2, y: 0 }}
               axis="x"
               onDrag={(_e, data) => {
-                setFrame(frame + -data.deltaX / draggableGrid)
+                setDragFrame(frame + -data.deltaX / draggableGrid)
               }}
             >
               <div className={draggableText}>
