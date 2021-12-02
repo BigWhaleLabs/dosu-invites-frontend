@@ -91,8 +91,9 @@ function Main() {
 
   useEffect(() => {
     if (video) {
+      video.playbackRate = 16.0
       video.addEventListener('timeupdate', () => {
-        setFrame(Math.ceil(video.currentTime * frameRate))
+        setFrame(Math.floor(video.currentTime + 1))
       })
     }
   }, [video])
@@ -103,11 +104,10 @@ function Main() {
 
   useEffect(() => {
     if (video) {
-      video.currentTime = frame / frameRate
+      video.currentTime = frame - 1
     }
   }, [frame, video])
 
-  const frameRate = 24
   const draggableGrid = 16
 
   return (

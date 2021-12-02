@@ -76,6 +76,8 @@ vm-player {
   --vm-player-font-family: var(--font-primary);
   --vm-player-border-radius: 24px;
   --vm-control-border-radius: 100%;
+  --vm-scrubber-loading-stripe-color: var(--transparent);
+  --vm-scrubber-buffered-bg: var(--transparent);
 }
 
 @media screen and (max-width: 1024px) {
