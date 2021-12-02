@@ -93,7 +93,7 @@ function Main() {
     if (video) {
       video.playbackRate = 16.0
       video.addEventListener('timeupdate', () => {
-        setFrame(Math.floor(video.currentTime + 1))
+        setFrame(Math.floor(video.currentTime))
       })
     }
   }, [video])
@@ -104,11 +104,12 @@ function Main() {
 
   useEffect(() => {
     if (video) {
-      video.currentTime = frame - 1
+      video.currentTime = frame
     }
   }, [frame, video])
 
   const draggableGrid = 16
+  const framesToEthMapKeys = Object.keys(framesToEthMap)
 
   return (
     <div className={mainBox}>
@@ -128,19 +129,18 @@ function Main() {
       </div>
 
       <div className={draggableBox}>
-        <TinyText>DRAGGABLE FRAMES</TinyText>
         {!framesToEthMap ? (
           <Loader size="small" />
         ) : (
           <>
             <Draggable
               bounds={{
-                left: -draggableGrid * 1000,
+                left: -draggableGrid * framesToEthMapKeys.length * 1.8,
                 right: 0,
               }}
               grid={[draggableGrid, draggableGrid]}
               positionOffset={{
-                x: `calc(50% + 1.1rem)`,
+                x: `calc(50% - 0.85rem)`,
                 y: 0,
               }}
               position={{ x: -frame * draggableGrid * 2, y: 0 }}
@@ -150,7 +150,7 @@ function Main() {
               }}
             >
               <div className={draggableText}>
-                {Object.keys(framesToEthMap).map((frame) => (
+                {framesToEthMapKeys.map((frame) => (
                   <div className={draggableSymbolBox}>
                     <p className={draggableSymbol}>{frame}</p>
                   </div>
