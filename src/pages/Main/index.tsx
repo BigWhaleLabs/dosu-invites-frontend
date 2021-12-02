@@ -12,7 +12,7 @@ import Loader from 'components/Loader'
 import useMain from 'pages/Main/useMain'
 
 const backend =
-  (import.meta.env.VITE_BACKEND as string) || 'https://backend.invites.dosu.io'
+  (import.meta.env.BACKEND as string) || 'https://backend.invites.dosu.io'
 
 const mainBox = classnames('flex', 'flex-col', 'content-center', 'items-center')
 
