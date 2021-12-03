@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { TinyText } from 'components/Text'
 import { classnames } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
-import { useEffect } from 'preact/hooks'
+import { useEffect, useRef } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import { useState } from 'react'
 import AppStore from 'stores/AppStore'
@@ -88,12 +88,14 @@ function Main() {
 
   const [frame, setFrame] = useState(0)
   const [dragFrame, setDragFrame] = useState(0)
+  const [pause, setPause] = useState(false)
   const [ethAddress, setEthAddress] = useState('0x')
 
   const size = useBreakpoints()
 
   const videoLink = `${backend}/video`
-  const video = window.document.querySelector('video')
+  const player = useRef<HTMLVmPlayerElement>(null)
+  const video = document.querySelector('video')
 
   const draggableGrid = 16
   const framesToEthMapKeys = Object.keys(framesToEthMap)
@@ -102,10 +104,6 @@ function Main() {
   useEffect(() => {
     if (video) {
       video.playbackRate = 16.0
-      video.preload = 'auto'
-      video.addEventListener('timeupdate', () => {
-        setFrame(Math.floor(video.currentTime))
-      })
     }
   }, [video])
 
@@ -114,35 +112,46 @@ function Main() {
   }, [frame, framesToEthMap])
 
   useEffect(() => {
-    if (video) {
-      video.currentTime = dragFrame
+    if (player && player.current) {
+      player.current.currentTime = dragFrame
     }
-  }, [dragFrame, video])
+  }, [dragFrame, player])
 
   useEffect(() => {
-    if (video?.readyState === 4) {
+    if (player.current && player.current.ready) {
       history.push(frame.toString())
     }
-  }, [history, frame, video])
+  }, [history, frame])
 
   useEffect(() => {
     const locationFrame = +location.pathname.split('/')[1]
-    if (video) {
+    if (player.current) {
       setDragFrame(
         locationFrame > framesToEthMapLength - 1
           ? framesToEthMapLength - 1
           : locationFrame
       )
     }
-  }, [framesToEthMapLength, video])
+  }, [framesToEthMapLength])
+
+  const onTimeUpdate = (time: number) => {
+    if (pause) {
+      video?.pause()
+    }
+    setFrame(Math.floor(time))
+  }
 
   return (
     <div className={mainBox}>
       <div className={playerBox}>
         <Player
+          ref={player}
           theme={theme}
           className={playerStyles}
           aspectRatio={size.md ? '16:9' : '1:1'}
+          onVmCurrentTimeChange={(currentTime) =>
+            onTimeUpdate(currentTime.detail)
+          }
         >
           <Video poster="img/poster">
             <source data-src={videoLink} type="video/mp4" />
@@ -175,8 +184,10 @@ function Main() {
               position={{ x: -frame * draggableGrid * 2, y: 0 }}
               axis="x"
               onDrag={(_e, data) => {
+                setPause(true)
                 setDragFrame(frame + -data.deltaX / draggableGrid)
               }}
+              onStop={() => setPause(false)}
             >
               <div className={draggableText}>
                 {framesToEthMapKeys.map((frame) => (
