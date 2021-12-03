@@ -152,6 +152,7 @@ function Main() {
           onVmCurrentTimeChange={(currentTime) =>
             onTimeUpdate(currentTime.detail)
           }
+          autoplay={false}
         >
           <Video poster="img/poster">
             <source data-src={videoLink} type="video/mp4" />
