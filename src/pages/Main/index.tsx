@@ -9,6 +9,7 @@ import { useState } from 'react'
 import AppStore from 'stores/AppStore'
 import Draggable from 'react-draggable'
 import Loader from 'components/Loader'
+import useBreakpoints from 'helpers/useBreakpoints'
 import useMain from 'pages/Main/useMain'
 
 const backend =
@@ -89,6 +90,8 @@ function Main() {
   const [dragFrame, setDragFrame] = useState(0)
   const [ethAddress, setEthAddress] = useState('0x')
 
+  const size = useBreakpoints()
+
   const videoLink = `${backend}/video`
   const video = window.document.querySelector('video')
 
@@ -99,6 +102,7 @@ function Main() {
   useEffect(() => {
     if (video) {
       video.playbackRate = 16.0
+      video.preload = 'auto'
       video.addEventListener('timeupdate', () => {
         setFrame(Math.floor(video.currentTime))
       })
@@ -135,7 +139,11 @@ function Main() {
   return (
     <div className={mainBox}>
       <div className={playerBox}>
-        <Player theme={theme} className={playerStyles}>
+        <Player
+          theme={theme}
+          className={playerStyles}
+          aspectRatio={size.md ? '16:9' : '1:1'}
+        >
           <Video poster="img/poster">
             <source data-src={videoLink} type="video/mp4" />
           </Video>
