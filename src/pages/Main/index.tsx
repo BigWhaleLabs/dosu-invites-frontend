@@ -153,6 +153,7 @@ function Main() {
             onTimeUpdate(currentTime.detail)
           }
           autoplay={false}
+          onPlay={() => setPause(false)}
         >
           <Video poster="img/poster">
             <source data-src={videoLink} type="video/mp4" />
