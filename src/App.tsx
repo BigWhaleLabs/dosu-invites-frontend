@@ -14,7 +14,7 @@ const App = () => {
           <Router>
             <Navbar />
             <Switch>
-              <Route exact path="/" component={Main} />
+              <Route path="/" component={Main} />
               <Route
                 path="/terms"
                 component={() => {

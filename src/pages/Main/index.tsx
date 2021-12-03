@@ -1,5 +1,5 @@
 import { DefaultUi, LoadingScreen, Player, Poster, Video } from '@vime/react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { TinyText } from 'components/Text'
 import { classnames } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
@@ -83,12 +83,18 @@ function Main() {
 
   const { framesToEthMap } = useMain()
 
+  const history = useHistory()
+
   const [frame, setFrame] = useState(0)
   const [dragFrame, setDragFrame] = useState(0)
   const [ethAddress, setEthAddress] = useState('0x')
 
   const videoLink = `${backend}/video`
   const video = window.document.querySelector('video')
+
+  const draggableGrid = 16
+  const framesToEthMapKeys = Object.keys(framesToEthMap)
+  const framesToEthMapLength = framesToEthMapKeys.length
 
   useEffect(() => {
     if (video) {
@@ -109,8 +115,22 @@ function Main() {
     }
   }, [dragFrame, video])
 
-  const draggableGrid = 16
-  const framesToEthMapKeys = Object.keys(framesToEthMap)
+  useEffect(() => {
+    if (video?.readyState === 4) {
+      history.push(frame.toString())
+    }
+  }, [history, frame, video])
+
+  useEffect(() => {
+    const locationFrame = +location.pathname.split('/')[1]
+    if (video) {
+      setDragFrame(
+        locationFrame > framesToEthMapLength - 1
+          ? framesToEthMapLength - 1
+          : locationFrame
+      )
+    }
+  }, [framesToEthMapLength, video])
 
   return (
     <div className={mainBox}>
@@ -136,7 +156,7 @@ function Main() {
           <>
             <Draggable
               bounds={{
-                left: -draggableGrid * framesToEthMapKeys.length * 1.8,
+                left: -draggableGrid * framesToEthMapLength * 1.8,
                 right: 0,
               }}
               grid={[draggableGrid, draggableGrid]}
