@@ -88,7 +88,7 @@ function Main() {
 
   const [frame, setFrame] = useState(0)
   const [dragFrame, setDragFrame] = useState(0)
-  const [pause, setPause] = useState(true)
+  const [pause, setPause] = useState(false)
   const [ethAddress, setEthAddress] = useState('0x')
 
   const size = useBreakpoints()
@@ -153,7 +153,6 @@ function Main() {
             onTimeUpdate(currentTime.detail)
           }
           autoplay={false}
-          onPlay={() => setPause(false)}
         >
           <Video poster="img/poster">
             <source data-src={videoLink} type="video/mp4" />
