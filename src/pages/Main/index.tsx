@@ -114,6 +114,7 @@ function Main() {
   useEffect(() => {
     if (player && player.current) {
       player.current.currentTime = dragFrame
+      player.current.paused = false
     }
   }, [dragFrame, player])
 
@@ -152,7 +153,7 @@ function Main() {
           onVmCurrentTimeChange={(currentTime) =>
             onTimeUpdate(currentTime.detail)
           }
-          autoplay={false}
+          autoplay={true}
           onVmPlayingChange={() => setPause(false)}
         >
           <Video poster="img/poster">
@@ -211,7 +212,7 @@ function Main() {
           to={{ pathname: `https://etherscan.io/address/${ethAddress}` }}
           target="_blank"
         >
-          <span className={ethText}>{ethAddress}</span>
+          <p className={ethText}>{ethAddress}</p>
         </Link>
       </div>
     </div>
