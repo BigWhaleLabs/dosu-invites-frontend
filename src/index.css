@@ -78,11 +78,13 @@ vm-player {
   --vm-control-border-radius: 100%;
   --vm-scrubber-loading-stripe-color: var(--transparent);
   --vm-scrubber-buffered-bg: var(--transparent);
+  --vm-controls-padding: 14px;
+  --vm-slider-track-height: 5px;
+  --vm-slider-track-focused-height: 7px;
 }
 
 @media screen and (max-width: 1024px) {
   vm-player {
-    --vm-controls-padding: 14px;
     --vm-control-icon-size: 1.5em;
   }
 }
