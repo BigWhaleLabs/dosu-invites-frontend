@@ -12,8 +12,7 @@ import Loader from 'components/Loader'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useMain from 'pages/Main/useMain'
 
-const backend =
-  (import.meta.env.BACKEND as string) || 'https://backend.invites.dosu.io'
+const backend = (import.meta.env.BACKEND as string) || 'http://localhost:1337'
 
 const mainBox = classnames('flex', 'flex-col', 'content-center', 'items-center')
 
@@ -156,7 +155,7 @@ function Main() {
           autoplay={true}
           onVmPlayingChange={() => setPause(false)}
         >
-          <Video poster="img/poster">
+          <Video poster="img/poster" crossOrigin="anonymous">
             <source data-src={videoLink} type="video/mp4" />
           </Video>
           <Poster fit="fill" />
