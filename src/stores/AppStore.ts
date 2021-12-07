@@ -8,6 +8,7 @@ class AppStore extends PersistableStore {
   language: Language = Language.en
   theme: Theme = 'dark'
   cookieAccepted = false
+  ethAddress = ''
 
   toggleDark() {
     this.theme = this.theme === 'dark' ? 'light' : 'dark'
@@ -15,6 +16,10 @@ class AppStore extends PersistableStore {
 
   acceptCookie() {
     this.cookieAccepted = true
+  }
+
+  setEthAddress(ethAddress: string) {
+    this.ethAddress = ethAddress
   }
 }
 
