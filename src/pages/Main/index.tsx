@@ -12,6 +12,7 @@ import AppStore from 'stores/AppStore'
 import Draggable from 'react-draggable'
 import Loader from 'components/Loader'
 import abi from 'pages/Main/abi.json'
+import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useMain from 'pages/Main/useMain'
 
@@ -249,8 +250,7 @@ function Main() {
         <div className={marginBottom}>
           {invited ? (
             <Button onClick={async () => await mintAddress()}>
-              Mint my Dosu Invite for {userAddress.substring(0, 7)}...
-              {userAddress.slice(-3)}
+              Mint my Dosu Invite for {truncateMiddle(userAddress)}
             </Button>
           ) : (
             <TinyText>

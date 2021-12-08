@@ -7,6 +7,8 @@ import AppStore from 'stores/AppStore'
 import Logo from 'components/Logo'
 import Popup from 'components/Popup'
 import ThemeToggle from 'components/ThemeToggle'
+import truncateMiddle from 'helpers/truncateMiddle'
+import useBreakpoints from 'helpers/useBreakpoints'
 
 const flexGrowRow = (row?: boolean) =>
   classnames('flex', 'flex-1', row ? 'flex-row' : 'flex-col')
@@ -29,10 +31,11 @@ const themeToggleBox = classnames(
   'items-center'
 )
 
-const buttonBox = classnames('ml-10')
+const buttonBox = classnames('xl:ml-10', 'ml-3')
 
 function Navbar() {
   const { userAddress } = useSnapshot(AppStore)
+  const { md } = useBreakpoints()
 
   useEffect(() => {
     AppStore.setupListeners()
@@ -50,7 +53,7 @@ function Navbar() {
       <div className={buttonBox}>
         {userAddress ? (
           <Button circle outlined>
-            {userAddress}
+            {md ? userAddress : truncateMiddle(userAddress)}
           </Button>
         ) : (
           <Popup
