@@ -16,7 +16,7 @@ import useBreakpoints from 'helpers/useBreakpoints'
 import useMain from 'pages/Main/useMain'
 
 const backend =
-  (import.meta.env.BACKEND as string) || 'https://backend.invites.dosu.io'
+  (import.meta.env.VITE_BACKEND as string) || 'https://backend.invites.dosu.io'
 
 const contractAddress = '0x0d0a4686dfB7a4f4Fe87fB478fe08953b9ed216d'
 
@@ -89,20 +89,9 @@ const ethText = classnames(
 function Main() {
   const { theme, userAddress } = useSnapshot(AppStore)
 
-  function mintAddress() {
-    const provider = AppStore.getProvider()
-    if (import.meta.env.VITE_CONTRACT_PRIVATE_KEY && provider) {
-      const wallet = new ethers.Wallet(
-        import.meta.env.VITE_CONTRACT_PRIVATE_KEY as string,
-        provider
-      )
-      const contract = new ethers.Contract(contractAddress, abi, wallet)
+  const [minted, setMinted] = useState(false)
 
-      contract.mint(userAddress)
-    }
-  }
-
-  const { framesToEthMap } = useMain()
+  const { framesToEthMap, invited } = useMain()
 
   const history = useHistory()
 
@@ -160,6 +149,26 @@ function Main() {
       video?.pause()
     }
     setFrame(Math.floor(time))
+  }
+
+  const mintAddress = async () => {
+    const provider = AppStore.getProvider()
+    if (import.meta.env.VITE_CONTRACT_PRIVATE_KEY && provider) {
+      try {
+        const contract = new ethers.Contract(
+          contractAddress,
+          abi,
+          provider.getSigner()
+        )
+
+        contract.mint(userAddress)
+        await contract.mint(userAddress)
+        setMinted(true)
+      } catch (error) {
+        console.error(error)
+        setMinted(false)
+      }
+    }
   }
 
   return (
@@ -236,12 +245,19 @@ function Main() {
         </Link>
       </div>
 
-      {userAddress && (
+      {userAddress && !minted && (
         <div className={marginBottom}>
-          <Button disabled onClick={() => mintAddress()}>
-            Mint my Dosu Invite for {userAddress.substring(0, 7)}...
-            {userAddress.slice(-3)}
-          </Button>
+          {invited ? (
+            <Button onClick={async () => await mintAddress()}>
+              Mint my Dosu Invite for {userAddress.substring(0, 7)}...
+              {userAddress.slice(-3)}
+            </Button>
+          ) : (
+            <TinyText>
+              Your Ethereum address wasn't whitelisted for Dosu Invite NFTs. Try
+              another one?
+            </TinyText>
+          )}
         </div>
       )}
     </div>
