@@ -30,10 +30,7 @@ class AppStore extends PersistableStore {
   }
 
   isMetaMaskInstalled() {
-    if (
-      typeof window.ethereum === 'undefined' ||
-      typeof window.web3 === 'undefined'
-    ) {
+    if (typeof window.ethereum === 'undefined') {
       this.metaMaskInstalled = false
       return false
     }
