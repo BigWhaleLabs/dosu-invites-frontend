@@ -154,7 +154,7 @@ function Main() {
 
   const mintAddress = async () => {
     const provider = AppStore.getProvider()
-    if (import.meta.env.VITE_CONTRACT_PRIVATE_KEY && provider) {
+    if (provider) {
       try {
         const contract = new ethers.Contract(
           contractAddress,
