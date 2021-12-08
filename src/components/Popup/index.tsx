@@ -75,7 +75,7 @@ const Popup: FC<PopupProps> = ({
   const { showPopup, togglePopup } = usePopUp()
 
   const activatorButton = activator ? (
-    <div onClick={() => !AppStore.isMetaMaskInstalled() && togglePopup()}>
+    <div onClick={() => !AppStore.getProvider() && togglePopup()}>
       {activator}
     </div>
   ) : (

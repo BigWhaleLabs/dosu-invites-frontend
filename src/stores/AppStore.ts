@@ -20,19 +20,6 @@ class AppStore extends PersistableStore {
     this.cookieAccepted = true
   }
 
-  setEthAddress(userAddress: string) {
-    this.userAddress = userAddress
-  }
-
-  isMetaMaskInstalled() {
-    if (typeof window.ethereum === 'undefined') {
-      this.metaMaskInstalled = false
-      return false
-    }
-    this.metaMaskInstalled = true
-    return true
-  }
-
   async isMetaMaskConnected() {
     const provider = this.getProvider()
     if (provider) {
@@ -51,29 +38,30 @@ class AppStore extends PersistableStore {
       provider.on('error', (error: Error) => {
         console.error(error)
       })
-
-      provider.on('disonnect', () => {
-        this.userAddress = ''
-      })
     }
   }
 
   getProvider() {
-    const provider = new ethers.providers.Web3Provider(
-      window.ethereum,
-      'rinkeby'
-    )
-    return provider
+    if (window.ethereum) {
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        'rinkeby'
+      )
+      this.metaMaskInstalled = true
+      return provider
+    } else {
+      this.metaMaskInstalled = false
+    }
   }
 
   async connectMetaMask() {
-    if (this.isMetaMaskInstalled()) {
-      const provider = this.getProvider()
+    const provider = this.getProvider()
 
+    if (provider) {
       await provider.send('eth_requestAccounts', [])
 
       const signer = provider.getSigner()
-      this.setEthAddress(await signer.getAddress())
+      this.userAddress = await signer.getAddress()
     }
   }
 }
