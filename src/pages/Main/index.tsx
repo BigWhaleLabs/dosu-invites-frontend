@@ -238,7 +238,7 @@ function Main() {
 
       {userAddress && (
         <div className={marginBottom}>
-          <Button onClick={() => mintAddress()}>
+          <Button disabled onClick={() => mintAddress()}>
             Mint my Dosu Invite for {userAddress.substring(0, 7)}...
             {userAddress.slice(-3)}
           </Button>
