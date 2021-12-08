@@ -11,6 +11,7 @@ import { useState } from 'react'
 import AppStore from 'stores/AppStore'
 import Draggable from 'react-draggable'
 import Loader from 'components/Loader'
+import abi from 'pages/Main/abi.json'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useMain from 'pages/Main/useMain'
 
@@ -18,7 +19,6 @@ const backend =
   (import.meta.env.BACKEND as string) || 'https://backend.invites.dosu.io'
 
 const contractAddress = '0x0d0a4686dfB7a4f4Fe87fB478fe08953b9ed216d'
-const abiLink = `https://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=${contractAddress}`
 
 const mainBox = classnames('flex', 'flex-col', 'content-center', 'items-center')
 
@@ -87,15 +87,16 @@ const ethText = classnames(
 )
 
 function Main() {
-  const { theme, provider, userAddress } = useSnapshot(AppStore)
+  const { theme, userAddress } = useSnapshot(AppStore)
 
   function mintAddress() {
-    if (import.meta.env.VITE_CONTRACT_PRIVATE_KEY) {
+    const provider = AppStore.getProvider()
+    if (import.meta.env.VITE_CONTRACT_PRIVATE_KEY && provider) {
       const wallet = new ethers.Wallet(
         import.meta.env.VITE_CONTRACT_PRIVATE_KEY as string,
         provider
       )
-      const contract = new ethers.Contract(contractAddress, abiLink, wallet)
+      const contract = new ethers.Contract(contractAddress, abi, wallet)
 
       contract.mint(userAddress)
     }

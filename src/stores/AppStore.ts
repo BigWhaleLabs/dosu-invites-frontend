@@ -11,7 +11,6 @@ class AppStore extends PersistableStore {
   cookieAccepted = false
   metaMaskInstalled = false
   userAddress = ''
-  provider: ethers.providers.Web3Provider | undefined
 
   toggleDark() {
     this.theme = this.theme === 'dark' ? 'light' : 'dark'
@@ -25,10 +24,6 @@ class AppStore extends PersistableStore {
     this.userAddress = userAddress
   }
 
-  setProvider(provider: ethers.providers.Web3Provider) {
-    this.provider = provider
-  }
-
   isMetaMaskInstalled() {
     if (typeof window.ethereum === 'undefined') {
       this.metaMaskInstalled = false
@@ -39,8 +34,9 @@ class AppStore extends PersistableStore {
   }
 
   async isMetaMaskConnected() {
-    if (this.provider) {
-      const accounts = await this.provider.listAccounts()
+    const provider = this.getProvider()
+    if (provider) {
+      const accounts = await provider.listAccounts()
       if (accounts.length === 0) {
         this.userAddress = ''
       }
@@ -50,19 +46,29 @@ class AppStore extends PersistableStore {
   }
 
   setupListeners() {
-    if (this.provider) {
-      this.provider.on('error', (error: Error) => {
+    const provider = this.getProvider()
+    if (provider) {
+      provider.on('error', (error: Error) => {
         console.error(error)
+      })
+
+      provider.on('disonnect', () => {
+        this.userAddress = ''
       })
     }
   }
 
+  getProvider() {
+    const provider = new ethers.providers.Web3Provider(
+      window.ethereum,
+      'rinkeby'
+    )
+    return provider
+  }
+
   async connectMetaMask() {
     if (this.isMetaMaskInstalled()) {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum,
-        'rinkeby'
-      )
+      const provider = this.getProvider()
 
       await provider.send('eth_requestAccounts', [])
 
