@@ -1,9 +1,11 @@
 import { Button } from 'components/Button'
 import { classnames } from 'classnames/tailwind'
-import { ethers } from 'ethers'
+import { observer } from 'mobx-react-lite'
+import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import AppStore from 'stores/AppStore'
 import Logo from 'components/Logo'
+import Popup from 'components/Popup'
 import ThemeToggle from 'components/ThemeToggle'
 
 const flexGrowRow = (row?: boolean) =>
@@ -30,19 +32,12 @@ const themeToggleBox = classnames(
 const buttonBox = classnames('ml-10')
 
 function Navbar() {
-  const { ethAddress } = useSnapshot(AppStore)
+  const { userAddress } = useSnapshot(AppStore)
 
-  async function connectMetaMask() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum, 'any')
-    await provider.send('eth_requestAccounts', [])
-    const signer = provider.getSigner()
-    await signer.getAddress()
-
-    if (!ethAddress) {
-      const accounts = await provider.listAccounts()
-      AppStore.setEthAddress(accounts[0])
-    }
-  }
+  useEffect(() => {
+    AppStore.setupListeners()
+    void AppStore.isMetaMaskConnected()
+  }, [])
 
   return (
     <nav className={navbar}>
@@ -53,18 +48,28 @@ function Navbar() {
       </div>
 
       <div className={buttonBox}>
-        {ethAddress ? (
+        {userAddress ? (
           <Button circle outlined>
-            {ethAddress}
+            {userAddress}
           </Button>
         ) : (
-          <Button circle onClick={async () => await connectMetaMask()}>
-            Connect MetaMask to claim your invite
-          </Button>
+          <Popup
+            activator={
+              <Button
+                circle
+                onClick={async () => await AppStore.connectMetaMask()}
+              >
+                Connect MetaMask to claim your invite
+              </Button>
+            }
+            title="MetaMask is not installed"
+            body={`To use Web3 technologies, please install MetaMask extension for your browser`}
+            confirmTitle="Okay, thanks"
+          />
         )}
       </div>
     </nav>
   )
 }
 
-export default Navbar
+export default observer(Navbar)

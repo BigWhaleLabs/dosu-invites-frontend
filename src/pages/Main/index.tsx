@@ -1,7 +1,9 @@
+import { Button } from 'components/Button'
 import { DefaultUi, LoadingScreen, Player, Poster, Video } from '@vime/react'
 import { Link, useHistory } from 'react-router-dom'
 import { TinyText } from 'components/Text'
 import { classnames } from 'classnames/tailwind'
+import { ethers } from 'ethers'
 import { observer } from 'mobx-react-lite'
 import { useEffect, useRef } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
@@ -15,10 +17,15 @@ import useMain from 'pages/Main/useMain'
 const backend =
   (import.meta.env.BACKEND as string) || 'https://backend.invites.dosu.io'
 
+const contractAddress = '0x0d0a4686dfB7a4f4Fe87fB478fe08953b9ed216d'
+const abiLink = `https://api-rinkeby.etherscan.io/api?module=contract&action=getabi&address=${contractAddress}`
+
 const mainBox = classnames('flex', 'flex-col', 'content-center', 'items-center')
 
 const playerBox = classnames('flex', 'items-center', 'w-full', 'rounded-3xl')
 const playerStyles = classnames('w-full')
+
+const marginBottom = classnames('mb-12')
 
 const draggableBox = classnames(
   'flex',
@@ -29,7 +36,7 @@ const draggableBox = classnames(
   'rounded-3xl',
   'border-2',
   'border-border',
-  'mt-12',
+  'my-12',
   'p-6'
 )
 const draggableText = classnames(
@@ -67,7 +74,7 @@ const ethAddressBox = classnames(
   'border-2',
   'border-border',
   'mx-auto',
-  'my-12',
+  marginBottom,
   'p-6'
 )
 
@@ -80,7 +87,19 @@ const ethText = classnames(
 )
 
 function Main() {
-  const { theme } = useSnapshot(AppStore)
+  const { theme, provider, userAddress } = useSnapshot(AppStore)
+
+  function mintAddress() {
+    if (import.meta.env.VITE_CONTRACT_PRIVATE_KEY) {
+      const wallet = new ethers.Wallet(
+        import.meta.env.VITE_CONTRACT_PRIVATE_KEY as string,
+        provider
+      )
+      const contract = new ethers.Contract(contractAddress, abiLink, wallet)
+
+      contract.mint(userAddress)
+    }
+  }
 
   const { framesToEthMap } = useMain()
 
@@ -215,6 +234,15 @@ function Main() {
           <p className={ethText}>{ethAddress}</p>
         </Link>
       </div>
+
+      {userAddress && (
+        <div className={marginBottom}>
+          <Button onClick={() => mintAddress()}>
+            Mint my Dosu Invite for {userAddress.substring(0, 7)}...
+            {userAddress.slice(-3)}
+          </Button>
+        </div>
+      )}
     </div>
   )
 }
