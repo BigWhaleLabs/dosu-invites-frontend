@@ -98,6 +98,7 @@ function Main() {
   const [dragFrame, setDragFrame] = useState(0)
   const [pause, setPause] = useState(true)
   const [ethAddress, setEthAddress] = useState('0x')
+  const [mintLoading, setMintLoading] = useState(false)
 
   const size = useBreakpoints()
 
@@ -156,8 +157,9 @@ function Main() {
           contractAbi,
           provider.getSigner()
         )
-
+        setMintLoading(true)
         await contract.mint(userAddress)
+        setMintLoading(false)
         AppStore.minted = true
       } catch (error) {
         console.error(error)
@@ -248,7 +250,10 @@ function Main() {
       {userAddress && !minted && (
         <div className={marginBottom}>
           {invited ? (
-            <Button onClick={async () => await mintAddress()}>
+            <Button
+              onClick={async () => await mintAddress()}
+              loading={mintLoading}
+            >
               Mint my Dosu Invite for {truncateMiddle(userAddress)}
             </Button>
           ) : (
