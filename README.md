@@ -16,9 +16,10 @@
 
 ## Environment variables
 
-| Name              | Description                                                 |
-| ----------------- | ----------------------------------------------------------- |
-| REACT_APP_BACKEND | API root URL, defaults to `https://backend.invites.dosu.io` |
+| Name              | Description                                                                                                          |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------- |
+| REACT_APP_BACKEND | API root URL, defaults to `https://backend.invites.dosu.io`                                                          |
+| VITE_ETH_NETWORK  | Choose which [network](network) do you want to use. Smart contract is deployed to the `rinkeby` for testing purposes |
 
 ## Local launch
 
@@ -32,3 +33,5 @@
 - `yarn lint` — checks if the code is linted and formatted
 - `yarn generate-css-types` — generates the CSS types for `tailwind-css`
 - `yarn update` — builds the code and pushes it to git remote
+
+[network]: https://docs.ethers.io/v5/api/providers/#providers-getDefaultProvider

@@ -47,7 +47,7 @@ class AppStore extends PersistableStore {
     if (window.ethereum) {
       const provider = new ethers.providers.Web3Provider(
         window.ethereum,
-        'rinkeby'
+        import.meta.env.VITE_ETH_NETWORK as string
       )
       this.metaMaskInstalled = true
       return provider
