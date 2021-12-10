@@ -122,7 +122,7 @@ function Main() {
   }, [frame, framesToEthMap])
 
   useEffect(() => {
-    if (player && player.current) {
+    if (player.current) {
       player.current.currentTime = dragFrame
       player.current.paused = false
     }
@@ -137,11 +137,7 @@ function Main() {
   useEffect(() => {
     const locationFrame = +location.pathname.split('/')[1]
     if (player.current) {
-      setDragFrame(
-        locationFrame > framesToEthMapLength - 1
-          ? framesToEthMapLength - 1
-          : locationFrame
-      )
+      setDragFrame(locationFrame)
     }
   }, [framesToEthMapLength])
 
@@ -190,12 +186,18 @@ function Main() {
             <source data-src={videoLink} type="video/mp4" />
           </Video>
           <Poster fit="fill" />
-
-          <DefaultUi noCaptions noLoadingScreen noSettings noSpinner>
-            <LoadingScreen hideDots>
-              <Loader />
-            </LoadingScreen>
-          </DefaultUi>
+          {dragFrame > framesToEthMapLength ? (
+            <img
+              className="h-fit"
+              src={size.md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
+            />
+          ) : (
+            <DefaultUi noCaptions noLoadingScreen noSettings noSpinner>
+              <LoadingScreen hideDots>
+                <Loader />
+              </LoadingScreen>
+            </DefaultUi>
+          )}
         </Player>
       </div>
 
