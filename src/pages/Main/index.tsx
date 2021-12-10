@@ -11,7 +11,7 @@ import { useState } from 'react'
 import AppStore from 'stores/AppStore'
 import Draggable from 'react-draggable'
 import Loader from 'components/Loader'
-import abi from 'pages/Main/abi.json'
+import contractAbi from 'pages/Main/contractAbi.json'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useMain from 'pages/Main/useMain'
@@ -153,7 +153,7 @@ function Main() {
       try {
         const contract = new ethers.Contract(
           contractAddress,
-          abi,
+          contractAbi,
           provider.getSigner()
         )
 
