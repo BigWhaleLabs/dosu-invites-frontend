@@ -158,7 +158,8 @@ function Main() {
           provider.getSigner()
         )
         setMintLoading(true)
-        await contract.mint(userAddress)
+        const transaction = await contract.mint(userAddress)
+        await transaction.wait()
         setMintLoading(false)
         AppStore.minted = true
       } catch (error) {
