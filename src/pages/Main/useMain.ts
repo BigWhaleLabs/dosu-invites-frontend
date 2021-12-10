@@ -22,7 +22,9 @@ export default function useMain() {
 
   useEffect(() => {
     void getFramesToEth()
+  }, [])
 
+  useEffect(() => {
     const checkUserInvite = async () => {
       if (AppStore.userAddress) {
         setInvited(await api.checkInvite(AppStore.userAddress))
@@ -30,7 +32,8 @@ export default function useMain() {
     }
 
     void checkUserInvite()
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [AppStore.userAddress])
 
   return { framesToEth, loading, invited }
 }
