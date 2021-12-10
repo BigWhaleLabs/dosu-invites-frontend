@@ -11,6 +11,8 @@ class AppStore extends PersistableStore {
   cookieAccepted = false
   metaMaskInstalled = false
   userAddress = ''
+  minted = false
+  // TODO: add link to exact frame and hang listener on contract
 
   toggleDark() {
     this.theme = this.theme === 'dark' ? 'light' : 'dark'

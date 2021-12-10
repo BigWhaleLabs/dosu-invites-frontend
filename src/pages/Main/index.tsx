@@ -88,11 +88,9 @@ const ethText = classnames(
 )
 
 function Main() {
-  const { theme, userAddress } = useSnapshot(AppStore)
+  const { theme, userAddress, minted } = useSnapshot(AppStore)
 
-  const [minted, setMinted] = useState(false)
-
-  const { framesToEthMap, invited } = useMain()
+  const { framesToEth, invited } = useMain()
 
   const history = useHistory()
 
@@ -108,8 +106,7 @@ function Main() {
   const video = document.querySelector('video')
 
   const draggableGrid = 16
-  const framesToEthMapKeys = Object.keys(framesToEthMap)
-  const framesToEthMapLength = framesToEthMapKeys.length
+  const framesToEthLength = framesToEth.length
 
   useEffect(() => {
     if (video) {
@@ -118,15 +115,17 @@ function Main() {
   }, [video])
 
   useEffect(() => {
-    setEthAddress(framesToEthMap[frame])
-  }, [frame, framesToEthMap])
+    if (framesToEth[frame]) {
+      setEthAddress(framesToEth[frame].ethAddress)
+    }
+  }, [frame, framesToEth])
 
   useEffect(() => {
     if (player.current) {
       player.current.currentTime = dragFrame
       player.current.paused = false
     }
-  }, [dragFrame, player])
+  }, [dragFrame])
 
   useEffect(() => {
     if (player.current && player.current.ready) {
@@ -139,7 +138,7 @@ function Main() {
     if (player.current) {
       setDragFrame(locationFrame)
     }
-  }, [framesToEthMapLength])
+  }, [])
 
   const onTimeUpdate = (time: number) => {
     if (pause) {
@@ -158,12 +157,10 @@ function Main() {
           provider.getSigner()
         )
 
-        contract.mint(userAddress)
         await contract.mint(userAddress)
-        setMinted(true)
+        AppStore.minted = true
       } catch (error) {
         console.error(error)
-        setMinted(false)
       }
     }
   }
@@ -186,7 +183,7 @@ function Main() {
             <source data-src={videoLink} type="video/mp4" />
           </Video>
           <Poster fit="fill" />
-          {dragFrame > framesToEthMapLength ? (
+          {dragFrame > framesToEthLength ? (
             <img
               className="h-fit"
               src={size.md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
@@ -202,13 +199,13 @@ function Main() {
       </div>
 
       <div className={draggableBox}>
-        {!framesToEthMap ? (
+        {!framesToEth ? (
           <Loader size="small" />
         ) : (
           <>
             <Draggable
               bounds={{
-                left: -draggableGrid * framesToEthMapLength * 1.8,
+                left: -draggableGrid * framesToEthLength * 1.8,
                 right: 0,
               }}
               grid={[draggableGrid, draggableGrid]}
@@ -225,9 +222,9 @@ function Main() {
               onStop={() => setPause(false)}
             >
               <div className={draggableText}>
-                {framesToEthMapKeys.map((frame) => (
+                {framesToEth.map((data) => (
                   <div className={draggableSymbolBox}>
-                    <p className={draggableSymbol}>{frame}</p>
+                    <p className={draggableSymbol}>{data.frame}</p>
                   </div>
                 ))}
               </div>
@@ -260,6 +257,12 @@ function Main() {
               another one?
             </TinyText>
           )}
+        </div>
+      )}
+
+      {userAddress && minted && (
+        <div className={marginBottom}>
+          <TinyText>Your NFT was minted!</TinyText>
         </div>
       )}
     </div>

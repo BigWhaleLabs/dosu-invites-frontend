@@ -1,11 +1,10 @@
 import { AxiosResponse } from 'axios'
+import { Invites } from 'models/Invites'
 import Api from 'helpers/axios'
-import arrayToHashMap from 'helpers/arrayToHashMap'
 
-export async function getFramesToEthMap() {
-  const { data }: AxiosResponse<string[]> = await Api.get('/video/invites')
-  const framesToEthMap: { [frame: number]: string } = arrayToHashMap(data, 0)
-  return framesToEthMap
+export async function getFramesToEth() {
+  const { data }: AxiosResponse<Invites> = await Api.get('/video/invites')
+  return data
 }
 
 export async function checkInvite(ethAddress: string) {

@@ -1,4 +1,5 @@
 import * as api from 'helpers/api'
+import { Invites } from 'models/Invites'
 import { useEffect } from 'preact/hooks'
 import { useState } from 'react'
 import AppStore from 'stores/AppStore'
@@ -6,14 +7,12 @@ import AppStore from 'stores/AppStore'
 export default function useMain() {
   const [loading, setLoading] = useState(false)
   const [invited, setInvited] = useState(false)
-  const [framesToEthMap, setFramesToEthMap] = useState<{
-    [frame: number]: string
-  }>({})
+  const [framesToEth, setFramesToEth] = useState<Invites>([])
 
-  const getFramesToEthMap = async () => {
+  const getFramesToEth = async () => {
     setLoading(true)
     try {
-      setFramesToEthMap(await api.getFramesToEthMap())
+      setFramesToEth(await api.getFramesToEth())
     } catch (error) {
       console.error(error)
     } finally {
@@ -22,7 +21,7 @@ export default function useMain() {
   }
 
   useEffect(() => {
-    void getFramesToEthMap()
+    void getFramesToEth()
 
     const checkUserInvite = async () => {
       if (AppStore.userAddress) {
@@ -33,5 +32,5 @@ export default function useMain() {
     void checkUserInvite()
   }, [])
 
-  return { framesToEthMap, loading, invited }
+  return { framesToEth, loading, invited }
 }
