@@ -16,10 +16,11 @@
 
 ## Environment variables
 
-| Name              | Description                                                                                     |
-| ----------------- | ----------------------------------------------------------------------------------------------- |
-| REACT_APP_BACKEND | API root URL, defaults to `https://backend.invites.dosu.io`                                     |
-| VITE_ETH_NETWORK  | Choose which [network](network) do you want to use. Smart contract is deployed to the `rinkeby` |
+| Name                  | Description                                                                                     |
+| --------------------- | ----------------------------------------------------------------------------------------------- |
+| VITE_BACKEND          | API root URL, defaults to `https://backend.invites.dosu.io`                                     |
+| VITE_ETH_NETWORK      | Choose which [network](network) do you want to use. Smart contract is deployed to the `rinkeby` |
+| VITE_CONTRACT_ADDRESS | Address of the contract                                                                         |
 
 ## Local launch
 
