@@ -3,7 +3,6 @@ import { DefaultUi, LoadingScreen, Player, Poster, Video } from '@vime/react'
 import { Link, useHistory } from 'react-router-dom'
 import { TinyText } from 'components/Text'
 import { classnames } from 'classnames/tailwind'
-import { ethers } from 'ethers'
 import { observer } from 'mobx-react-lite'
 import { useEffect, useRef } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
@@ -11,17 +10,12 @@ import { useState } from 'react'
 import AppStore from 'stores/AppStore'
 import Draggable from 'react-draggable'
 import Loader from 'components/Loader'
-import contractAbi from 'pages/Main/contractAbi.json'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useMain from 'pages/Main/useMain'
 
 const backend =
   (import.meta.env.VITE_BACKEND as string) || 'https://backend.invites.dosu.io'
-
-const contractAddress =
-  (import.meta.env.CONTRACT_ADDRESS as string) ||
-  '0xcb9e9375ed92570e87d61d6989f1485793820bb1'
 
 const mainBox = classnames('flex', 'flex-col', 'content-center', 'items-center')
 
@@ -143,6 +137,10 @@ function Main() {
     }
   }, [])
 
+  useEffect(() => {
+    void AppStore.checkInvite()
+  }, [])
+
   const onTimeUpdate = (time: number) => {
     if (pause) {
       video?.pause()
@@ -151,14 +149,9 @@ function Main() {
   }
 
   const mintAddress = async () => {
-    const provider = AppStore.getProvider()
-    if (provider) {
+    const contract = AppStore.getContract()
+    if (!minted && contract) {
       try {
-        const contract = new ethers.Contract(
-          contractAddress,
-          contractAbi,
-          provider.getSigner()
-        )
         setMintLoading(true)
         const transaction = await contract.mint(userAddress)
         await transaction.wait()
@@ -228,9 +221,9 @@ function Main() {
               onStop={() => setPause(false)}
             >
               <div className={draggableText}>
-                {framesToEth.map((data) => (
+                {framesToEth.map((_data, index) => (
                   <div className={draggableSymbolBox}>
-                    <p className={draggableSymbol}>{data.frame}</p>
+                    <p className={draggableSymbol}>{index}</p>
                   </div>
                 ))}
               </div>

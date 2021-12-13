@@ -90,7 +90,7 @@ const button = (
     shadow ? 'shadow-md' : undefined,
     // Desktop
     'md:text-base',
-    outlined && !circle ? 'md:py-2' : transparent ? undefined : 'md:py-4',
+    outlined && !circle ? 'md:py-2' : transparent ? undefined : 'md:py-2',
     circle ? 'md:px-4' : transparent ? undefined : 'md:px-6',
     shadow ? 'md:shadow-lg' : undefined,
     // Hover

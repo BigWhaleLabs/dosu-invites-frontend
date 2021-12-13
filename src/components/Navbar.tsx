@@ -5,6 +5,7 @@ import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import AppStore from 'stores/AppStore'
 import Logo from 'components/Logo'
+import MetaMask from 'icons/MetaMask'
 import Popup from 'components/Popup'
 import ThemeToggle from 'components/ThemeToggle'
 import truncateMiddle from 'helpers/truncateMiddle'
@@ -61,8 +62,9 @@ function Navbar() {
               <Button
                 circle
                 onClick={async () => await AppStore.connectMetaMask()}
+                outlined={!md}
               >
-                Connect MetaMask to claim your invite
+                {md ? 'Connect MetaMask to claim your invite' : <MetaMask />}
               </Button>
             }
             title="MetaMask is not installed"

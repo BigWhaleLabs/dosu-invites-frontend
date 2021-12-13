@@ -2,8 +2,11 @@ import { ethers } from 'ethers'
 import { proxy } from 'valtio'
 import Language from 'models/Language'
 import PersistableStore from 'stores/persistence/PersistableStore'
+import contractAbi from 'pages/Main/contractAbi.json'
 
 export type Theme = 'dark' | 'light'
+
+const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS as string
 
 class AppStore extends PersistableStore {
   language: Language = Language.en
@@ -12,7 +15,6 @@ class AppStore extends PersistableStore {
   metaMaskInstalled = false
   userAddress = ''
   minted = false
-  // TODO: add link to exact frame and hang listener on contract
 
   toggleDark() {
     this.theme = this.theme === 'dark' ? 'light' : 'dark'
@@ -56,6 +58,19 @@ class AppStore extends PersistableStore {
     }
   }
 
+  getContract() {
+    const provider = this.getProvider()
+    if (provider) {
+      const contract = new ethers.Contract(
+        contractAddress,
+        contractAbi,
+        provider.getSigner()
+      )
+
+      return contract
+    }
+  }
+
   async connectMetaMask() {
     const provider = this.getProvider()
 
@@ -64,6 +79,14 @@ class AppStore extends PersistableStore {
 
       const signer = provider.getSigner()
       this.userAddress = await signer.getAddress()
+    }
+  }
+
+  async checkInvite() {
+    const contract = this.getContract()
+    if (contract && this.userAddress && contractAddress) {
+      // this.minted = await this.contract.BalanceOf(this.userAddress)
+      console.log(await contract.balanceOf(this.userAddress).valueOf())
     }
   }
 }
