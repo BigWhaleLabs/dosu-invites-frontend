@@ -19,7 +19,9 @@ import useMain from 'pages/Main/useMain'
 const backend =
   (import.meta.env.VITE_BACKEND as string) || 'https://backend.invites.dosu.io'
 
-const contractAddress = '0x0d0a4686dfB7a4f4Fe87fB478fe08953b9ed216d'
+const contractAddress =
+  (import.meta.env.CONTRACT_ADDRESS as string) ||
+  '0xcb9e9375ed92570e87d61d6989f1485793820bb1'
 
 const mainBox = classnames('flex', 'flex-col', 'content-center', 'items-center')
 
@@ -163,6 +165,7 @@ function Main() {
         setMintLoading(false)
         AppStore.minted = true
       } catch (error) {
+        setMintLoading(false)
         console.error(error)
       }
     }
