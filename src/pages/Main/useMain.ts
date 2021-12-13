@@ -12,10 +12,10 @@ export default function useMain() {
   const [invited, setInvited] = useState(false)
   const [framesToEth, setFramesToEth] = useState<Invites>([])
 
-  const getFramesToEth = async () => {
+  const getMintedAddresses = async () => {
     setLoading(true)
     try {
-      setFramesToEth(await api.getFramesToEth())
+      setFramesToEth(await api.getMintedAddresses())
     } catch (error) {
       console.error(error)
     } finally {
@@ -24,7 +24,7 @@ export default function useMain() {
   }
 
   useEffect(() => {
-    void getFramesToEth()
+    void getMintedAddresses()
   }, [])
 
   useEffect(() => {

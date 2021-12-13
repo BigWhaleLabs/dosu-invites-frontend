@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios'
 import { Invites } from 'models/Invites'
 import Api from 'helpers/axios'
 
-export async function getFramesToEth() {
+export async function getMintedAddresses() {
   const { data }: AxiosResponse<Invites> = await Api.get('/video/invites')
   return data
 }
