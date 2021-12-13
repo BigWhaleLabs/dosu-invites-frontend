@@ -138,8 +138,14 @@ function Main() {
   }, [])
 
   useEffect(() => {
-    void AppStore.checkInvite()
-  }, [])
+    async function checkInvite() {
+      setMintLoading(true)
+      await AppStore.checkInvite()
+      setMintLoading(false)
+    }
+
+    void checkInvite()
+  }, [userAddress])
 
   const onTimeUpdate = (time: number) => {
     if (pause) {
