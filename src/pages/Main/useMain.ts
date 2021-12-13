@@ -1,10 +1,13 @@
 import * as api from 'helpers/api'
 import { Invites } from 'models/Invites'
 import { useEffect } from 'preact/hooks'
+import { useSnapshot } from 'valtio'
 import { useState } from 'react'
 import AppStore from 'stores/AppStore'
 
 export default function useMain() {
+  const { userAddress } = useSnapshot(AppStore)
+
   const [loading, setLoading] = useState(false)
   const [invited, setInvited] = useState(false)
   const [framesToEth, setFramesToEth] = useState<Invites>([])
@@ -32,8 +35,7 @@ export default function useMain() {
     }
 
     void checkUserInvite()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [AppStore.userAddress])
+  }, [userAddress])
 
   return { framesToEth, loading, invited }
 }
