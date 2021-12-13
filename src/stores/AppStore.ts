@@ -85,8 +85,7 @@ class AppStore extends PersistableStore {
   async checkInvite() {
     const contract = this.getContract()
     if (contract && this.userAddress && contractAddress) {
-      // this.minted = await this.contract.BalanceOf(this.userAddress)
-      console.log(await contract.balanceOf(this.userAddress).valueOf())
+      this.minted = !+(await contract.balanceOf(this.userAddress))
     }
   }
 }
