@@ -28,9 +28,7 @@ class AppStore extends PersistableStore {
     const provider = this.getProvider()
     if (provider) {
       const accounts = await provider.listAccounts()
-      if (accounts.length === 0) {
-        this.userAddress = ''
-      }
+      this.handleAccountChanged(accounts)
     } else {
       this.userAddress = ''
     }
@@ -42,6 +40,15 @@ class AppStore extends PersistableStore {
       provider.on('error', (error: Error) => {
         console.error(error)
       })
+      provider.on('accountsChanged', this.handleAccountChanged)
+    }
+  }
+
+  handleAccountChanged(accounts: string[]) {
+    if (accounts.length === 0) {
+      this.userAddress = ''
+    } else if (accounts[0] !== this.userAddress) {
+      this.userAddress = accounts[0]
     }
   }
 
