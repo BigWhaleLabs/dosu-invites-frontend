@@ -98,6 +98,8 @@ class AppStore extends PersistableStore {
       const frame = +data._hex
       if (frame && frame > 0) {
         this.userFrame = frame - 1
+      } else {
+        this.userFrame = undefined
       }
     }
   }
