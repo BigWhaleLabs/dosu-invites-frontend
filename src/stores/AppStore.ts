@@ -3,13 +3,9 @@ import { ethers } from 'ethers'
 import { proxy } from 'valtio'
 import Language from 'models/Language'
 import PersistableStore from 'stores/persistence/PersistableStore'
+import getContractABI from 'helpers/getContractABI'
 
 export type Theme = 'dark' | 'light'
-
-const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS as string
-const contractAbi = [
-  'function balanceOf(address owner) public view returns (uint256)',
-]
 
 class AppStore extends PersistableStore {
   language: Language = Language.en
@@ -81,6 +77,8 @@ class AppStore extends PersistableStore {
 
   getContract() {
     const provider = this.getProvider()
+    const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS as string
+    const contractAbi = getContractABI()
 
     if (provider) {
       const contract = new ethers.Contract(
@@ -103,8 +101,11 @@ class AppStore extends PersistableStore {
 
   async checkInvite() {
     const contract = this.getContract()
-    if (contract && this.userAddress && contractAddress) {
-      const frame = await this.getUserFrame()
+    if (contract && this.userAddress) {
+      let frame = await this.getUserFrame()
+      if (frame) {
+        frame -= 10
+      }
       if (frame && frame > 0) {
         this.userFrame = frame
       }
