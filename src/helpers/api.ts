@@ -7,13 +7,6 @@ export async function getMintedAddresses() {
   return data
 }
 
-export async function mintNFT(ethAddress: string) {
-  const { data }: AxiosResponse<boolean> = await Api.post('/nft', {
-    ethAddress,
-  })
-  return data
-}
-
 export async function checkInvite(ethAddress: string) {
   const { data }: AxiosResponse<boolean> = await Api.post('/video/invite', {
     ethAddress,

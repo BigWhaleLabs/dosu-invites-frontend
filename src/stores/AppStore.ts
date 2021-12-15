@@ -1,4 +1,3 @@
-import * as api from 'helpers/api'
 import { ethers } from 'ethers'
 import { proxy } from 'valtio'
 import Language from 'models/Language'
