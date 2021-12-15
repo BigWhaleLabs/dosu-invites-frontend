@@ -102,10 +102,7 @@ class AppStore extends PersistableStore {
   async checkInvite() {
     const contract = this.getContract()
     if (contract && this.userAddress) {
-      let frame = await this.getUserFrame()
-      if (frame) {
-        frame -= 10
-      }
+      const frame = await this.getUserFrame()
       if (frame && frame > 0) {
         this.userFrame = frame
       }
