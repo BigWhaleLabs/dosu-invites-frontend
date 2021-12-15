@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios'
-import { Invites } from 'models/Invites'
 import Api from 'helpers/axios'
+import Invites from 'models/Invites'
 
 export async function getMintedAddresses() {
   const { data }: AxiosResponse<Invites> = await Api.get('/video/invites')
@@ -8,7 +8,7 @@ export async function getMintedAddresses() {
 }
 
 export async function mintNFT(ethAddress: string) {
-  const { data }: AxiosResponse<Invites> = await Api.post('/nft', {
+  const { data }: AxiosResponse<boolean> = await Api.post('/nft', {
     ethAddress,
   })
   return data

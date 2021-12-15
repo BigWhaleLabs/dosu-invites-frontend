@@ -1,3 +1,3 @@
-export type Invites = {
-  ethAddress: string
-}[]
+export default interface Invites {
+  [tokenId: number]: string
+}

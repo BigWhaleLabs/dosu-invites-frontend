@@ -96,14 +96,14 @@ function Main() {
   const [ethAddress, setEthAddress] = useState('0x')
   const [mintLoading, setMintLoading] = useState(false)
 
-  const size = useBreakpoints()
+  const { md } = useBreakpoints()
 
   const videoLink = `${backend}/video`
   const player = useRef<HTMLVmPlayerElement>(null)
   const video = document.querySelector('video')
 
   const draggableGrid = 16
-  const framesToEthLength = framesToEth.length
+  const framesToEthLength = Object.keys(framesToEth).length
 
   useEffect(() => {
     if (video) {
@@ -113,7 +113,7 @@ function Main() {
 
   useEffect(() => {
     if (framesToEth[frame]) {
-      setEthAddress(framesToEth[frame].ethAddress)
+      setEthAddress(framesToEth[frame])
     }
   }, [frame, framesToEth])
 
@@ -175,7 +175,7 @@ function Main() {
           ref={player}
           theme={theme}
           className={playerStyles}
-          aspectRatio={size.md ? '16:9' : '1:1'}
+          aspectRatio={md ? '16:9' : '1:1'}
           onVmCurrentTimeChange={(currentTime) =>
             onTimeUpdate(currentTime.detail)
           }
@@ -189,7 +189,7 @@ function Main() {
           {dragFrame > framesToEthLength ? (
             <img
               className="h-fit"
-              src={size.md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
+              src={md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
             />
           ) : (
             <DefaultUi noCaptions noLoadingScreen noSettings noSpinner>
@@ -225,9 +225,9 @@ function Main() {
               onStop={() => setPause(false)}
             >
               <div className={draggableText}>
-                {framesToEth.map((_data, index) => (
+                {Object.keys(framesToEth).map((tokenId) => (
                   <div className={draggableSymbolBox}>
-                    <p className={draggableSymbol}>{index}</p>
+                    <p className={draggableSymbol}>{+tokenId}</p>
                   </div>
                 ))}
               </div>

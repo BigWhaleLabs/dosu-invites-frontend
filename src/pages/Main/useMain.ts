@@ -1,16 +1,16 @@
 import * as api from 'helpers/api'
-import { Invites } from 'models/Invites'
 import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import { useState } from 'react'
 import AppStore from 'stores/AppStore'
+import Invites from 'models/Invites'
 
 export default function useMain() {
   const { userAddress } = useSnapshot(AppStore)
 
   const [loading, setLoading] = useState(false)
   const [invited, setInvited] = useState(false)
-  const [framesToEth, setFramesToEth] = useState<Invites>([])
+  const [framesToEth, setFramesToEth] = useState<Invites>({})
 
   const getMintedAddresses = async () => {
     setLoading(true)

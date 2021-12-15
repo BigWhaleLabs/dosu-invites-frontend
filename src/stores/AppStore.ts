@@ -91,20 +91,14 @@ class AppStore extends PersistableStore {
     }
   }
 
-  async getUserFrame() {
-    const contract = this.getContract()
-    if (contract) {
-      const data = await contract.balanceOf(this.userAddress)
-      return +data._hex
-    }
-  }
-
   async checkInvite() {
     const contract = this.getContract()
     if (contract && this.userAddress) {
-      const frame = await this.getUserFrame()
+      const data = await contract.checkTokenId(this.userAddress)
+      console.log(data)
+      const frame = +data._hex
       if (frame && frame > 0) {
-        this.userFrame = frame
+        this.userFrame = frame - 1
       }
     }
   }
