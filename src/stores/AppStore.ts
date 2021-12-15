@@ -105,7 +105,11 @@ class AppStore extends PersistableStore {
   }
 
   async mintNFT() {
-    await api.mintNFT(this.userAddress)
+    const contract = this.getContract()
+    if (contract) {
+      const transaction = await contract.mint(this.userAddress)
+      await transaction.wait()
+    }
   }
 }
 

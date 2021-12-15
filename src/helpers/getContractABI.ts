@@ -281,5 +281,19 @@ export default function getContractABI() {
       stateMutability: 'nonpayable',
       type: 'function',
     },
+    {
+      inputs: [{ internalType: 'address', name: '', type: 'address' }],
+      name: 'whitelist',
+      outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [{ internalType: 'address', name: '_user', type: 'address' }],
+      name: 'whitelistAddress',
+      outputs: [],
+      stateMutability: 'nonpayable',
+      type: 'function',
+    },
   ]
 }
