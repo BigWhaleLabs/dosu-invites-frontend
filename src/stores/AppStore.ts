@@ -95,7 +95,6 @@ class AppStore extends PersistableStore {
     const contract = this.getContract()
     if (contract && this.userAddress) {
       const data = await contract.checkTokenId(this.userAddress)
-      console.log(data)
       const frame = +data._hex
       if (frame && frame > 0) {
         this.userFrame = frame - 1
