@@ -1,12 +1,15 @@
+import * as api from 'helpers/api'
 import { ethers } from 'ethers'
 import { proxy } from 'valtio'
 import Language from 'models/Language'
 import PersistableStore from 'stores/persistence/PersistableStore'
-import contractAbi from 'pages/Main/contractAbi.json'
 
 export type Theme = 'dark' | 'light'
 
 const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS as string
+const contractAbi = [
+  'function balanceOf(address owner) public view returns (uint256)',
+]
 
 class AppStore extends PersistableStore {
   language: Language = Language.en
@@ -14,7 +17,7 @@ class AppStore extends PersistableStore {
   cookieAccepted = false
   metaMaskInstalled = false
   userAddress = ''
-  minted = false
+  userFrame: number | undefined
 
   toggleDark() {
     this.theme = this.theme === 'dark' ? 'light' : 'dark'
@@ -34,13 +37,14 @@ class AppStore extends PersistableStore {
     }
   }
 
-  setupListeners() {
+  async connectMetaMask() {
     const provider = this.getProvider()
+
     if (provider) {
-      provider.on('error', (error: Error) => {
-        console.error(error)
-      })
-      provider.on('accountsChanged', this.handleAccountChanged)
+      await provider.send('eth_requestAccounts', [])
+
+      const signer = provider.getSigner()
+      this.userAddress = await signer.getAddress()
     }
   }
 
@@ -49,6 +53,16 @@ class AppStore extends PersistableStore {
       this.userAddress = ''
     } else if (accounts[0] !== this.userAddress) {
       this.userAddress = accounts[0]
+    }
+  }
+
+  setupListeners() {
+    const provider = this.getProvider()
+    if (provider) {
+      provider.on('error', (error: Error) => {
+        console.error(error)
+      })
+      provider.on('accountsChanged', this.handleAccountChanged)
     }
   }
 
@@ -67,6 +81,7 @@ class AppStore extends PersistableStore {
 
   getContract() {
     const provider = this.getProvider()
+
     if (provider) {
       const contract = new ethers.Contract(
         contractAddress,
@@ -78,22 +93,26 @@ class AppStore extends PersistableStore {
     }
   }
 
-  async connectMetaMask() {
-    const provider = this.getProvider()
-
-    if (provider) {
-      await provider.send('eth_requestAccounts', [])
-
-      const signer = provider.getSigner()
-      this.userAddress = await signer.getAddress()
+  async getUserFrame() {
+    const contract = this.getContract()
+    if (contract) {
+      const data = await contract.balanceOf(this.userAddress)
+      return +data._hex
     }
   }
 
   async checkInvite() {
     const contract = this.getContract()
     if (contract && this.userAddress && contractAddress) {
-      this.minted = !+(await contract.balanceOf(this.userAddress))
+      const frame = await this.getUserFrame()
+      if (frame && frame > 0) {
+        this.userFrame = frame
+      }
     }
+  }
+
+  async mintNFT() {
+    await api.mintNFT(this.userAddress)
   }
 }
 

@@ -1,7 +1,7 @@
 import { Button } from 'components/Button'
 import { DefaultUi, LoadingScreen, Player, Poster, Video } from '@vime/react'
 import { Link, useHistory } from 'react-router-dom'
-import { TinyText } from 'components/Text'
+import { LinkText, TinyText } from 'components/Text'
 import { classnames } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
 import { useEffect, useRef } from 'preact/hooks'
@@ -84,7 +84,7 @@ const ethText = classnames(
 )
 
 function Main() {
-  const { theme, userAddress, minted } = useSnapshot(AppStore)
+  const { theme, userAddress, userFrame } = useSnapshot(AppStore)
 
   const { framesToEth, invited } = useMain()
 
@@ -155,14 +155,12 @@ function Main() {
   }
 
   const mintAddress = async () => {
-    const contract = AppStore.getContract()
-    if (!minted && contract) {
+    if (!userFrame) {
       try {
         setMintLoading(true)
-        const transaction = await contract.mint(userAddress)
-        await transaction.wait()
+        await AppStore.mintNFT()
+        await AppStore.checkInvite()
         setMintLoading(false)
-        AppStore.minted = true
       } catch (error) {
         setMintLoading(false)
         console.error(error)
@@ -250,7 +248,7 @@ function Main() {
         </Link>
       </div>
 
-      {userAddress && !minted && (
+      {userAddress && !userFrame && (
         <div className={marginBottom}>
           {invited ? (
             <Button
@@ -268,9 +266,17 @@ function Main() {
         </div>
       )}
 
-      {userAddress && minted && (
+      {userAddress && userFrame && (
         <div className={marginBottom}>
-          <TinyText>Your NFT was minted!</TinyText>
+          <TinyText>
+            Your invite is #{userFrame},{' '}
+            <LinkText
+              href={`https://invites.dosu.io/${userFrame}`}
+              target="_blank"
+            >
+              go check it out
+            </LinkText>
+          </TinyText>
         </div>
       )}
     </div>
