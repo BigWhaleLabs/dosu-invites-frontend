@@ -14,8 +14,7 @@ import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useMain from 'pages/Main/useMain'
 
-const backend =
-  (import.meta.env.VITE_BACKEND as string) || 'https://backend.invites.dosu.io'
+const backend = import.meta.env.VITE_BACKEND as string
 
 const mainBox = classnames(
   'flex',
