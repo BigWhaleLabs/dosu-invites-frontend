@@ -91,7 +91,7 @@ const ethText = classnames(
 function Main() {
   const { theme, userAddress, userFrame } = useSnapshot(AppStore)
 
-  const { framesToEth, invited } = useMain()
+  const { framesToEth, loading, invited, getMintedAddresses } = useMain()
 
   const history = useHistory()
 
@@ -143,10 +143,28 @@ function Main() {
   }, [])
 
   useEffect(() => {
-    setMintLoading(true)
-    void AppStore.checkInvite()
-    setMintLoading(false)
+    async function checkInvite() {
+      setMintLoading(true)
+      await AppStore.checkInvite()
+      setMintLoading(false)
+    }
+
+    void checkInvite()
   }, [])
+
+  useEffect(() => {
+    async function reloadDataAfterMint() {
+      if (AppStore.userAddress && AppStore.userFrame && video) {
+        video.pause()
+        await getMintedAddresses()
+        video.load()
+        video.pause()
+      }
+    }
+
+    void reloadDataAfterMint()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userAddress, userFrame, video])
 
   const onTimeUpdate = (time: number) => {
     if (pause) {
@@ -203,7 +221,7 @@ function Main() {
       </div>
 
       <div className={draggableBox}>
-        {!framesToEth ? (
+        {!framesToEth || loading ? (
           <Loader size="small" />
         ) : (
           <>
@@ -269,10 +287,24 @@ function Main() {
 
       {userAddress && userFrame && (
         <div className={marginBottom}>
-          <TinyText>
-            Your invite is #{userFrame},{' '}
-            <LinkText href={userFrame.toString()}>go check it out</LinkText>
-          </TinyText>
+          {mintLoading ? (
+            <Loader />
+          ) : (
+            <TinyText>
+              Your invite is #{userFrame},{' '}
+              <LinkText>
+                <button
+                  onClick={() => {
+                    if (AppStore.userFrame) {
+                      setDragFrame(AppStore.userFrame)
+                    }
+                  }}
+                >
+                  go check it out
+                </button>
+              </LinkText>
+            </TinyText>
+          )}
         </div>
       )}
     </div>

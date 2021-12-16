@@ -37,5 +37,5 @@ export default function useMain() {
     void checkUserInvite()
   }, [userAddress])
 
-  return { framesToEth, loading, invited }
+  return { framesToEth, loading, invited, getMintedAddresses }
 }

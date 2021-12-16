@@ -52,13 +52,13 @@ class AppStore extends PersistableStore {
   }
 
   setupListeners() {
-    const provider = this.getProvider()
-    if (provider) {
-      provider.on('error', (error: Error) => {
-        console.error(error)
-      })
-      provider.on('accountsChanged', this.handleAccountChanged)
-    }
+    window.ethereum.on('error', (error: Error) => {
+      console.error(error)
+    })
+    window.ethereum.on('accountsChanged', async (accounts: string[]) => {
+      this.handleAccountChanged(accounts)
+      await this.checkInvite()
+    })
   }
 
   getProvider() {
@@ -91,6 +91,7 @@ class AppStore extends PersistableStore {
   }
 
   async checkInvite() {
+    await this.isMetaMaskConnected()
     const contract = this.getContract()
     if (contract && this.userAddress) {
       const data = await contract.checkTokenId(this.userAddress)
