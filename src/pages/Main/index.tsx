@@ -17,7 +17,13 @@ import useMain from 'pages/Main/useMain'
 const backend =
   (import.meta.env.VITE_BACKEND as string) || 'https://backend.invites.dosu.io'
 
-const mainBox = classnames('flex', 'flex-col', 'content-center', 'items-center')
+const mainBox = classnames(
+  'flex',
+  'flex-col',
+  'content-center',
+  'items-center',
+  'z-10'
+)
 
 const playerBox = classnames('flex', 'items-center', 'w-full', 'rounded-3xl')
 const playerStyles = classnames('w-full')
