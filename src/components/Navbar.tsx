@@ -37,6 +37,10 @@ const buttonBox = classnames('xl:ml-10', 'ml-3')
 function Navbar() {
   const { userAddress } = useSnapshot(AppStore)
   const { md } = useBreakpoints()
+  const isSafari =
+    navigator.userAgent.indexOf('Chrome') !== -1
+      ? false
+      : navigator.userAgent.indexOf('Safari') !== -1
 
   useEffect(() => {
     AppStore.setupListeners()
@@ -67,8 +71,12 @@ function Navbar() {
                 {md ? 'Connect MetaMask to claim your invite' : <MetaMask />}
               </Button>
             }
-            title="MetaMask is not installed"
-            body={`To use Web3 technologies, please install MetaMask extension for your browser`}
+            title={'MetaMask is not installed'}
+            body={
+              isSafari
+                ? 'Safari does not support MetaMask, please use other browser'
+                : 'To use Web3 technologies, please install MetaMask extension for your browser'
+            }
             confirmTitle="Okay, thanks"
           />
         )}
