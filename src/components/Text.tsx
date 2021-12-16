@@ -122,9 +122,8 @@ export const LogoText: FC<{ large?: boolean }> = ({ large, children }) => {
 const linkText = classnames('text-primary-dimmed', 'transition-colors')
 export const LinkText: FC<{
   href?: string | undefined
-  target?: React.HTMLAttributeAnchorTarget
-}> = ({ children, href, target }) => (
-  <a className={linkText} href={href} target={target}>
+}> = ({ children, href }) => (
+  <a className={linkText} href={href} rel="noopener noreferrer">
     {children}
   </a>
 )

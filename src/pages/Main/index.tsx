@@ -266,12 +266,7 @@ function Main() {
         <div className={marginBottom}>
           <TinyText>
             Your invite is #{userFrame},{' '}
-            <LinkText
-              href={`https://invites.dosu.io/${userFrame}`}
-              target="_blank"
-            >
-              go check it out
-            </LinkText>
+            <LinkText href={userFrame.toString()}>go check it out</LinkText>
           </TinyText>
         </div>
       )}
