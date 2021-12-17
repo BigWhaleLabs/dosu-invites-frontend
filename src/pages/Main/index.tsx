@@ -1,7 +1,7 @@
+import { BodyText, LinkText } from 'components/Text'
 import { Button } from 'components/Button'
 import { DefaultUi, LoadingScreen, Player, Poster, Video } from '@vime/react'
 import { Link, useHistory } from 'react-router-dom'
-import { LinkText, TinyText } from 'components/Text'
 import { classnames } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
 import { useEffect, useRef } from 'preact/hooks'
@@ -257,7 +257,7 @@ function Main() {
       </div>
 
       <div className={ethAddressBox}>
-        <TinyText>ETH ADDRESS</TinyText>
+        <BodyText>ETH ADDRESS</BodyText>
 
         <Link
           to={{ pathname: `https://etherscan.io/address/${ethAddress}` }}
@@ -277,10 +277,10 @@ function Main() {
               Mint my Dosu Invite for {truncateMiddle(userAddress)}
             </Button>
           ) : (
-            <TinyText>
+            <BodyText>
               Your Ethereum address wasn't whitelisted for Dosu Invite NFTs. Try
               another one?
-            </TinyText>
+            </BodyText>
           )}
         </div>
       )}
@@ -290,7 +290,7 @@ function Main() {
           {mintLoading ? (
             <Loader />
           ) : (
-            <TinyText>
+            <BodyText>
               Your invite is #{userFrame},{' '}
               <LinkText>
                 <button
@@ -303,7 +303,7 @@ function Main() {
                   go check it out
                 </button>
               </LinkText>
-            </TinyText>
+            </BodyText>
           )}
         </div>
       )}

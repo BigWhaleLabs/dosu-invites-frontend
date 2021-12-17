@@ -17,7 +17,7 @@ const Root: FC = ({ children }) => {
   return (
     <div className={root}>
       {children}
-      <CookieNotification />
+      {/* <CookieNotification /> */}
     </div>
   )
 }
