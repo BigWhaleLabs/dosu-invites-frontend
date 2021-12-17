@@ -1,6 +1,6 @@
 import { BodyText, LinkText } from 'components/Text'
 import { Button } from 'components/Button'
-import { DefaultUi, LoadingScreen, Player, Poster, Video } from '@vime/react'
+import { DefaultUi, Player, Poster, Video } from '@vime/react'
 import { Link, useHistory } from 'react-router-dom'
 import { classnames } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
@@ -167,7 +167,7 @@ function Main() {
 
     void reloadDataAfterMint()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userAddress, userFrame, video])
+  }, [userAddress, userFrame])
 
   return (
     <div className={mainBox}>
@@ -184,7 +184,7 @@ function Main() {
           onVmPlayingChange={() => setPause(false)}
         >
           <Video poster="img/poster" crossOrigin="anonymous">
-            <source data-src={videoLink} type="video/mp4" />
+            <source src={videoLink} type="video/mp4" />
           </Video>
           <Poster fit="fill" />
           {dragFrame > framesToEthLength ? (
@@ -193,11 +193,7 @@ function Main() {
               src={md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
             />
           ) : (
-            <DefaultUi noCaptions noLoadingScreen noSettings noSpinner>
-              <LoadingScreen hideDots>
-                <Loader />
-              </LoadingScreen>
-            </DefaultUi>
+            <DefaultUi noSettings noCaptions />
           )}
         </Player>
       </div>
