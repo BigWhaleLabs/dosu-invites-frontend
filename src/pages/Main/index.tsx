@@ -91,7 +91,14 @@ const ethText = classnames(
 function Main() {
   const { theme, userAddress, userFrame } = useSnapshot(AppStore)
 
-  const { framesToEth, loading, invited, getMintedAddresses } = useMain()
+  const {
+    framesToEth,
+    loading,
+    invited,
+    getMintedAddresses,
+    mintAddress,
+    mintLoading,
+  } = useMain()
 
   const history = useHistory()
 
@@ -99,7 +106,6 @@ function Main() {
   const [dragFrame, setDragFrame] = useState(0)
   const [pause, setPause] = useState(true)
   const [ethAddress, setEthAddress] = useState('0x')
-  const [mintLoading, setMintLoading] = useState(false)
 
   const { md } = useBreakpoints()
 
@@ -142,15 +148,12 @@ function Main() {
     }
   }, [])
 
-  useEffect(() => {
-    async function checkInvite() {
-      setMintLoading(true)
-      await AppStore.checkInvite()
-      setMintLoading(false)
+  const onTimeUpdate = (time: number) => {
+    if (pause) {
+      video?.pause()
     }
-
-    void checkInvite()
-  }, [])
+    setFrame(Math.floor(time))
+  }
 
   useEffect(() => {
     async function reloadDataAfterMint() {
@@ -165,27 +168,6 @@ function Main() {
     void reloadDataAfterMint()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userAddress, userFrame, video])
-
-  const onTimeUpdate = (time: number) => {
-    if (pause) {
-      video?.pause()
-    }
-    setFrame(Math.floor(time))
-  }
-
-  const mintAddress = async () => {
-    if (!userFrame) {
-      try {
-        setMintLoading(true)
-        await AppStore.mintNFT()
-        await AppStore.checkInvite()
-        setMintLoading(false)
-      } catch (error) {
-        setMintLoading(false)
-        console.error(error)
-      }
-    }
-  }
 
   return (
     <div className={mainBox}>
