@@ -16,9 +16,11 @@
 
 ## Environment variables
 
-| Name              | Description                                                 |
-| ----------------- | ----------------------------------------------------------- |
-| REACT_APP_BACKEND | API root URL, defaults to `https://backend.invites.dosu.io` |
+| Name                  | Description                   |
+| --------------------- | ----------------------------- |
+| VITE_BACKEND          | API root URL                  |
+| VITE_ETH_NETWORK      | Ethereum network              |
+| VITE_CONTRACT_ADDRESS | Dosu invites contract address |
 
 ## Local launch
 
@@ -31,4 +33,3 @@
 - `yarn build` — builds the app for production to the `docs` folder
 - `yarn lint` — checks if the code is linted and formatted
 - `yarn generate-css-types` — generates the CSS types for `tailwind-css`
-- `yarn update` — builds the code and pushes it to git remote

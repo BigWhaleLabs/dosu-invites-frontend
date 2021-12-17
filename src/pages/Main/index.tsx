@@ -1,9 +1,8 @@
+import { BodyText, LinkText } from 'components/Text'
 import { Button } from 'components/Button'
-import { DefaultUi, LoadingScreen, Player, Poster, Video } from '@vime/react'
+import { DefaultUi, Player, Poster, Video } from '@vime/react'
 import { Link, useHistory } from 'react-router-dom'
-import { TinyText } from 'components/Text'
 import { classnames } from 'classnames/tailwind'
-import { ethers } from 'ethers'
 import { observer } from 'mobx-react-lite'
 import { useEffect, useRef } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
@@ -11,22 +10,23 @@ import { useState } from 'react'
 import AppStore from 'stores/AppStore'
 import Draggable from 'react-draggable'
 import Loader from 'components/Loader'
-import abi from 'pages/Main/abi.json'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useMain from 'pages/Main/useMain'
 
-const backend =
-  (import.meta.env.VITE_BACKEND as string) || 'https://backend.invites.dosu.io'
+const backend = import.meta.env.VITE_BACKEND as string
 
-const contractAddress = '0x0d0a4686dfB7a4f4Fe87fB478fe08953b9ed216d'
-
-const mainBox = classnames('flex', 'flex-col', 'content-center', 'items-center')
+const mainBox = classnames(
+  'flex',
+  'flex-col',
+  'content-center',
+  'items-center',
+  'z-10'
+)
+const marginBottom = classnames('mb-12')
 
 const playerBox = classnames('flex', 'items-center', 'w-full', 'rounded-3xl')
 const playerStyles = classnames('w-full')
-
-const marginBottom = classnames('mb-12')
 
 const draggableBox = classnames(
   'flex',
@@ -68,7 +68,7 @@ const indicator = classnames(
 )
 
 const ethAddressBox = classnames(
-  'flex',
+  'flex-auto',
   'flex-col',
   'w-full',
   'rounded-3xl',
@@ -88,11 +88,9 @@ const ethText = classnames(
 )
 
 function Main() {
-  const { theme, userAddress } = useSnapshot(AppStore)
+  const { theme, userAddress, userFrame } = useSnapshot(AppStore)
 
-  const [minted, setMinted] = useState(false)
-
-  const { framesToEthMap, invited } = useMain()
+  const { framesToEth, loading, invited, mintAddress, mintLoading } = useMain()
 
   const history = useHistory()
 
@@ -101,15 +99,14 @@ function Main() {
   const [pause, setPause] = useState(true)
   const [ethAddress, setEthAddress] = useState('0x')
 
-  const size = useBreakpoints()
+  const { md } = useBreakpoints()
 
   const videoLink = `${backend}/video`
   const player = useRef<HTMLVmPlayerElement>(null)
   const video = document.querySelector('video')
 
   const draggableGrid = 16
-  const framesToEthMapKeys = Object.keys(framesToEthMap)
-  const framesToEthMapLength = framesToEthMapKeys.length
+  const framesToEthLength = Object.keys(framesToEth).length
 
   useEffect(() => {
     if (video) {
@@ -118,15 +115,17 @@ function Main() {
   }, [video])
 
   useEffect(() => {
-    setEthAddress(framesToEthMap[frame])
-  }, [frame, framesToEthMap])
+    if (framesToEth[frame]) {
+      setEthAddress(framesToEth[frame])
+    }
+  }, [frame, framesToEth])
 
   useEffect(() => {
     if (player.current) {
       player.current.currentTime = dragFrame
       player.current.paused = false
     }
-  }, [dragFrame, player])
+  }, [dragFrame])
 
   useEffect(() => {
     if (player.current && player.current.ready) {
@@ -139,33 +138,24 @@ function Main() {
     if (player.current) {
       setDragFrame(locationFrame)
     }
-  }, [framesToEthMapLength])
+  }, [])
+
+  useEffect(() => {
+    // Reload the video when the minting is complete
+    if (AppStore.userAddress && AppStore.userFrame && video) {
+      video.pause()
+      video.load()
+      video.pause()
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userAddress, userFrame])
 
   const onTimeUpdate = (time: number) => {
-    if (pause) {
-      video?.pause()
+    if (video && pause) {
+      video.pause()
     }
     setFrame(Math.floor(time))
-  }
-
-  const mintAddress = async () => {
-    const provider = AppStore.getProvider()
-    if (provider) {
-      try {
-        const contract = new ethers.Contract(
-          contractAddress,
-          abi,
-          provider.getSigner()
-        )
-
-        contract.mint(userAddress)
-        await contract.mint(userAddress)
-        setMinted(true)
-      } catch (error) {
-        console.error(error)
-        setMinted(false)
-      }
-    }
   }
 
   return (
@@ -175,40 +165,37 @@ function Main() {
           ref={player}
           theme={theme}
           className={playerStyles}
-          aspectRatio={size.md ? '16:9' : '1:1'}
+          aspectRatio={md ? '16:9' : '1:1'}
           onVmCurrentTimeChange={(currentTime) =>
             onTimeUpdate(currentTime.detail)
           }
-          autoplay={true}
           onVmPlayingChange={() => setPause(false)}
         >
-          <Video poster="img/poster" crossOrigin="anonymous">
-            <source data-src={videoLink} type="video/mp4" />
-          </Video>
-          <Poster fit="fill" />
-          {dragFrame > framesToEthMapLength ? (
+          {dragFrame > framesToEthLength ? (
             <img
-              className="h-fit"
-              src={size.md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
+              className="h-fit rounded-3xl"
+              src={md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
             />
           ) : (
-            <DefaultUi noCaptions noLoadingScreen noSettings noSpinner>
-              <LoadingScreen hideDots>
-                <Loader />
-              </LoadingScreen>
-            </DefaultUi>
+            <>
+              <Video poster="img/poster" crossOrigin="anonymous">
+                <source src={videoLink} type="video/mp4" />
+              </Video>
+              <Poster fit="fill" />
+              <DefaultUi noSettings noCaptions />
+            </>
           )}
         </Player>
       </div>
 
       <div className={draggableBox}>
-        {!framesToEthMap ? (
+        {!framesToEth || loading ? (
           <Loader size="small" />
         ) : (
           <>
             <Draggable
               bounds={{
-                left: -draggableGrid * framesToEthMapLength * 1.8,
+                left: -draggableGrid * framesToEthLength * 1.85,
                 right: 0,
               }}
               grid={[draggableGrid, draggableGrid]}
@@ -225,9 +212,9 @@ function Main() {
               onStop={() => setPause(false)}
             >
               <div className={draggableText}>
-                {framesToEthMapKeys.map((frame) => (
+                {Object.keys(framesToEth).map((tokenId) => (
                   <div className={draggableSymbolBox}>
-                    <p className={draggableSymbol}>{frame}</p>
+                    <p className={draggableSymbol}>{+tokenId}</p>
                   </div>
                 ))}
               </div>
@@ -238,7 +225,7 @@ function Main() {
       </div>
 
       <div className={ethAddressBox}>
-        <TinyText>ETH ADDRESS</TinyText>
+        <BodyText>ETH ADDRESS</BodyText>
 
         <Link
           to={{ pathname: `https://etherscan.io/address/${ethAddress}` }}
@@ -248,17 +235,43 @@ function Main() {
         </Link>
       </div>
 
-      {userAddress && !minted && (
+      {userAddress && !userFrame && (
         <div className={marginBottom}>
           {invited ? (
-            <Button onClick={async () => await mintAddress()}>
+            <Button
+              onClick={async () => await mintAddress()}
+              loading={mintLoading}
+            >
               Mint my Dosu Invite for {truncateMiddle(userAddress)}
             </Button>
           ) : (
-            <TinyText>
+            <BodyText>
               Your Ethereum address wasn't whitelisted for Dosu Invite NFTs. Try
               another one?
-            </TinyText>
+            </BodyText>
+          )}
+        </div>
+      )}
+
+      {userAddress && userFrame && (
+        <div className={marginBottom}>
+          {mintLoading ? (
+            <Loader />
+          ) : (
+            <BodyText>
+              Your invite is #{userFrame},{' '}
+              <LinkText>
+                <button
+                  onClick={() => {
+                    if (AppStore.userFrame) {
+                      setDragFrame(AppStore.userFrame)
+                    }
+                  }}
+                >
+                  go check it out
+                </button>
+              </LinkText>
+            </BodyText>
           )}
         </div>
       )}

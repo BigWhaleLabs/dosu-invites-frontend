@@ -26,7 +26,8 @@ const CookieNotification = () => {
     'border-border',
     'rounded-2xl',
     'space-y-2',
-    'md:space-y-0'
+    'md:space-y-0',
+    'z-50'
   )
 
   const notifyAnimation = useSpring({

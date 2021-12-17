@@ -8575,10 +8575,10 @@ mobx-react-lite@^3.2.2:
   resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-3.2.2.tgz#cee5f09e6b0e4d2705d87276baf1de74d997fa33"
   integrity sha512-FxJJMqmHcnQYOVVs2DdjNHioGlFsXF5/9VHztS9NAfIT3DYrxNZzVi119Zr/OmlWKkWNkAsssSNzPkqautfL4A==
 
-mobx@^6.3.7:
-  version "6.3.7"
-  resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.3.7.tgz#9ed85561e86da45141134c8fa20cf5f9c7246c3d"
-  integrity sha512-X7yU7eOEyxIBk4gjIi2UIilwdw48gXh0kcZ5ex3Rc+COJsJmJ4SNpf42uYea3aUqb1hedTv5xzJrq5Q55p0P5g==
+mobx@^6.3.9:
+  version "6.3.9"
+  resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.3.9.tgz#cce102d9aaa5a8793a7d5d2cf33ddb7a98c14e27"
+  integrity sha512-u9vhETRPgx6s+MD2NhGaOQJMJa/qszflwFxKryCXotERWY77ocdrRQUp7Jwt1urjefUXNj3fQbTnKrCV+kBaXw==
 
 modern-normalize@^1.1.0:
   version "1.1.0"
@@ -11879,9 +11879,9 @@ tailwind-scrollbar-hide@^1.1.5:
   integrity sha512-+an0OtSZQgvL5cE66A6WOaOHjjv8nGEJJfajnbzgKmo77UFOnspsViOdqp/ySu2Q3cjXk2BK4H7y0p2rmc0rVw==
 
 tailwindcss-classnames@^2.2.5:
-  version "2.2.5"
-  resolved "https://registry.yarnpkg.com/tailwindcss-classnames/-/tailwindcss-classnames-2.2.5.tgz#24b88593a15d29ac335a945c47f70bb922f860f9"
-  integrity sha512-OFHzl8U9wIEAn2obnjJ77EuS309CHfCMD6snrS9jOf/I+ZKh69v9+EBrD35upXfZnwav+LrKIsdYL74iljswrA==
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/tailwindcss-classnames/-/tailwindcss-classnames-2.2.6.tgz#5e98421cfe7a96d45b35e3c4e5cad44dc5f2cc66"
+  integrity sha512-W3ZxamBfCVzobr6yxqaLIIURC+As/6/JrSf39NCphKSsLyt9sTExa/qJBQa6INorcNHnsA0xlUWGtwVOSQ+Bqw==
   dependencies:
     clsx "^1.1.1"
     colors "^1.4.0"

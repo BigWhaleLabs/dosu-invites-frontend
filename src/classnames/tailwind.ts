@@ -1423,6 +1423,7 @@ export type TJustifyContent =
   | 'justify-end'
   | 'justify-between'
   | 'justify-around'
+  | 'justify-evenly'
 
 export type TJustifyItems =
   | 'justify-items-auto'
@@ -14972,6 +14973,11 @@ export type TPseudoClasses =
   | 'lg:justify-around'
   | 'xl:justify-around'
   | '2xl:justify-around'
+  | 'sm:justify-evenly'
+  | 'md:justify-evenly'
+  | 'lg:justify-evenly'
+  | 'xl:justify-evenly'
+  | '2xl:justify-evenly'
   | 'sm:justify-items-auto'
   | 'md:justify-items-auto'
   | 'lg:justify-items-auto'

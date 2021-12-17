@@ -118,3 +118,12 @@ const logoText = (large?: boolean) =>
 export const LogoText: FC<{ large?: boolean }> = ({ large, children }) => {
   return <span className={logoText(large)}>{children}</span>
 }
+
+const linkText = classnames('text-primary-dimmed', 'transition-colors')
+export const LinkText: FC<{
+  href?: string | undefined
+}> = ({ children, href }) => (
+  <a className={linkText} href={href} rel="noopener noreferrer">
+    {children}
+  </a>
+)
