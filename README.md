@@ -16,11 +16,11 @@
 
 ## Environment variables
 
-| Name                  | Description                                                                                     |
-| --------------------- | ----------------------------------------------------------------------------------------------- |
-| VITE_BACKEND          | API root URL, defaults to `https://backend.invites.dosu.io`                                     |
-| VITE_ETH_NETWORK      | Choose which [network](network) do you want to use. Smart contract is deployed to the `rinkeby` |
-| VITE_CONTRACT_ADDRESS | Address of the contract                                                                         |
+| Name                  | Description                   |
+| --------------------- | ----------------------------- |
+| VITE_BACKEND          | API root URL                  |
+| VITE_ETH_NETWORK      | Ethereum network              |
+| VITE_CONTRACT_ADDRESS | Dosu invites contract address |
 
 ## Local launch
 
@@ -33,6 +33,3 @@
 - `yarn build` — builds the app for production to the `docs` folder
 - `yarn lint` — checks if the code is linted and formatted
 - `yarn generate-css-types` — generates the CSS types for `tailwind-css`
-- `yarn update` — builds the code and pushes it to git remote
-
-[network]: https://docs.ethers.io/v5/api/providers/#providers-getDefaultProvider
