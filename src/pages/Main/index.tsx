@@ -23,11 +23,10 @@ const mainBox = classnames(
   'items-center',
   'z-10'
 )
+const marginBottom = classnames('mb-12')
 
 const playerBox = classnames('flex', 'items-center', 'w-full', 'rounded-3xl')
 const playerStyles = classnames('w-full')
-
-const marginBottom = classnames('mb-12')
 
 const draggableBox = classnames(
   'flex',
@@ -69,7 +68,7 @@ const indicator = classnames(
 )
 
 const ethAddressBox = classnames(
-  'flex',
+  'flex-auto',
   'flex-col',
   'w-full',
   'rounded-3xl',
@@ -91,14 +90,7 @@ const ethText = classnames(
 function Main() {
   const { theme, userAddress, userFrame } = useSnapshot(AppStore)
 
-  const {
-    framesToEth,
-    loading,
-    invited,
-    getMintedAddresses,
-    mintAddress,
-    mintLoading,
-  } = useMain()
+  const { framesToEth, loading, invited, mintAddress, mintLoading } = useMain()
 
   const history = useHistory()
 
@@ -148,26 +140,23 @@ function Main() {
     }
   }, [])
 
+  useEffect(() => {
+    // Reload the video when the minting is complete
+    if (AppStore.userAddress && AppStore.userFrame && video) {
+      video.pause()
+      video.load()
+      video.pause()
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userAddress, userFrame])
+
   const onTimeUpdate = (time: number) => {
-    if (pause) {
-      video?.pause()
+    if (video && pause) {
+      video.pause()
     }
     setFrame(Math.floor(time))
   }
-
-  useEffect(() => {
-    async function reloadDataAfterMint() {
-      if (AppStore.userAddress && AppStore.userFrame && video) {
-        video.pause()
-        await getMintedAddresses()
-        video.load()
-        video.pause()
-      }
-    }
-
-    void reloadDataAfterMint()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userAddress, userFrame])
 
   return (
     <div className={mainBox}>
@@ -180,20 +169,21 @@ function Main() {
           onVmCurrentTimeChange={(currentTime) =>
             onTimeUpdate(currentTime.detail)
           }
-          autoplay={true}
           onVmPlayingChange={() => setPause(false)}
         >
-          <Video poster="img/poster" crossOrigin="anonymous">
-            <source src={videoLink} type="video/mp4" />
-          </Video>
-          <Poster fit="fill" />
           {dragFrame > framesToEthLength ? (
             <img
-              className="h-fit"
+              className="h-fit rounded-3xl"
               src={md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
             />
           ) : (
-            <DefaultUi noSettings noCaptions />
+            <>
+              <Video poster="img/poster" crossOrigin="anonymous">
+                <source src={videoLink} type="video/mp4" />
+              </Video>
+              <Poster fit="fill" />
+              <DefaultUi noSettings noCaptions />
+            </>
           )}
         </Player>
       </div>

@@ -30,6 +30,7 @@ export default function useMain() {
         setMintLoading(true)
         await AppStore.mintNFT()
         await AppStore.checkInvite()
+        await getMintedAddresses()
         setMintLoading(false)
       } catch (error) {
         setMintLoading(false)

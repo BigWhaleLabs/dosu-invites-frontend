@@ -11879,9 +11879,9 @@ tailwind-scrollbar-hide@^1.1.5:
   integrity sha512-+an0OtSZQgvL5cE66A6WOaOHjjv8nGEJJfajnbzgKmo77UFOnspsViOdqp/ySu2Q3cjXk2BK4H7y0p2rmc0rVw==
 
 tailwindcss-classnames@^2.2.5:
-  version "2.2.5"
-  resolved "https://registry.yarnpkg.com/tailwindcss-classnames/-/tailwindcss-classnames-2.2.5.tgz#24b88593a15d29ac335a945c47f70bb922f860f9"
-  integrity sha512-OFHzl8U9wIEAn2obnjJ77EuS309CHfCMD6snrS9jOf/I+ZKh69v9+EBrD35upXfZnwav+LrKIsdYL74iljswrA==
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/tailwindcss-classnames/-/tailwindcss-classnames-2.2.6.tgz#5e98421cfe7a96d45b35e3c4e5cad44dc5f2cc66"
+  integrity sha512-W3ZxamBfCVzobr6yxqaLIIURC+As/6/JrSf39NCphKSsLyt9sTExa/qJBQa6INorcNHnsA0xlUWGtwVOSQ+Bqw==
   dependencies:
     clsx "^1.1.1"
     colors "^1.4.0"
