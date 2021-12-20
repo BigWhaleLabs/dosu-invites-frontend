@@ -1,4 +1,5 @@
 import { Button } from 'components/Button'
+import { UserAgent, userAgent } from 'helpers/userAgent'
 import { classnames } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
 import { useEffect } from 'preact/hooks'
@@ -37,10 +38,7 @@ const buttonBox = classnames('xl:ml-10', 'ml-3')
 function Navbar() {
   const { userAddress } = useSnapshot(AppStore)
   const { md } = useBreakpoints()
-  const isSafari =
-    navigator.userAgent.indexOf('Chrome') !== -1
-      ? false
-      : navigator.userAgent.indexOf('Safari') !== -1
+  const isSafari = userAgent() === UserAgent.Safari
 
   useEffect(() => {
     AppStore.setupListeners()
