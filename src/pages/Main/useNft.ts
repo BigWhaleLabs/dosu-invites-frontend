@@ -5,7 +5,7 @@ import { useState } from 'react'
 import AppStore from 'stores/AppStore'
 import Invites from 'models/Invites'
 
-export default function useMain() {
+export default function useNft() {
   const { userAddress, userFrame } = useSnapshot(AppStore)
 
   const [loading, setLoading] = useState(false)
