@@ -123,6 +123,7 @@ function Main() {
           onVmCurrentTimeChange={(currentTime) =>
             onTimeUpdate(currentTime.detail)
           }
+          onVmPlayingChange={() => setDragPause(false)}
         >
           {dragFrame > framesToEthLength ? (
             <img

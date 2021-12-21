@@ -1,15 +1,17 @@
+import { UserAgent, userAgent } from 'helpers/userAgent'
 import { useEffect, useState } from 'preact/hooks'
 import { useHistory } from 'react-router-dom'
 
 export default function useVideo() {
   const history = useHistory()
+  const isChrome = userAgent() === UserAgent.Chrome
 
   const draggableGrid = 16
   const multiplier = 2
 
   const [frame, setFrame] = useState(0)
   const [dragFrame, setDragFrame] = useState(0)
-  const [dragPause, setDragPause] = useState(false)
+  const [dragPause, setDragPause] = useState(isChrome ? false : true)
 
   const video = document.querySelector('video')
 
