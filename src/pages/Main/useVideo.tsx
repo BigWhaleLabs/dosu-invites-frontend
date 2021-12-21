@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'preact/hooks'
 import { useHistory } from 'react-router-dom'
-import AppStore from 'stores/AppStore'
 
 export default function useVideo() {
   const history = useHistory()
@@ -13,10 +12,6 @@ export default function useVideo() {
   const [dragPause, setDragPause] = useState(false)
 
   const video = document.querySelector('video')
-
-  useEffect(() => {
-    setDragFrame(+location.pathname.split('/')[1])
-  }, [])
 
   useEffect(() => {
     if (video) {
@@ -44,13 +39,19 @@ export default function useVideo() {
   }
 
   useEffect(() => {
-    // Reload the video when the minting is complete
-    if (AppStore.userAddress && AppStore.userFrame && video) {
+    setDragFrame(+location.pathname.split('/')[1])
+  }, [])
+
+  function reloadVideo(time?: number) {
+    if (video) {
       video.pause()
       video.load()
+      if (time) {
+        video.currentTime = time
+      }
       video.pause()
     }
-  }, [video])
+  }
 
   return {
     draggableGrid,
@@ -60,5 +61,6 @@ export default function useVideo() {
     frame,
     setDragFrame,
     multiplier,
+    reloadVideo,
   }
 }

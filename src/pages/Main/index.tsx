@@ -98,6 +98,7 @@ function Main() {
     draggableGrid,
     multiplier,
     frame,
+    reloadVideo,
   } = useVideo()
   const { md } = useBreakpoints()
 
@@ -191,7 +192,10 @@ function Main() {
         <div className={marginBottom}>
           {invited ? (
             <Button
-              onClick={async () => await mintAddress()}
+              onClick={async () => {
+                await mintAddress()
+                setTimeout(() => reloadVideo(AppStore.userFrame), 3000)
+              }}
               loading={mintLoading}
             >
               Mint my Dosu Invite for {truncateMiddle(userAddress)}
