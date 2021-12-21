@@ -96,6 +96,7 @@ function Main() {
     dragFrame,
     setDragFrame,
     draggableGrid,
+    multiplier,
     frame,
   } = useVideo()
   const { md } = useBreakpoints()
@@ -147,7 +148,7 @@ function Main() {
           <>
             <Draggable
               bounds={{
-                left: -draggableGrid * framesToEthLength * 1.85,
+                left: -draggableGrid * framesToEthLength * multiplier,
                 right: 0,
               }}
               grid={[draggableGrid, draggableGrid]}
@@ -155,7 +156,7 @@ function Main() {
                 x: `calc(50% - 0.85rem)`,
                 y: 0,
               }}
-              position={{ x: -frame * draggableGrid * 2, y: 0 }}
+              position={{ x: -frame * draggableGrid * multiplier, y: 0 }}
               axis="x"
               onDrag={(_e, data) => {
                 setDragPause(true)

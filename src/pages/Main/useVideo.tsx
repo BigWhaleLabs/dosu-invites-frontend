@@ -6,6 +6,7 @@ export default function useVideo() {
   const history = useHistory()
 
   const draggableGrid = 16
+  const multiplier = 2
 
   const [frame, setFrame] = useState(0)
   const [dragFrame, setDragFrame] = useState(0)
@@ -57,5 +58,6 @@ export default function useVideo() {
     dragFrame,
     frame,
     setDragFrame,
+    multiplier,
   }
 }
