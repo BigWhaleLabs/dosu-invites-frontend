@@ -1,5 +1,5 @@
 import { UserAgent, userAgent } from 'helpers/userAgent'
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect, useRef, useState } from 'preact/hooks'
 import { useHistory } from 'react-router-dom'
 
 export default function useVideo() {
@@ -12,37 +12,20 @@ export default function useVideo() {
   const [frame, setFrame] = useState(0)
   const [dragFrame, setDragFrame] = useState(0)
   const [dragPause, setDragPause] = useState(isChrome ? false : true)
+  const [video, setVideo] = useState<HTMLMediaElement>()
 
-  const video = document.querySelector('video')
+  const videoRef = useRef<HTMLVmVideoElement>(null)
 
-  useEffect(() => {
-    if (video) {
-      video.playbackRate = draggableGrid
+  async function doSetVideo() {
+    if (videoRef.current) {
+      const adapter = await videoRef.current.getAdapter()
+      const player = await adapter.getInternalPlayer()
+      player.playbackRate = draggableGrid
+      player.currentTime = dragFrame
+      player.pause()
+      setVideo(player)
     }
-  }, [video])
-
-  useEffect(() => {
-    if (video) {
-      history.push(frame.toString())
-    }
-  }, [history, frame, video])
-
-  useEffect(() => {
-    if (video) {
-      video.currentTime = dragFrame
-    }
-  }, [dragFrame, video])
-
-  const onTimeUpdate = (time: number) => {
-    if (video && dragPause) {
-      video.pause()
-    }
-    setFrame(Math.floor(time))
   }
-
-  useEffect(() => {
-    setDragFrame(+location.pathname.split('/')[1])
-  }, [])
 
   function reloadVideo(time?: number) {
     if (video) {
@@ -55,6 +38,29 @@ export default function useVideo() {
     }
   }
 
+  useEffect(() => {
+    if (video && dragPause) {
+      video.currentTime = dragFrame
+    }
+  }, [video, dragFrame, dragPause])
+
+  useEffect(() => {
+    if (video) {
+      history.push(frame.toString())
+    }
+  }, [history, frame, video])
+
+  const onTimeUpdate = (time: number) => {
+    if (video && dragPause) {
+      video.pause()
+    }
+    setFrame(Math.floor(time))
+  }
+
+  useEffect(() => {
+    setDragFrame(+location.pathname.split('/')[1])
+  }, [])
+
   return {
     draggableGrid,
     onTimeUpdate,
@@ -64,5 +70,7 @@ export default function useVideo() {
     setDragFrame,
     multiplier,
     reloadVideo,
+    videoRef,
+    doSetVideo,
   }
 }

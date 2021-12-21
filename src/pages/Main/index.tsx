@@ -99,6 +99,8 @@ function Main() {
     multiplier,
     frame,
     reloadVideo,
+    videoRef,
+    doSetVideo,
   } = useVideo()
   const { md } = useBreakpoints()
 
@@ -124,6 +126,7 @@ function Main() {
             onTimeUpdate(currentTime.detail)
           }
           onVmPlayingChange={() => setDragPause(false)}
+          onVmPlaybackReady={async () => await doSetVideo()}
         >
           {dragFrame > framesToEthLength ? (
             <img
@@ -132,7 +135,7 @@ function Main() {
             />
           ) : (
             <>
-              <Video poster="img/poster" crossOrigin="anonymous">
+              <Video poster="img/poster" crossOrigin="anonymous" ref={videoRef}>
                 <source src={videoLink} type="video/mp4" />
               </Video>
               <Poster fit="fill" />
