@@ -10,19 +10,13 @@ export default function useVideo() {
 
   const [frame, setFrame] = useState(0)
   const [dragFrame, setDragFrame] = useState(0)
-  const [dragPause, setDragPause] = useState(true)
+  const [dragPause, setDragPause] = useState(false)
 
   const video = document.querySelector('video')
 
   useEffect(() => {
     setDragFrame(+location.pathname.split('/')[1])
   }, [])
-
-  useEffect(() => {
-    if (video) {
-      video.currentTime = dragFrame
-    }
-  }, [dragFrame, video])
 
   useEffect(() => {
     if (video) {
@@ -37,6 +31,19 @@ export default function useVideo() {
   }, [history, frame, video])
 
   useEffect(() => {
+    if (video) {
+      video.currentTime = dragFrame
+    }
+  }, [dragFrame, video])
+
+  const onTimeUpdate = (time: number) => {
+    if (video && dragPause) {
+      video.pause()
+    }
+    setFrame(Math.floor(time))
+  }
+
+  useEffect(() => {
     // Reload the video when the minting is complete
     if (AppStore.userAddress && AppStore.userFrame && video) {
       video.pause()
@@ -45,12 +52,6 @@ export default function useVideo() {
     }
   }, [video])
 
-  const onTimeUpdate = (time: number) => {
-    if (video && dragPause) {
-      video.pause()
-    }
-    setFrame(Math.floor(time))
-  }
   return {
     draggableGrid,
     onTimeUpdate,
