@@ -61,8 +61,6 @@ export default function useVideo() {
     const frame = +location.pathname.split('/')[1]
     if (!isNaN(frame)) {
       setDragFrame(frame)
-    } else {
-      setDragFrame(0)
     }
   }, [])
 
