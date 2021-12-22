@@ -58,7 +58,12 @@ export default function useVideo() {
   }
 
   useEffect(() => {
-    setDragFrame(+location.pathname.split('/')[1])
+    const frame = +location.pathname.split('/')[1]
+    if (!isNaN(frame)) {
+      setDragFrame(frame)
+    } else {
+      setDragFrame(0)
+    }
   }, [])
 
   return {
