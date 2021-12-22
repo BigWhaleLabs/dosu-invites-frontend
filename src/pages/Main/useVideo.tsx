@@ -1,17 +1,15 @@
-import { UserAgent, userAgent } from 'helpers/userAgent'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { useHistory } from 'react-router-dom'
 
 export default function useVideo() {
   const history = useHistory()
-  const isChrome = userAgent() === UserAgent.Chrome
 
   const draggableGrid = 16
   const multiplier = 2
 
   const [frame, setFrame] = useState(0)
   const [dragFrame, setDragFrame] = useState(0)
-  const [dragPause, setDragPause] = useState(isChrome ? false : true)
+  const [dragPause, setDragPause] = useState(true)
   const [video, setVideo] = useState<HTMLMediaElement>()
 
   const videoRef = useRef<HTMLVmVideoElement>(null)
@@ -21,8 +19,6 @@ export default function useVideo() {
       const adapter = await videoRef.current.getAdapter()
       const player = await adapter.getInternalPlayer()
       player.playbackRate = draggableGrid
-      player.currentTime = dragFrame
-      player.pause()
       setVideo(player)
     }
   }
@@ -39,7 +35,7 @@ export default function useVideo() {
   }
 
   useEffect(() => {
-    if (video && dragPause) {
+    if (video) {
       video.currentTime = dragFrame
     }
   }, [video, dragFrame, dragPause])
@@ -59,9 +55,9 @@ export default function useVideo() {
 
   useEffect(() => {
     const frame = +location.pathname.split('/')[1]
-    if (!isNaN(frame)) {
-      setDragFrame(frame)
-    }
+    !isNaN(frame) && setDragFrame(frame)
+    // Allow the user to play the video by clicking the 'play' button
+    setTimeout(() => setDragPause(false), 1000)
   }, [])
 
   return {

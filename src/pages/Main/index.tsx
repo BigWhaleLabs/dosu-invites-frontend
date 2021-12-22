@@ -125,7 +125,6 @@ function Main() {
           onVmCurrentTimeChange={(currentTime) =>
             onTimeUpdate(currentTime.detail)
           }
-          onVmPlayingChange={() => setDragPause(false)}
           onVmPlaybackReady={async () => await doSetVideo()}
         >
           {dragFrame > framesToEthLength ? (
