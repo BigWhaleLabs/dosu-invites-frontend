@@ -41,9 +41,7 @@ function Navbar() {
   const isSafari = userAgent() === UserAgent.Safari
 
   useEffect(() => {
-    if (void AppStore.isMetaMaskConnected()) {
-      AppStore.setupListeners()
-    }
+    void AppStore.isMetaMaskConnected()
   }, [])
 
   return (
