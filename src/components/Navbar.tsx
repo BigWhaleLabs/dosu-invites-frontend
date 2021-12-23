@@ -1,5 +1,5 @@
 import { Button } from 'components/Button'
-import { UserAgent, userAgent } from 'helpers/userAgent'
+import { UserAgent, mobileCheck, userAgent } from 'helpers/userAgent'
 import { classnames } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
 import { useEffect } from 'preact/hooks'
@@ -39,6 +39,7 @@ function Navbar() {
   const { userAddress } = useSnapshot(AppStore)
   const { md } = useBreakpoints()
   const isSafari = userAgent() === UserAgent.Safari
+  const isNotSupportedMobile = mobileCheck() && !AppStore.metaMaskInstalled
 
   useEffect(() => {
     void AppStore.isMetaMaskConnected()
@@ -68,11 +69,19 @@ function Navbar() {
                 {md ? 'Connect MetaMask to claim your invite' : <MetaMask />}
               </Button>
             }
-            title={'MetaMask is not installed'}
+            title={
+              isNotSupportedMobile
+                ? 'Please use the MetaMask app'
+                : isSafari
+                ? 'MetaMask is not supported'
+                : 'MetaMask is not installed'
+            }
             body={
-              isSafari
-                ? 'Safari does not support MetaMask, please use other browser'
-                : 'To use Web3 technologies, please install MetaMask extension for your browser'
+              isNotSupportedMobile
+                ? 'To use Web3 technologies, please use the browser built into the MetaMask application'
+                : isSafari
+                ? 'Safari does not support MetaMask, please use another browser'
+                : 'To use Web3 technologies, please, install MetaMask extension for your browser'
             }
             confirmTitle="Okay, thanks"
           />
