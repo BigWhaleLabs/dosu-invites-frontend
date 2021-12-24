@@ -1,18 +1,18 @@
 import { BodyText, LinkText } from 'components/Text'
 import { Button } from 'components/Button'
 import { DefaultUi, Player, Poster, Video } from '@vime/react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { classnames } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
-import { useEffect, useRef } from 'preact/hooks'
+import { useEffect, useState } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
-import { useState } from 'react'
 import AppStore from 'stores/AppStore'
 import Draggable from 'react-draggable'
 import Loader from 'components/Loader'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
-import useMain from 'pages/Main/useMain'
+import useNft from 'pages/Main/useNft'
+import useVideo from 'pages/Main/useVideo'
 
 const backend = import.meta.env.VITE_BACKEND as string
 
@@ -89,30 +89,22 @@ const ethText = classnames(
 
 function Main() {
   const { theme, userAddress, userFrame } = useSnapshot(AppStore)
-
-  const { framesToEth, loading, invited, mintAddress, mintLoading } = useMain()
-
-  const history = useHistory()
-
-  const [frame, setFrame] = useState(0)
-  const [dragFrame, setDragFrame] = useState(0)
-  const [pause, setPause] = useState(true)
-  const [ethAddress, setEthAddress] = useState('0x')
-
+  const { framesToEth, loading, invited, mintAddress, mintLoading } = useNft()
+  const {
+    onTimeUpdate,
+    setDragPause,
+    dragFrame,
+    setDragFrame,
+    draggableGrid,
+    multiplier,
+    frame,
+    reloadVideo,
+    videoRef,
+    doSetVideo,
+  } = useVideo()
   const { md } = useBreakpoints()
 
-  const videoLink = `${backend}/video`
-  const player = useRef<HTMLVmPlayerElement>(null)
-  const video = document.querySelector('video')
-
-  const draggableGrid = 16
-  const framesToEthLength = Object.keys(framesToEth).length
-
-  useEffect(() => {
-    if (video) {
-      video.playbackRate = 16.0
-    }
-  }, [video])
+  const [ethAddress, setEthAddress] = useState('0x')
 
   useEffect(() => {
     if (framesToEth[frame]) {
@@ -120,56 +112,20 @@ function Main() {
     }
   }, [frame, framesToEth])
 
-  useEffect(() => {
-    if (player.current) {
-      player.current.currentTime = dragFrame
-      player.current.paused = false
-    }
-  }, [dragFrame])
-
-  useEffect(() => {
-    if (player.current && player.current.ready) {
-      history.push(frame.toString())
-    }
-  }, [history, frame])
-
-  useEffect(() => {
-    const locationFrame = +location.pathname.split('/')[1]
-    if (player.current) {
-      setDragFrame(locationFrame)
-    }
-  }, [])
-
-  useEffect(() => {
-    // Reload the video when the minting is complete
-    if (AppStore.userAddress && AppStore.userFrame && video) {
-      video.pause()
-      video.load()
-      video.pause()
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userAddress, userFrame])
-
-  const onTimeUpdate = (time: number) => {
-    if (video && pause) {
-      video.pause()
-    }
-    setFrame(Math.floor(time))
-  }
+  const framesToEthLength = Object.keys(framesToEth).length
+  const videoLink = `${backend}/video`
 
   return (
     <div className={mainBox}>
       <div className={playerBox}>
         <Player
-          ref={player}
           theme={theme}
           className={playerStyles}
           aspectRatio={md ? '16:9' : '1:1'}
           onVmCurrentTimeChange={(currentTime) =>
             onTimeUpdate(currentTime.detail)
           }
-          onVmPlayingChange={() => setPause(false)}
+          onVmPlaybackReady={async () => await doSetVideo()}
         >
           {dragFrame > framesToEthLength ? (
             <img
@@ -178,7 +134,7 @@ function Main() {
             />
           ) : (
             <>
-              <Video poster="img/poster" crossOrigin="anonymous">
+              <Video poster="img/poster" crossOrigin="anonymous" ref={videoRef}>
                 <source src={videoLink} type="video/mp4" />
               </Video>
               <Poster fit="fill" />
@@ -195,7 +151,7 @@ function Main() {
           <>
             <Draggable
               bounds={{
-                left: -draggableGrid * framesToEthLength * 1.85,
+                left: -draggableGrid * framesToEthLength * multiplier,
                 right: 0,
               }}
               grid={[draggableGrid, draggableGrid]}
@@ -203,13 +159,13 @@ function Main() {
                 x: `calc(50% - 0.85rem)`,
                 y: 0,
               }}
-              position={{ x: -frame * draggableGrid * 2, y: 0 }}
+              position={{ x: -frame * draggableGrid * multiplier, y: 0 }}
               axis="x"
               onDrag={(_e, data) => {
-                setPause(true)
+                setDragPause(true)
                 setDragFrame(frame + -data.deltaX / draggableGrid)
               }}
-              onStop={() => setPause(false)}
+              onStop={() => setDragPause(false)}
             >
               <div className={draggableText}>
                 {Object.keys(framesToEth).map((tokenId) => (
@@ -239,7 +195,10 @@ function Main() {
         <div className={marginBottom}>
           {invited ? (
             <Button
-              onClick={async () => await mintAddress()}
+              onClick={async () => {
+                await mintAddress()
+                setTimeout(() => reloadVideo(AppStore.userFrame), 3000)
+              }}
               loading={mintLoading}
             >
               Mint my Dosu Invite for {truncateMiddle(userAddress)}

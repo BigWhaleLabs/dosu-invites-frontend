@@ -27,6 +27,7 @@ class AppStore extends PersistableStore {
     if (provider) {
       const accounts = await provider.listAccounts()
       this.handleAccountChanged(accounts)
+      this.setupListeners()
     } else {
       this.userAddress = ''
     }
