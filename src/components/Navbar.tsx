@@ -78,9 +78,9 @@ function Navbar() {
             }
             body={
               isNotSupportedMobile
-                ? 'To use Web3 technologies, please use the browser built into the MetaMask application'
+                ? 'To use Web3 technologies, please use a browser with the MetaMask extension'
                 : isSafari
-                ? 'Safari does not support MetaMask, please use another browser'
+                ? 'Safari does not support MetaMask, please, use another browser'
                 : 'To use Web3 technologies, please, install MetaMask extension for your browser'
             }
             confirmTitle="Okay, thanks"
