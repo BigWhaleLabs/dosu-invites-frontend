@@ -12,7 +12,7 @@ import Loader from 'components/Loader'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useNft from 'pages/Main/useNft'
-import useVideo from './useVideo'
+import useVideo from 'pages/Main/useVideo'
 
 const backend = import.meta.env.VITE_BACKEND as string
 
