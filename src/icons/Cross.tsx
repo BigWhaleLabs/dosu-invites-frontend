@@ -1,6 +1,6 @@
-import { classnames } from 'classnames/tailwind'
+import { classnames, fill } from 'classnames/tailwind'
 
-const icon = classnames('fill-current')
+const icon = classnames(fill('fill-current'))
 
 const Cross = () => {
   return (

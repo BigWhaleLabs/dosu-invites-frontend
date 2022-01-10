@@ -2,7 +2,33 @@ import { BodyText, LinkText } from 'components/Text'
 import { Button } from 'components/Button'
 import { DefaultUi, Player, Poster, Video } from '@vime/react'
 import { Link } from 'react-router-dom'
-import { classnames } from 'classnames/tailwind'
+import {
+  alignItems,
+  backgroundColor,
+  borderColor,
+  borderRadius,
+  borderWidth,
+  classnames,
+  cursor,
+  display,
+  flex,
+  flexDirection,
+  fontSize,
+  height,
+  inset,
+  justifyContent,
+  margin,
+  overflow,
+  padding,
+  position,
+  textAlign,
+  textColor,
+  textOverflow,
+  userSelect,
+  whitespace,
+  width,
+  zIndex,
+} from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
 import { useEffect, useState } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
@@ -17,74 +43,75 @@ import useVideo from 'pages/Main/useVideo'
 const backend = import.meta.env.VITE_BACKEND as string
 
 const mainBox = classnames(
-  'flex',
-  'flex-col',
-  'content-center',
-  'items-center',
-  'z-10'
+  display('flex'),
+  flexDirection('flex-col'),
+  justifyContent('justify-center'),
+  alignItems('items-center'),
+  zIndex('z-10')
 )
-const marginBottom = classnames('mb-12')
+const marginBottom = classnames(margin('mb-12'))
 
-const playerBox = classnames('flex', 'items-center', 'w-full', 'rounded-3xl')
-const playerStyles = classnames('w-full')
+const playerBox = classnames(
+  display('flex'),
+  alignItems('items-center'),
+  width('w-full'),
+  borderRadius('rounded-3xl')
+)
+const playerStyles = classnames(width('w-full'))
 
 const draggableBox = classnames(
-  'flex',
-  'flex-col',
-  'relative',
-  'w-full',
-  'overflow-hidden',
-  'rounded-3xl',
-  'border-2',
-  'border-border',
-  'my-12',
-  'p-6'
+  display('flex'),
+  flexDirection('flex-col'),
+  position('relative'),
+  width('w-full'),
+  overflow('overflow-hidden'),
+  borderRadius('rounded-3xl'),
+  borderWidth('border-2'),
+  borderColor('border-border'),
+  margin('my-12'),
+  padding('p-6')
 )
 const draggableText = classnames(
-  'w-full',
-  'cursor-move',
-  'items-center',
-  'flex',
-  'flex-row',
-  'text-primary'
+  width('w-full'),
+  cursor('cursor-move'),
+  alignItems('items-center'),
+  display('flex'),
+  flexDirection('flex-row'),
+  textColor('text-primary')
 )
 const draggableSymbol = classnames(
-  'w-8',
-  'text-center',
-  'select-none',
-  'overflow-clip',
-  'overflow-hidden',
-  'whitespace-nowrap'
+  width('w-8'),
+  textAlign('text-center'),
+  userSelect('select-none'),
+  overflow('overflow-clip', 'overflow-hidden'),
+  whitespace('whitespace-nowrap')
 )
-const draggableSymbolBox = classnames('block')
+const draggableSymbolBox = classnames(display('block'))
 const indicator = classnames(
-  'absolute',
-  'bottom-0',
-  'left-1/2',
-  'w-1',
-  'h-6',
-  'bg-border',
-  'rounded-md'
+  position('absolute'),
+  inset('bottom-0', 'left-1/2'),
+  width('w-1'),
+  height('h-6'),
+  backgroundColor('bg-border'),
+  borderRadius('rounded-md')
 )
 
 const ethAddressBox = classnames(
-  'flex-auto',
-  'flex-col',
-  'w-full',
-  'rounded-3xl',
-  'border-2',
-  'border-border',
-  'mx-auto',
-  marginBottom,
-  'p-6'
+  flex('flex-auto'),
+  flexDirection('flex-col'),
+  width('w-full'),
+  borderRadius('rounded-3xl'),
+  borderWidth('border-2'),
+  borderColor('border-border'),
+  margin('mx-auto', marginBottom),
+  padding('p-6')
 )
 
 const ethText = classnames(
-  'text-primary',
-  'md:text-lg',
-  'text-sm',
-  'select-all',
-  'truncate'
+  textColor('text-primary'),
+  fontSize('text-sm', 'md:text-lg'),
+  userSelect('select-all'),
+  textOverflow('truncate')
 )
 
 function Main() {

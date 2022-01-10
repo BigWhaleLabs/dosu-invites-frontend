@@ -1,17 +1,24 @@
 import { FC } from 'react'
-import { classnames } from 'classnames/tailwind'
+import {
+  classnames,
+  container,
+  display,
+  flexDirection,
+  height,
+  margin,
+  maxWidth,
+  padding,
+} from 'classnames/tailwind'
 import CookieNotification from 'components/CookieNotification'
 
 const root = classnames(
-  'flex',
-  'flex-col',
-  'container',
-  'mx-auto',
-  'pb-10',
-  'max-w-4xl',
-  'pt-4',
-  'px-4',
-  'h-screen'
+  display('flex'),
+  flexDirection('flex-col'),
+  container('container'),
+  margin('mx-auto'),
+  padding('pb-10', 'pt-4', 'px-4'),
+  maxWidth('max-w-4xl'),
+  height('h-screen')
 )
 const Root: FC = ({ children }) => {
   return (

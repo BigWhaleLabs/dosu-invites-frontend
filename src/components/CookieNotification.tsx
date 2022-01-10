@@ -1,7 +1,25 @@
 import { BodyText } from 'components/Text'
 import { Button } from 'components/Button'
+import {
+  alignItems,
+  backgroundColor,
+  borderColor,
+  borderRadius,
+  borderWidth,
+  classnames,
+  container,
+  display,
+  flexDirection,
+  inset,
+  justifyContent,
+  margin,
+  maxWidth,
+  padding,
+  position,
+  space,
+  zIndex,
+} from 'classnames/tailwind'
 import { animated, useSpring } from 'react-spring'
-import { classnames } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import AppStore from 'stores/AppStore'
 
@@ -9,25 +27,22 @@ const CookieNotification = () => {
   const { cookieAccepted } = useSnapshot(AppStore)
 
   const cookieContainer = classnames(
-    'sticky',
-    'flex',
-    'flex-col',
-    'md:flex-row',
-    'items-center',
-    'justify-between',
-    'container',
-    'max-w-4xl',
-    'mx-auto',
-    'bottom-4',
-    'py-3',
-    'px-4',
-    'bg-background',
-    'border',
-    'border-border',
-    'rounded-2xl',
-    'space-y-2',
-    'md:space-y-0',
-    'z-50'
+    position('sticky'),
+    display('flex'),
+    flexDirection('flex-col', 'md:flex-row'),
+    alignItems('items-center'),
+    justifyContent('justify-between'),
+    container('container'),
+    maxWidth('max-w-4xl'),
+    margin('mx-auto'),
+    inset('bottom-4'),
+    padding('py-3', 'px-4'),
+    backgroundColor('bg-background'),
+    borderWidth('border'),
+    borderColor('border-border'),
+    borderRadius('rounded-2xl'),
+    space('space-y-2', 'md:space-y-0'),
+    zIndex('z-50')
   )
 
   const notifyAnimation = useSpring({

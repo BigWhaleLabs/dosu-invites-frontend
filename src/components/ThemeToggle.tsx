@@ -1,31 +1,46 @@
 import { Idea, Moon } from 'icons'
+import {
+  alignItems,
+  borderColor,
+  borderRadius,
+  borderWidth,
+  classnames,
+  display,
+  height,
+  justifyContent,
+  margin,
+  outlineStyle,
+  padding,
+  transformOrigin,
+  transitionDuration,
+  transitionProperty,
+  transitionTimingFunction,
+  width,
+} from 'classnames/tailwind'
 import { animated, useSpring } from 'react-spring'
-import { classnames } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import AppStore from 'stores/AppStore'
 
 const toggleContainer = classnames(
-  'flex',
-  'justify-center',
-  'items-center',
-  'justify-between',
-  'py-0.5',
-  'px-2',
-  'border',
-  'border-accent',
-  'rounded-3xl',
-  'transition-colors',
-  'w-20',
-  'h-10',
-  'focus:outline-none'
+  transitionProperty('transition-colors'),
+  display('flex'),
+  justifyContent('justify-between'),
+  alignItems('items-center'),
+  padding('py-0.5', 'px-2'),
+  borderWidth('border'),
+  borderColor('border-accent'),
+  borderRadius('rounded-3xl'),
+  width('w-20'),
+  height('h-10'),
+  outlineStyle('focus:outline-none')
 )
 const toggleButton = classnames(
-  'origin-center',
-  'duration-100',
-  'transition-transform',
-  'ease-linear'
+  transformOrigin('origin-center'),
+  transitionDuration('duration-100'),
+  transitionProperty('transition-transform'),
+  transitionTimingFunction('ease-linear')
 )
-const iconDiv = classnames('w-7', 'h-7', toggleButton)
+const iconDiv = classnames(width('w-7'), height('h-7'), toggleButton)
 
 const ThemeToggle = () => {
   const { theme } = useSnapshot(AppStore)
@@ -42,7 +57,7 @@ const ThemeToggle = () => {
 
   const sharedProps = {
     theme,
-    className: classnames('m-auto', 'h-full'),
+    className: classnames(margin('m-auto'), height('h-full')),
   }
 
   return (

@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'preact/hooks'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function useVideo() {
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const draggableGrid = 16
   const multiplier = 2
@@ -42,9 +42,9 @@ export default function useVideo() {
 
   useEffect(() => {
     if (video) {
-      history.push(frame.toString())
+      navigate(frame.toString())
     }
-  }, [history, frame, video])
+  }, [navigate, frame, video])
 
   const onTimeUpdate = (time: number) => {
     if (video && dragPause) {

@@ -1,18 +1,18 @@
 import { FC } from 'react'
 import { LogoDot, LogoText } from 'components/Text'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 interface LogoProps {
   large?: boolean
 }
 
 const Logo: FC<LogoProps> = ({ large = false }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
 
   return (
     <button
       onClick={() => {
-        history.push('/')
+        navigate('/')
       }}
     >
       <LogoText large={large}>

@@ -1,8 +1,12 @@
 import { DimmedSubheaderText, HeaderText } from 'components/Text'
-import { classnames } from 'classnames/tailwind'
+import { classnames, display, flexDirection, height } from 'classnames/tailwind'
 import Footer from 'components/Footer'
 
-const container = classnames('flex', 'flex-col', 'h-full')
+const container = classnames(
+  display('flex'),
+  flexDirection('flex-col'),
+  height('h-full')
+)
 
 export default function NotFound() {
   return (

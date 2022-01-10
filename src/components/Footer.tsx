@@ -1,17 +1,26 @@
 import { FooterText } from 'components/Text'
 import { Link } from 'react-router-dom'
-import { classnames } from 'classnames/tailwind'
+import {
+  alignItems,
+  classnames,
+  display,
+  justifyContent,
+  margin,
+  padding,
+  textAlign,
+  verticalAlign,
+} from 'classnames/tailwind'
 
 const footerContainer = classnames(
-  'flex',
-  'justify-center',
-  'items-center',
-  'mt-auto',
-  'pt-3',
-  'align-middle',
-  'text-center'
+  display('flex'),
+  justifyContent('justify-center'),
+  alignItems('items-center'),
+  margin('mt-auto'),
+  padding('pt-3'),
+  verticalAlign('align-middle'),
+  textAlign('text-center')
 )
-const dotPadding = classnames('px-3')
+const dotPadding = classnames(padding('px-3'))
 
 const Footer = () => {
   return (

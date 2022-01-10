@@ -1,6 +1,20 @@
 import { FC } from 'react'
 import { WaveTopBottomLoading } from 'react-loadingg'
-import { classnames } from 'classnames/tailwind'
+import {
+  alignItems,
+  backgroundColor,
+  classnames,
+  display,
+  flexDirection,
+  height,
+  inset,
+  justifyContent,
+  opacity,
+  position,
+  verticalAlign,
+  width,
+  zIndex,
+} from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
 import classNamesToString from 'helpers/classNamesToString'
 
@@ -20,19 +34,18 @@ const Loader: FC<LoaderProps> = ({
   className,
 }) => {
   const wrapperStyles = classnames(
-    'flex',
-    'left-0',
-    'top-0',
-    'w-full',
-    'h-full',
-    'justify-center',
-    'align-middle',
-    'flex-row',
-    'items-center',
-    overlay ? 'absolute' : 'static',
-    overlay ? 'opacity-80' : 'opacity-100',
-    overlay ? 'bg-background' : 'bg-transparent',
-    overlay ? 'z-50' : 'z-auto'
+    display('flex'),
+    flexDirection('flex-row'),
+    inset('left-0', 'top-0'),
+    width('w-full'),
+    height('h-full'),
+    justifyContent('justify-center'),
+    verticalAlign('align-middle'),
+    alignItems('items-center'),
+    position(overlay ? 'absolute' : 'static'),
+    opacity(overlay ? 'opacity-80' : 'opacity-100'),
+    backgroundColor(overlay ? 'bg-background' : 'bg-transparent'),
+    zIndex(overlay ? 'z-50' : 'z-auto')
   )
 
   return (

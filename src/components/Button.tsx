@@ -1,5 +1,26 @@
 import { ButtonHTMLAttributes, FC } from 'react'
-import { classnames } from 'classnames/tailwind'
+import {
+  alignItems,
+  backgroundColor,
+  borderColor,
+  borderRadius,
+  borderWidth,
+  boxShadow,
+  classnames,
+  cursor,
+  display,
+  fontFamily,
+  fontSize,
+  fontWeight,
+  justifyContent,
+  margin,
+  outlineStyle,
+  padding,
+  pointerEvents,
+  textColor,
+  transitionProperty,
+  width,
+} from 'classnames/tailwind'
 import Loading from 'icons/Loading'
 
 export enum ButtonType {
@@ -24,12 +45,14 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const buttonHover = (outlined?: boolean, transparent?: boolean) =>
   classnames(
-    transparent
-      ? undefined
-      : outlined
-      ? 'hover:bg-accent'
-      : 'hover:bg-primary-dimmed',
-    outlined ? 'hover:text-white' : undefined
+    backgroundColor(
+      transparent
+        ? undefined
+        : outlined
+        ? 'hover:bg-accent'
+        : 'hover:bg-primary-dimmed'
+    ),
+    textColor(outlined ? 'hover:text-white' : undefined)
   )
 
 const buttonDisabled = (
@@ -38,28 +61,34 @@ const buttonDisabled = (
   transparent?: boolean
 ) =>
   classnames(
-    disabled && !transparent
-      ? outlined
+    backgroundColor(
+      disabled && !transparent
+        ? outlined
+          ? 'bg-transparent'
+          : 'bg-primary-disabled'
+        : outlined
         ? 'bg-transparent'
-        : 'bg-primary-disabled'
-      : outlined
-      ? 'bg-transparent'
-      : transparent
-      ? 'bg-transparent'
-      : 'bg-accent',
-    disabled
-      ? 'text-primary-disabled-text'
-      : outlined
-      ? 'text-accent'
-      : transparent
-      ? 'text-primary'
-      : 'text-white',
-    disabled ? 'cursor-not-allowed' : undefined,
-    outlined
-      ? disabled
-        ? 'border-primary-disabled-text'
-        : 'border-accent'
-      : undefined
+        : transparent
+        ? 'bg-transparent'
+        : 'bg-accent'
+    ),
+    textColor(
+      disabled
+        ? 'text-primary-disabled-text'
+        : outlined
+        ? 'text-accent'
+        : transparent
+        ? 'text-primary'
+        : 'text-white'
+    ),
+    cursor(disabled ? 'cursor-not-allowed' : undefined),
+    borderColor(
+      outlined
+        ? disabled
+          ? 'border-primary-disabled-text'
+          : 'border-accent'
+        : undefined
+    )
   )
 
 const button = (
@@ -72,40 +101,41 @@ const button = (
   loading?: boolean
 ) =>
   classnames(
-    'pointer-events-auto',
+    transitionProperty('transition-all'),
+    pointerEvents('pointer-events-auto'),
     buttonDisabled(loading || disabled, outlined, transparent),
-    outlined ? 'border' : undefined,
-    outlined
-      ? 'rounded-3xl'
-      : circle
-      ? 'rounded-full'
-      : transparent
-      ? undefined
-      : 'rounded',
-    fullWidth ? 'w-full' : undefined,
-    // Small
-    'text-sm',
-    outlined && !circle ? 'py-2' : transparent ? undefined : 'py-3',
-    circle ? 'px-3' : transparent ? undefined : 'px-4',
-    shadow ? 'shadow-md' : undefined,
-    // Desktop
-    'md:text-base',
-    outlined && !circle ? 'md:py-2' : transparent ? undefined : 'md:py-2',
-    circle ? 'md:px-4' : transparent ? undefined : 'md:px-6',
-    shadow ? 'md:shadow-lg' : undefined,
-    // Hover
+    borderWidth(outlined ? 'border' : undefined),
+    borderRadius(
+      outlined
+        ? 'rounded-3xl'
+        : circle
+        ? 'rounded-full'
+        : transparent
+        ? undefined
+        : 'rounded'
+    ),
+    width(fullWidth ? 'w-full' : undefined),
+    padding(
+      outlined && !circle ? 'py-2' : transparent ? undefined : 'py-3',
+      outlined && !circle ? 'md:py-2' : transparent ? undefined : 'md:py-2',
+      circle ? 'px-3' : transparent ? undefined : 'px-4',
+      circle ? 'md:px-4' : transparent ? undefined : 'md:px-6'
+    ),
+    boxShadow(
+      shadow ? 'md:shadow-lg' : undefined,
+      shadow ? 'shadow-lg' : undefined
+    ),
     disabled || loading ? undefined : buttonHover(outlined, transparent),
-    shadow ? 'shadow-lg' : undefined,
-    'flex',
-    'justify-center',
-    'items-center',
-    'font-primary',
-    'transition-all',
-    'focus:outline-none',
-    'font-bold'
+    display('flex'),
+    justifyContent('justify-center'),
+    alignItems('items-center'),
+    outlineStyle('focus:outline-none'),
+    fontFamily('font-primary'),
+    fontSize('text-sm', 'md:text-base'),
+    fontWeight('font-bold')
   )
 
-const loadingMargin = classnames('mr-1', 'md:mr-3')
+const loadingMargin = classnames(margin('mr-1', 'md:mr-3'))
 
 export const Button: FC<ButtonProps> = ({
   onClick,

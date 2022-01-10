@@ -1,6 +1,21 @@
 import { Button } from 'components/Button'
 import { UserAgent, mobileCheck, userAgent } from 'helpers/userAgent'
-import { classnames } from 'classnames/tailwind'
+import {
+  alignItems,
+  backgroundColor,
+  classnames,
+  display,
+  flex,
+  flexDirection,
+  inset,
+  justifyContent,
+  margin,
+  padding,
+  position,
+  space,
+  transitionProperty,
+  zIndex,
+} from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
 import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
@@ -13,27 +28,31 @@ import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 
 const flexGrowRow = (row?: boolean) =>
-  classnames('flex', 'flex-1', row ? 'flex-row' : 'flex-col')
+  classnames(
+    display('flex'),
+    flex('flex-1'),
+    flexDirection(row ? 'flex-row' : 'flex-col')
+  )
 const navbar = classnames(
-  'sticky',
-  'top-0',
-  'flex',
-  'items-center',
-  'my-4',
-  'z-50',
-  'bg-background',
-  'transition-colors',
-  'py-2'
+  transitionProperty('transition-colors'),
+  position('sticky'),
+  inset('top-0'),
+  display('flex'),
+  alignItems('items-center'),
+  zIndex('z-50'),
+  backgroundColor('bg-background'),
+  margin('my-4'),
+  padding('py-2')
 )
 
 const themeToggleBox = classnames(
-  'space-x-2',
   flexGrowRow(true),
-  'justify-end',
-  'items-center'
+  space('space-x-2'),
+  justifyContent('justify-end'),
+  alignItems('items-center')
 )
 
-const buttonBox = classnames('xl:ml-10', 'ml-3')
+const buttonBox = classnames(margin('xl:ml-10', 'ml-3'))
 
 function Navbar() {
   const { userAddress } = useSnapshot(AppStore)

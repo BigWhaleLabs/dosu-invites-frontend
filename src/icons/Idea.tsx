@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite'
 import AppStore from 'stores/AppStore'
 import ISVGIcon from 'models/ISVGIcon'
 import classNamesToString from 'helpers/classNamesToString'
-import classnames from 'classnames/tailwind'
+import classnames, { transitionProperty } from 'classnames/tailwind'
 
 const Idea: FC<ISVGIcon> = ({
   theme,
@@ -18,8 +18,10 @@ const Idea: FC<ISVGIcon> = ({
     path: themeSheme === 'light' ? 'var(--background)' : 'var(--border)',
     circule: themeSheme === 'light' ? 'var(--accent)' : undefined,
   }
-  const commonProps = { className: classnames('transition-colors') }
-  const classes = classnames('transition-colors')
+  const commonProps = {
+    className: classnames(transitionProperty('transition-colors')),
+  }
+  const classes = classnames(transitionProperty('transition-colors'))
 
   return (
     <svg

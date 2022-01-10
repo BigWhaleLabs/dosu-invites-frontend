@@ -1,4 +1,4 @@
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import LocalizationProvider from 'localization/LocalizationProvider'
 import Main from 'pages/Main'
 import Navbar from 'components/Navbar'
@@ -13,25 +13,25 @@ const App = () => {
         <LocalizationProvider>
           <Router>
             <Navbar />
-            <Switch>
-              <Route path="/" component={Main} />
+            <Routes>
+              <Route path="/" element={<Main />} />
               <Route
                 path="/terms"
-                component={() => {
-                  location.replace('https://dosu.io/p/dosu/1')
+                element={() => {
+                  location.replace('https://dosu.io/privacy')
                   return null
                 }}
               />
               <Route
                 path="/privacy"
-                component={() => {
-                  location.replace('https://dosu.io/p/dosu/2')
+                element={() => {
+                  location.replace('https://dosu.io/terms')
                   return null
                 }}
               />
-              <Route exact path="/404" component={NotFound} />
-              <Route path="*" component={NotFound} />
-            </Switch>
+              <Route path="/404" element={<NotFound />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
           </Router>
         </LocalizationProvider>
       </Root>
