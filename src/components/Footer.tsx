@@ -1,5 +1,4 @@
 import { FooterText } from 'components/Text'
-import { Link } from 'react-router-dom'
 import {
   alignItems,
   classnames,
@@ -16,7 +15,7 @@ const footerContainer = classnames(
   justifyContent('justify-center'),
   alignItems('items-center'),
   margin('mt-auto'),
-  padding('pt-3'),
+  padding('py-3'),
   verticalAlign('align-middle'),
   textAlign('text-center')
 )
@@ -26,13 +25,13 @@ const Footer = () => {
   return (
     <div className={footerContainer}>
       <FooterText>
-        <Link to={{ pathname: 'https://dosu.io/p/dosu/2' }} target="_blank">
+        <a rel="noopener noreferrer" href="https://dosu.io/privacy">
           Privacy
-        </Link>
+        </a>
         <span className={dotPadding}>{'•'}</span>
-        <Link to={{ pathname: 'https://dosu.io/p/dosu/1' }} target="_blank">
+        <a rel="noopener noreferrer" href="https://dosu.io/terms">
           Terms
-        </Link>
+        </a>
       </FooterText>
     </div>
   )

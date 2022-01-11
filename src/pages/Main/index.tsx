@@ -34,6 +34,7 @@ import { useEffect, useState } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import AppStore from 'stores/AppStore'
 import Draggable from 'react-draggable'
+import Footer from 'components/Footer'
 import Loader from 'components/Loader'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
@@ -261,6 +262,7 @@ function Main() {
           )}
         </div>
       )}
+      <Footer />
     </div>
   )
 }
