@@ -13,6 +13,7 @@ class AppStore extends PersistableStore {
   metaMaskInstalled = false
   userAddress = ''
   userFrame: number | undefined
+  ipfsLink: string | undefined
 
   toggleDark() {
     this.theme = this.theme === 'dark' ? 'light' : 'dark'
@@ -91,14 +92,28 @@ class AppStore extends PersistableStore {
     }
   }
 
+  async checkTokenURI() {
+    await this.isMetaMaskConnected()
+    const contract = this.getContract()
+    if (contract && this.userAddress && this.userFrame) {
+      const tokenURI = await contract.tokenURI(this.userFrame)
+      console.log(tokenURI)
+      if (tokenURI) {
+        this.ipfsLink = tokenURI
+      } else {
+        this.ipfsLink = undefined
+      }
+    }
+  }
+
   async checkInvite() {
     await this.isMetaMaskConnected()
     const contract = this.getContract()
     if (contract && this.userAddress) {
-      const data = await contract.checkTokenId(this.userAddress)
-      const frame = +data._hex
-      if (frame && frame > 0) {
-        this.userFrame = frame - 1
+      const { _hex } = await contract.checkTokenId(this.userAddress)
+      const frame = +_hex
+      if (frame >= 0) {
+        this.userFrame = frame
       } else {
         this.userFrame = undefined
       }

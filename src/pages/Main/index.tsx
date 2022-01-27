@@ -115,8 +115,15 @@ const ethText = classnames(
   textOverflow('truncate')
 )
 
+const inviteText = classnames(
+  display('flex'),
+  flexDirection('flex-col'),
+  justifyContent('justify-center'),
+  alignItems('items-center')
+)
+
 function Main() {
-  const { theme, userAddress, userFrame } = useSnapshot(AppStore)
+  const { theme, userAddress, userFrame, ipfsLink } = useSnapshot(AppStore)
   const { framesToEth, loading, invited, mintAddress, mintLoading } = useNft()
   const {
     onTimeUpdate,
@@ -219,7 +226,7 @@ function Main() {
         </Link>
       </div>
 
-      {userAddress && !userFrame && (
+      {userAddress && userFrame === undefined && (
         <div className={marginBottom}>
           {invited ? (
             <Button
@@ -240,25 +247,34 @@ function Main() {
         </div>
       )}
 
-      {userAddress && userFrame && (
+      {userAddress && userFrame !== undefined && (
         <div className={marginBottom}>
           {mintLoading ? (
             <Loader />
           ) : (
-            <BodyText>
-              Your invite is #{userFrame},{' '}
-              <LinkText>
-                <button
-                  onClick={() => {
-                    if (AppStore.userFrame) {
-                      setDragFrame(AppStore.userFrame)
-                    }
-                  }}
-                >
-                  go check it out
-                </button>
-              </LinkText>
-            </BodyText>
+            <div className={inviteText}>
+              <BodyText>
+                Your invite is #{userFrame},{' '}
+                <LinkText>
+                  <button
+                    onClick={() => {
+                      if (AppStore.userFrame) {
+                        setDragFrame(AppStore.userFrame)
+                      }
+                    }}
+                  >
+                    go check it out
+                  </button>
+                </LinkText>
+              </BodyText>
+              {ipfsLink ? (
+                <LinkText>
+                  <a href="">
+                    Look at Your frame at the InterPlanetary File System
+                  </a>
+                </LinkText>
+              ) : undefined}
+            </div>
           )}
         </div>
       )}
