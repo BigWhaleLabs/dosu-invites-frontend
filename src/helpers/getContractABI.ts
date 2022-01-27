@@ -98,7 +98,12 @@ export default function getContractABI() {
           name: 'from',
           type: 'address',
         },
-        { indexed: true, internalType: 'address', name: 'to', type: 'address' },
+        {
+          indexed: true,
+          internalType: 'address',
+          name: 'to',
+          type: 'address',
+        },
         {
           indexed: true,
           internalType: 'uint256',
@@ -134,6 +139,13 @@ export default function getContractABI() {
       type: 'function',
     },
     {
+      inputs: [],
+      name: 'baseURI',
+      outputs: [{ internalType: 'string', name: '', type: 'string' }],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
       inputs: [{ internalType: 'address', name: '_owner', type: 'address' }],
       name: 'checkTokenId',
       outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
@@ -153,10 +165,14 @@ export default function getContractABI() {
       outputs: [
         {
           components: [
-            { internalType: 'address', name: 'ethAddress', type: 'address' },
+            {
+              internalType: 'address',
+              name: 'ethAddress',
+              type: 'address',
+            },
             { internalType: 'uint256', name: 'tokenId', type: 'uint256' },
           ],
-          internalType: 'struct DosuInvite.Invite[]',
+          internalType: 'struct DosuInvites.Invite[]',
           name: '',
           type: 'tuple[]',
         },
@@ -224,7 +240,7 @@ export default function getContractABI() {
       ],
       name: 'safeTransferFrom',
       outputs: [],
-      stateMutability: 'payable',
+      stateMutability: 'nonpayable',
       type: 'function',
     },
     {
@@ -236,7 +252,7 @@ export default function getContractABI() {
       ],
       name: 'safeTransferFrom',
       outputs: [],
-      stateMutability: 'payable',
+      stateMutability: 'nonpayable',
       type: 'function',
     },
     {
@@ -250,7 +266,16 @@ export default function getContractABI() {
       type: 'function',
     },
     {
-      inputs: [{ internalType: 'bytes4', name: 'interfaceId', type: 'bytes4' }],
+      inputs: [{ internalType: 'string', name: '_URI', type: 'string' }],
+      name: 'setBaseURI',
+      outputs: [],
+      stateMutability: 'nonpayable',
+      type: 'function',
+    },
+    {
+      inputs: [
+        { internalType: 'bytes4', name: '_interfaceId', type: 'bytes4' },
+      ],
       name: 'supportsInterface',
       outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
       stateMutability: 'view',
@@ -264,6 +289,44 @@ export default function getContractABI() {
       type: 'function',
     },
     {
+      inputs: [{ internalType: 'uint256', name: 'index', type: 'uint256' }],
+      name: 'tokenByIndex',
+      outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [],
+      name: 'tokenId',
+      outputs: [{ internalType: 'uint256', name: '_value', type: 'uint256' }],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [
+        { internalType: 'address', name: 'owner', type: 'address' },
+        { internalType: 'uint256', name: 'index', type: 'uint256' },
+      ],
+      name: 'tokenOfOwnerByIndex',
+      outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [{ internalType: 'uint256', name: '_tokenId', type: 'uint256' }],
+      name: 'tokenURI',
+      outputs: [{ internalType: 'string', name: '', type: 'string' }],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [],
+      name: 'totalSupply',
+      outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
       inputs: [
         { internalType: 'address', name: 'from', type: 'address' },
         { internalType: 'address', name: 'to', type: 'address' },
@@ -271,7 +334,7 @@ export default function getContractABI() {
       ],
       name: 'transferFrom',
       outputs: [],
-      stateMutability: 'payable',
+      stateMutability: 'nonpayable',
       type: 'function',
     },
     {
