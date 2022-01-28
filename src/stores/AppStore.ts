@@ -1,3 +1,4 @@
+import * as api from 'helpers/api'
 import { ethers } from 'ethers'
 import { proxy } from 'valtio'
 import Language from 'models/Language'
@@ -13,7 +14,7 @@ class AppStore extends PersistableStore {
   metaMaskInstalled = false
   userAddress = ''
   userFrame: number | undefined
-  ipfsLink: string | undefined
+  ipfsLink = ''
 
   toggleDark() {
     this.theme = this.theme === 'dark' ? 'light' : 'dark'
@@ -95,15 +96,16 @@ class AppStore extends PersistableStore {
   async checkTokenURI() {
     await this.isMetaMaskConnected()
     const contract = this.getContract()
-    if (contract && this.userAddress && this.userFrame) {
-      const tokenURI = await contract.tokenURI(this.userFrame)
-      console.log(tokenURI)
+    console.log('fetching tokenURI')
+    if (contract && this.userFrame !== undefined) {
+      const tokenURI = await api.getIpfsLink(this.userFrame)
       if (tokenURI) {
         this.ipfsLink = tokenURI
       } else {
-        this.ipfsLink = undefined
+        this.ipfsLink = ''
       }
     }
+    return this.ipfsLink
   }
 
   async checkInvite() {

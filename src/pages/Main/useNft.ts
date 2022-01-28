@@ -51,6 +51,7 @@ export default function useNft() {
 
   useEffect(() => {
     void getMintedAddresses()
+    void AppStore.checkTokenURI()
   }, [])
 
   useEffect(() => {
