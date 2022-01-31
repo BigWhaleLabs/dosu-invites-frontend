@@ -250,7 +250,7 @@ function Main() {
       {userAddress && userFrame !== undefined && (
         <div className={marginBottom}>
           {mintLoading ? (
-            <Loader />
+            <Loader size="small" />
           ) : (
             <div className={inviteText}>
               <BodyText>
