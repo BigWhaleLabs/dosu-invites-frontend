@@ -96,7 +96,6 @@ class AppStore extends PersistableStore {
   async checkTokenURI() {
     await this.isMetaMaskConnected()
     const contract = this.getContract()
-    console.log('fetching tokenURI')
     if (contract && this.userFrame !== undefined) {
       const tokenURI = await api.getIpfsLink(this.userFrame)
       if (tokenURI) {
