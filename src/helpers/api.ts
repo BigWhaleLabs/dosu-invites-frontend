@@ -15,8 +15,11 @@ export async function checkInvite(ethAddress: string) {
 }
 
 export async function getIpfsLink(tokenId: number) {
-  const { data }: AxiosResponse<string> = await Api.post('/invites/ipfs', {
-    tokenId,
-  })
+  const { data }: AxiosResponse<string | undefined> = await Api.post(
+    '/invites/ipfs',
+    {
+      tokenId,
+    }
+  )
   return data
 }

@@ -51,7 +51,6 @@ export default function useNft() {
 
   useEffect(() => {
     void getMintedAddresses()
-    void AppStore.checkTokenURI()
   }, [])
 
   useEffect(() => {
@@ -63,6 +62,9 @@ export default function useNft() {
 
     void checkUserInvite()
   }, [userAddress])
+
+  // По какому принципу одни функции стоит вынуть из стора, а другие оставить там?
+  // Какие переменные используются всеми компонентами?
 
   return {
     framesToEth,

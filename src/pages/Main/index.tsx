@@ -38,6 +38,7 @@ import Footer from 'components/Footer'
 import Loader from 'components/Loader'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
+import useIpfs from 'pages/Main/useIpfs'
 import useNft from 'pages/Main/useNft'
 import useVideo from 'pages/Main/useVideo'
 
@@ -123,8 +124,9 @@ const inviteText = classnames(
 )
 
 function Main() {
-  const { theme, userAddress, userFrame, ipfsLink } = useSnapshot(AppStore)
+  const { theme, userAddress, userFrame } = useSnapshot(AppStore)
   const { framesToEth, loading, invited, mintAddress, mintLoading } = useNft()
+  const { ipfsLink } = useIpfs()
   const {
     onTimeUpdate,
     setDragPause,
