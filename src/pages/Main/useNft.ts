@@ -6,7 +6,7 @@ import AppStore from 'stores/AppStore'
 import Invites from 'models/Invites'
 
 export default function useNft() {
-  const { userAddress, userFrame } = useSnapshot(AppStore)
+  const { userFrame } = useSnapshot(AppStore)
 
   const [loading, setLoading] = useState(false)
   const [invited, setInvited] = useState(false)
@@ -14,8 +14,8 @@ export default function useNft() {
   const [mintLoading, setMintLoading] = useState(false)
 
   const getMintedAddresses = async () => {
-    setLoading(true)
     try {
+      setLoading(true)
       setFramesToEth(await api.getMintedAddresses())
     } catch (error) {
       console.error(error)
@@ -25,17 +25,17 @@ export default function useNft() {
   }
 
   const mintAddress = async () => {
-    if (!userFrame) {
-      try {
-        setMintLoading(true)
-        await AppStore.mintNFT()
-        await AppStore.checkInvite()
-        await getMintedAddresses()
-        setMintLoading(false)
-      } catch (error) {
-        setMintLoading(false)
-        console.error(error)
-      }
+    if (userFrame) return
+
+    try {
+      setMintLoading(true)
+      await AppStore.mintNFT()
+      await AppStore.checkInvite()
+      await getMintedAddresses()
+      setMintLoading(false)
+    } catch (error) {
+      setMintLoading(false)
+      console.error(error)
     }
   }
 
@@ -46,22 +46,16 @@ export default function useNft() {
       setMintLoading(false)
     }
 
-    void checkInvite()
-  }, [])
-
-  useEffect(() => {
-    void getMintedAddresses()
-  }, [])
-
-  useEffect(() => {
     const checkUserInvite = async () => {
       if (AppStore.userAddress) {
         setInvited(await api.checkInvite(AppStore.userAddress))
       }
     }
 
+    void checkInvite()
+    void getMintedAddresses()
     void checkUserInvite()
-  }, [userAddress])
+  }, [])
 
   return {
     framesToEth,

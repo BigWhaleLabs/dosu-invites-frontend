@@ -94,14 +94,14 @@ class AppStore extends PersistableStore {
   async checkInvite() {
     await this.isMetaMaskConnected()
     const contract = this.getContract()
-    if (contract && this.userAddress) {
-      const { _hex } = await contract.checkTokenId(this.userAddress)
-      const frame = +_hex
-      if (frame >= 0) {
-        this.userFrame = frame
-      } else {
-        this.userFrame = undefined
-      }
+    if (!contract || !this.userAddress) return
+
+    const { _hex } = await contract.checkTokenId(this.userAddress)
+    const frame = +_hex
+    if (frame >= 0) {
+      this.userFrame = frame
+    } else {
+      this.userFrame = undefined
     }
   }
 
