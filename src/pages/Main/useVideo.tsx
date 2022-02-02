@@ -15,23 +15,23 @@ export default function useVideo() {
   const videoRef = useRef<HTMLVmVideoElement>(null)
 
   async function doSetVideo() {
-    if (videoRef.current) {
-      const adapter = await videoRef.current.getAdapter()
-      const player = await adapter.getInternalPlayer()
-      player.playbackRate = draggableGrid
-      setVideo(player)
-    }
+    if (!videoRef.current) return
+
+    const adapter = await videoRef.current.getAdapter()
+    const player = await adapter.getInternalPlayer()
+    player.playbackRate = draggableGrid
+    setVideo(player)
   }
 
   function reloadVideo(time?: number) {
-    if (video) {
-      video.pause()
-      video.load()
-      if (time) {
-        video.currentTime = time
-      }
-      video.pause()
+    if (!video) return
+
+    video.pause()
+    video.load()
+    if (time) {
+      video.currentTime = time
     }
+    video.pause()
   }
 
   useEffect(() => {
