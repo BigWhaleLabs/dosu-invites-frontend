@@ -36,6 +36,7 @@ import AppStore from 'stores/AppStore'
 import Draggable from 'react-draggable'
 import Footer from 'components/Footer'
 import Loader from 'components/Loader'
+import NftStore from 'stores/NftStore'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useIpfs from 'pages/Main/useIpfs'
@@ -124,7 +125,8 @@ const inviteText = classnames(
 )
 
 function Main() {
-  const { theme, userAddress, userFrame } = useSnapshot(AppStore)
+  const { userAddress, userFrame } = useSnapshot(NftStore)
+  const { theme } = useSnapshot(AppStore)
   const { framesToEth, loading, invited, mintAddress, mintLoading } = useNft()
   const { ipfsLink } = useIpfs()
   const {
@@ -234,7 +236,7 @@ function Main() {
             <Button
               onClick={async () => {
                 await mintAddress()
-                setTimeout(() => reloadVideo(AppStore.userFrame), 3000)
+                setTimeout(() => reloadVideo(NftStore.userFrame), 3000)
               }}
               loading={mintLoading}
             >
@@ -260,8 +262,8 @@ function Main() {
                 <LinkText>
                   <button
                     onClick={() => {
-                      if (AppStore.userFrame) {
-                        setDragFrame(AppStore.userFrame)
+                      if (NftStore.userFrame) {
+                        setDragFrame(NftStore.userFrame)
                       }
                     }}
                   >

@@ -4,9 +4,10 @@ import { useSnapshot } from 'valtio'
 import { useState } from 'react'
 import AppStore from 'stores/AppStore'
 import Invites from 'models/Invites'
+import NftStore from 'stores/NftStore'
 
 export default function useNft() {
-  const { userFrame } = useSnapshot(AppStore)
+  const { userFrame } = useSnapshot(NftStore)
 
   const [loading, setLoading] = useState(false)
   const [invited, setInvited] = useState(false)
@@ -29,8 +30,8 @@ export default function useNft() {
 
     try {
       setMintLoading(true)
-      await AppStore.mintNFT()
-      await AppStore.checkInvite()
+      await NftStore.mintNFT()
+      await NftStore.checkInvite()
       await getMintedAddresses()
       setMintLoading(false)
     } catch (error) {
@@ -42,13 +43,13 @@ export default function useNft() {
   useEffect(() => {
     async function checkInvite() {
       setMintLoading(true)
-      await AppStore.checkInvite()
+      await NftStore.checkInvite()
       setMintLoading(false)
     }
 
     const checkUserInvite = async () => {
-      if (AppStore.userAddress)
-        setInvited(await api.checkInvite(AppStore.userAddress))
+      if (NftStore.userAddress)
+        setInvited(await api.checkInvite(NftStore.userAddress))
     }
 
     void checkInvite()

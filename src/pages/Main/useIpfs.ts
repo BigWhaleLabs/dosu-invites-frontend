@@ -2,18 +2,18 @@ import * as api from 'helpers/api'
 import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import { useState } from 'react'
-import AppStore from 'stores/AppStore'
+import NftStore from 'stores/NftStore'
 
 export default function useNft() {
-  const { userFrame } = useSnapshot(AppStore)
+  const { userFrame } = useSnapshot(NftStore)
 
   const [ipfsLink, setIpfsLink] = useState<string>()
 
   useEffect(() => {
     async function checkTokenURI() {
-      if (AppStore.userFrame === undefined) return
+      if (NftStore.userFrame === undefined) return
 
-      const tokenURI = await api.getIpfsLink(AppStore.userFrame)
+      const tokenURI = await api.getIpfsLink(NftStore.userFrame)
 
       if (tokenURI) setIpfsLink(tokenURI)
     }
