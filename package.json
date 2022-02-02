@@ -7,9 +7,9 @@
     "build": "cross-env NODE_ENV=production tsc && vite build",
     "pretty": "prettier --check src",
     "lint": "yarn pretty && eslint --max-warnings 0 --ext ts,tsx,json src",
+    "prestart": "yarn generate-css-types && yarn generate-abi-types",
+    "prebuild": "yarn generate-css-types && yarn generate-a`bi-types",
     "generate-css-types": "tailwindcss-classnames -o src/classnames/tailwind.ts && prettier --write 'src/classnames/tailwind.ts'",
-    "prestart": "yarn generate-css-types",
-    "prebuild": "yarn generate-css-types",
     "generate-abi-types": "typechain --target=ethers-v5 'src/@types/abi.json' --out-dir 'src/helpers/abiTypes'"
   },
   "browserslist": {
