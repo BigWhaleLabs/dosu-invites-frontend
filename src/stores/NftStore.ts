@@ -3,16 +3,16 @@ import { ethers } from 'ethers'
 import { proxy } from 'valtio'
 import PersistableStore from 'stores/persistence/PersistableStore'
 
-export type Theme = 'dark' | 'light'
-
 const provider = new ethers.providers.Web3Provider(
   window.ethereum,
   import.meta.env.VITE_ETH_NETWORK as string
 )
 
+const signer = provider.getSigner()
+
 export const contract = Abi__factory.connect(
   import.meta.env.VITE_CONTRACT_ADDRESS as string,
-  provider.getSigner()
+  signer
 )
 
 class NftStore extends PersistableStore {
@@ -30,7 +30,6 @@ class NftStore extends PersistableStore {
 
   async connectMetaMask() {
     await provider.send('eth_requestAccounts', [])
-    const signer = provider.getSigner()
     this.userAddress = await signer.getAddress()
   }
 

@@ -2,7 +2,6 @@ import * as api from 'helpers/api'
 import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import { useState } from 'react'
-import AppStore from 'stores/AppStore'
 import Invites from 'models/Invites'
 import NftStore from 'stores/NftStore'
 
