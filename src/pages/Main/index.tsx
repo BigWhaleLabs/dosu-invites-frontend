@@ -251,7 +251,7 @@ function Main() {
         </div>
       )}
 
-      {userAddress && tokenId && (
+      {userAddress && tokenId > 0 && (
         <div className={marginBottom}>
           {mintLoading ? (
             <Loader size="small" />
