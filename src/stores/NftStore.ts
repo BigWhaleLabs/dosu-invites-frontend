@@ -10,7 +10,7 @@ const provider = new ethers.providers.Web3Provider(
 
 const signer = provider.getSigner()
 
-export const contract = Abi__factory.connect(
+const contract = Abi__factory.connect(
   import.meta.env.VITE_CONTRACT_ADDRESS as string,
   signer
 )

@@ -25,7 +25,7 @@ export default function useNft() {
   }
 
   const mintAddress = async () => {
-    if (userFrame) return
+    if (userFrame && userFrame >= 0) return
 
     try {
       setMintLoading(true)
