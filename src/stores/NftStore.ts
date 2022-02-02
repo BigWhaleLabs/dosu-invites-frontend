@@ -1,23 +1,33 @@
+import { Abi } from 'helpers/abiTypes/Abi'
 import { Abi__factory } from 'helpers/abiTypes/factories/Abi__factory'
-import { ethers } from 'ethers'
+import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
 import PersistableStore from 'stores/persistence/PersistableStore'
 
-const provider = new ethers.providers.Web3Provider(
-  window.ethereum,
-  import.meta.env.VITE_ETH_NETWORK as string
-)
+let provider: Web3Provider
+let contract: Abi
 
-const signer = provider.getSigner()
+if (window.ethereum) {
+  provider = new Web3Provider(
+    window.ethereum,
+    import.meta.env.VITE_ETH_NETWORK as string
+  )
 
-const contract = Abi__factory.connect(
-  import.meta.env.VITE_CONTRACT_ADDRESS as string,
-  signer
-)
+  contract = Abi__factory.connect(
+    import.meta.env.VITE_CONTRACT_ADDRESS as string,
+    provider.getSigner()
+  )
+}
 
 class NftStore extends PersistableStore {
   userAddress = ''
   tokenId = 0
+
+  getProvider() {
+    if (!provider) return undefined
+
+    return provider
+  }
 
   async checkMetaMask() {
     if (!provider) {
@@ -30,8 +40,10 @@ class NftStore extends PersistableStore {
   }
 
   async connectMetaMask() {
+    if (!provider) return
+
     await provider.send('eth_requestAccounts', [])
-    this.userAddress = await signer.getAddress()
+    this.userAddress = await provider.getSigner().getAddress()
   }
 
   async handleAccountChanged(accounts: string[]) {
@@ -65,6 +77,8 @@ class NftStore extends PersistableStore {
   }
 
   async mintNFT() {
+    if (!contract) return
+
     const transaction = await contract.mint(this.userAddress)
     await transaction.wait()
   }

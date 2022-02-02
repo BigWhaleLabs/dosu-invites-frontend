@@ -274,7 +274,7 @@ function Main() {
               {ipfsLink ? (
                 <LinkText>
                   <a href={ipfsLink} target="_blank">
-                    Look at Your frame at the InterPlanetary File System
+                    Look at Your frame at the InterPlanetary File System (IPFS)
                   </a>
                 </LinkText>
               ) : undefined}
