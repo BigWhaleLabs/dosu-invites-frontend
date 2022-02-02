@@ -14,9 +14,8 @@ export default function useNft() {
       if (AppStore.userFrame === undefined) return
 
       const tokenURI = await api.getIpfsLink(AppStore.userFrame)
-      if (tokenURI) {
-        setIpfsLink(tokenURI)
-      }
+
+      if (tokenURI) setIpfsLink(tokenURI)
     }
 
     void checkTokenURI()

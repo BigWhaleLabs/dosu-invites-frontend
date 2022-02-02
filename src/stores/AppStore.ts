@@ -36,12 +36,11 @@ class AppStore extends PersistableStore {
   async connectMetaMask() {
     const provider = this.getProvider()
 
-    if (provider) {
-      await provider.send('eth_requestAccounts', [])
+    if (!provider) return
 
-      const signer = provider.getSigner()
-      this.userAddress = await signer.getAddress()
-    }
+    await provider.send('eth_requestAccounts', [])
+    const signer = provider.getSigner()
+    this.userAddress = await signer.getAddress()
   }
 
   handleAccountChanged(accounts: string[]) {
@@ -63,32 +62,33 @@ class AppStore extends PersistableStore {
   }
 
   getProvider() {
-    if (window.ethereum) {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum,
-        import.meta.env.VITE_ETH_NETWORK as string
-      )
-      this.metaMaskInstalled = true
-      return provider
-    } else {
+    if (!window.ethereum) {
       this.metaMaskInstalled = false
+      return
     }
+
+    const provider = new ethers.providers.Web3Provider(
+      window.ethereum,
+      import.meta.env.VITE_ETH_NETWORK as string
+    )
+    this.metaMaskInstalled = true
+    return provider
   }
 
   getContract() {
     const provider = this.getProvider()
+    if (!provider) return
+
     const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS as string
     const contractAbi = getContractABI()
 
-    if (provider) {
-      const contract = new ethers.Contract(
-        contractAddress,
-        contractAbi,
-        provider.getSigner()
-      )
+    const contract = new ethers.Contract(
+      contractAddress,
+      contractAbi,
+      provider.getSigner()
+    )
 
-      return contract
-    }
+    return contract
   }
 
   async checkInvite() {
@@ -107,10 +107,10 @@ class AppStore extends PersistableStore {
 
   async mintNFT() {
     const contract = this.getContract()
-    if (contract) {
-      const transaction = await contract.mint(this.userAddress)
-      await transaction.wait()
-    }
+    if (!contract) return
+
+    const transaction = await contract.mint(this.userAddress)
+    await transaction.wait()
   }
 }
 

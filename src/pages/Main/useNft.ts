@@ -47,9 +47,8 @@ export default function useNft() {
     }
 
     const checkUserInvite = async () => {
-      if (AppStore.userAddress) {
+      if (AppStore.userAddress)
         setInvited(await api.checkInvite(AppStore.userAddress))
-      }
     }
 
     void checkInvite()
