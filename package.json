@@ -10,7 +10,8 @@
     "prestart": "yarn generate-css-types && yarn generate-abi-types",
     "prebuild": "yarn generate-css-types && yarn generate-a`bi-types",
     "generate-css-types": "tailwindcss-classnames -o src/classnames/tailwind.ts && prettier --write 'src/classnames/tailwind.ts'",
-    "generate-abi-types": "typechain --target=ethers-v5 'src/@types/abi.json' --out-dir 'src/helpers/abiTypes'"
+    "generate-abi-types": "typechain --target=ethers-v5 'src/@types/abi.json' --out-dir 'src/helpers/abiTypes'",
+    "fix": "prettier --write src/ && eslint --fix src/"
   },
   "browserslist": {
     "production": [
