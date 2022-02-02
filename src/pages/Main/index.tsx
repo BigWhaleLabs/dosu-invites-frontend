@@ -1,7 +1,6 @@
 import { BodyText, LinkText } from 'components/Text'
 import { Button } from 'components/Button'
 import { DefaultUi, Player, Poster, Video } from '@vime/react'
-import { Link } from 'react-router-dom'
 import {
   alignItems,
   backgroundColor,
@@ -222,12 +221,15 @@ function Main() {
       <div className={ethAddressBox}>
         <BodyText>ETH ADDRESS</BodyText>
 
-        <Link
-          to={{ pathname: `https://etherscan.io/address/${ethAddress}` }}
-          target="_blank"
-        >
-          <p className={ethText}>{ethAddress}</p>
-        </Link>
+        <LinkText>
+          <a
+            href={`https://etherscan.io/address/${ethAddress}`}
+            target="_blank"
+            className={ethText}
+          >
+            {ethAddress}
+          </a>
+        </LinkText>
       </div>
 
       {userAddress && !tokenId && (
