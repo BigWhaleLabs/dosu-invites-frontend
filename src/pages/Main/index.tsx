@@ -125,7 +125,7 @@ const inviteText = classnames(
 )
 
 function Main() {
-  const { userAddress, userFrame } = useSnapshot(NftStore)
+  const { userAddress, tokenId } = useSnapshot(NftStore)
   const { theme } = useSnapshot(AppStore)
   const { framesToEth, loading, invited, mintAddress, mintLoading } = useNft()
   const { ipfsLink } = useIpfs()
@@ -207,9 +207,9 @@ function Main() {
               onStop={() => setDragPause(false)}
             >
               <div className={draggableText}>
-                {Object.keys(framesToEth).map((tokenId) => (
+                {Object.keys(framesToEth).map((frameId) => (
                   <div className={draggableSymbolBox}>
-                    <p className={draggableSymbol}>{+tokenId}</p>
+                    <p className={draggableSymbol}>{+frameId}</p>
                   </div>
                 ))}
               </div>
@@ -230,13 +230,13 @@ function Main() {
         </Link>
       </div>
 
-      {userAddress && userFrame === undefined && (
+      {userAddress && tokenId === undefined && (
         <div className={marginBottom}>
           {invited ? (
             <Button
               onClick={async () => {
                 await mintAddress()
-                setTimeout(() => reloadVideo(NftStore.userFrame), 3000)
+                setTimeout(() => reloadVideo(NftStore.tokenId), 3000)
               }}
               loading={mintLoading}
             >
@@ -251,19 +251,19 @@ function Main() {
         </div>
       )}
 
-      {userAddress && userFrame !== undefined && (
+      {userAddress && tokenId !== undefined && (
         <div className={marginBottom}>
           {mintLoading ? (
             <Loader size="small" />
           ) : (
             <div className={inviteText}>
               <BodyText>
-                Your invite is #{userFrame},{' '}
+                Your invite is #{tokenId},{' '}
                 <LinkText>
                   <button
                     onClick={() => {
-                      if (NftStore.userFrame) {
-                        setDragFrame(NftStore.userFrame)
+                      if (NftStore.tokenId) {
+                        setDragFrame(NftStore.tokenId)
                       }
                     }}
                   >

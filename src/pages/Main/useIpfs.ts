@@ -5,21 +5,21 @@ import { useState } from 'react'
 import NftStore from 'stores/NftStore'
 
 export default function useNft() {
-  const { userFrame } = useSnapshot(NftStore)
+  const { tokenId } = useSnapshot(NftStore)
 
   const [ipfsLink, setIpfsLink] = useState<string>()
 
   useEffect(() => {
     async function checkTokenURI() {
-      if (NftStore.userFrame === undefined) return
+      if (NftStore.tokenId === undefined) return
 
-      const tokenURI = await api.getIpfsLink(NftStore.userFrame)
+      const tokenURI = await api.getIpfsLink(NftStore.tokenId)
 
       if (tokenURI) setIpfsLink(tokenURI)
     }
 
     void checkTokenURI()
-  }, [userFrame])
+  }, [tokenId])
 
   return {
     ipfsLink,

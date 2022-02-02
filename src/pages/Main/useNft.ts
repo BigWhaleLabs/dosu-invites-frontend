@@ -6,7 +6,7 @@ import Invites from 'models/Invites'
 import NftStore from 'stores/NftStore'
 
 export default function useNft() {
-  const { userFrame } = useSnapshot(NftStore)
+  const { tokenId } = useSnapshot(NftStore)
 
   const [loading, setLoading] = useState(false)
   const [invited, setInvited] = useState(false)
@@ -25,12 +25,12 @@ export default function useNft() {
   }
 
   const mintAddress = async () => {
-    if (userFrame && userFrame >= 0) return
+    if (tokenId && tokenId >= 0) return
 
     try {
       setMintLoading(true)
       await NftStore.mintNFT()
-      await NftStore.checkInvite()
+      await NftStore.checkTokenId()
       await getMintedAddresses()
       setMintLoading(false)
     } catch (error) {
@@ -42,7 +42,7 @@ export default function useNft() {
   useEffect(() => {
     async function checkInvite() {
       setMintLoading(true)
-      await NftStore.checkInvite()
+      await NftStore.checkTokenId()
       setMintLoading(false)
     }
 
