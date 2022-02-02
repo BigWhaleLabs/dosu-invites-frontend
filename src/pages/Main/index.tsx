@@ -146,8 +146,8 @@ function Main() {
   const [ethAddress, setEthAddress] = useState('0x')
 
   useEffect(() => {
-    if (framesToEth[frame]) {
-      setEthAddress(framesToEth[frame])
+    if (framesToEth[frame + 1]) {
+      setEthAddress(framesToEth[frame + 1])
     }
   }, [frame, framesToEth])
 
@@ -262,9 +262,7 @@ function Main() {
                 <LinkText>
                   <button
                     onClick={() => {
-                      if (NftStore.tokenId) {
-                        setDragFrame(NftStore.tokenId)
-                      }
+                      setDragFrame(NftStore.tokenId)
                     }}
                   >
                     go check it out
