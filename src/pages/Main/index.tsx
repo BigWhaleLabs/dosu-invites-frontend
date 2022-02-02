@@ -230,7 +230,7 @@ function Main() {
         </Link>
       </div>
 
-      {userAddress && tokenId === undefined && (
+      {userAddress && !tokenId && (
         <div className={marginBottom}>
           {invited ? (
             <Button
@@ -251,7 +251,7 @@ function Main() {
         </div>
       )}
 
-      {userAddress && tokenId !== undefined && (
+      {userAddress && tokenId && (
         <div className={marginBottom}>
           {mintLoading ? (
             <Loader size="small" />

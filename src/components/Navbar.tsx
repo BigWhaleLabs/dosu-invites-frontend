@@ -58,10 +58,10 @@ function Navbar() {
   const { userAddress } = useSnapshot(NftStore)
   const { md } = useBreakpoints()
   const isSafari = userAgent() === UserAgent.Safari
-  const isNotSupportedMobile = mobileCheck() && !NftStore.metaMaskInstalled
+  const isNotSupportedMobile = mobileCheck() && !NftStore.userAddress
 
   useEffect(() => {
-    void NftStore.isMetaMaskConnected()
+    void NftStore.checkMetaMask()
   }, [])
 
   return (

@@ -16,15 +16,16 @@ const contract = Abi__factory.connect(
 )
 
 class NftStore extends PersistableStore {
-  metaMaskInstalled = false
   userAddress = ''
-  tokenId: number | undefined
+  tokenId = 0
 
-  async isMetaMaskConnected() {
-    if (!provider) this.userAddress = ''
+  async checkMetaMask() {
+    if (!provider) {
+      this.userAddress = ''
+      return
+    }
 
-    const accounts = await provider.listAccounts()
-    this.handleAccountChanged(accounts)
+    await this.handleAccountChanged(await provider.listAccounts())
     this.setupListeners()
   }
 
@@ -33,11 +34,12 @@ class NftStore extends PersistableStore {
     this.userAddress = await signer.getAddress()
   }
 
-  handleAccountChanged(accounts: string[]) {
+  async handleAccountChanged(accounts: string[]) {
     if (accounts.length === 0) {
       this.userAddress = ''
     } else if (accounts[0] !== this.userAddress) {
       this.userAddress = accounts[0]
+      await this.checkTokenId()
     }
   }
 
@@ -46,23 +48,8 @@ class NftStore extends PersistableStore {
       console.error(error)
     })
     window.ethereum.on('accountsChanged', async (accounts: string[]) => {
-      this.handleAccountChanged(accounts)
-      await this.checkTokenId()
+      await this.handleAccountChanged(accounts)
     })
-  }
-
-  checkProvider() {
-    if (!provider) {
-      this.metaMaskInstalled = false
-      return
-    }
-
-    this.metaMaskInstalled = true
-    return provider
-  }
-
-  getContract() {
-    return contract
   }
 
   async checkTokenId() {
@@ -70,10 +57,10 @@ class NftStore extends PersistableStore {
 
     const { _hex } = await contract.checkTokenId(this.userAddress)
     const tokenId = +_hex
-    if (tokenId >= 0) {
+
+    if (tokenId) {
       this.tokenId = tokenId
-    } else {
-      this.tokenId = undefined
+      return
     }
   }
 
