@@ -51,6 +51,5 @@
       }
     ],
     "import/prefer-default-export": "error"
-  },
-  "ignorePatterns": ["src/types"]
+  }
 }
