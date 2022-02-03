@@ -6,7 +6,7 @@ import Invites from 'models/Invites'
 import NftStore from 'stores/NftStore'
 
 export default function useNft() {
-  const { tokenId } = useSnapshot(NftStore)
+  const { tokenId, userAddress } = useSnapshot(NftStore)
 
   const [loading, setLoading] = useState(false)
   const [invited, setInvited] = useState(false)
@@ -46,15 +46,18 @@ export default function useNft() {
       setMintLoading(false)
     }
 
+    void checkInvite()
+    void getMintedAddresses()
+  }, [])
+
+  useEffect(() => {
     const checkUserInvite = async () => {
       if (NftStore.userAddress)
         setInvited(await api.checkInvite(NftStore.userAddress))
     }
 
-    void checkInvite()
-    void getMintedAddresses()
     void checkUserInvite()
-  }, [])
+  }, [userAddress])
 
   return {
     framesToEth,

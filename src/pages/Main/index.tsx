@@ -124,7 +124,7 @@ const inviteText = classnames(
 )
 
 function Main() {
-  const { userAddress, tokenId } = useSnapshot(NftStore)
+  const { userAddress } = useSnapshot(NftStore)
   const { theme } = useSnapshot(AppStore)
   const { framesToEth, loading, invited, mintAddress, mintLoading } = useNft()
   const { ipfsLink } = useIpfs()
@@ -145,8 +145,8 @@ function Main() {
   const [ethAddress, setEthAddress] = useState('0x')
 
   useEffect(() => {
-    if (framesToEth[frame + 1]) {
-      setEthAddress(framesToEth[frame + 1])
+    if (framesToEth[frame]) {
+      setEthAddress(framesToEth[frame])
     }
   }, [frame, framesToEth])
 
@@ -232,7 +232,7 @@ function Main() {
         </LinkText>
       </div>
 
-      {userAddress && !tokenId && (
+      {userAddress && NftStore.tokenId === undefined && (
         <div className={marginBottom}>
           {invited ? (
             <Button
@@ -246,25 +246,27 @@ function Main() {
             </Button>
           ) : (
             <BodyText>
-              Your Ethereum address wasn't whitelisted for Dosu Invite NFTs. Try
+              Your Ethereum address wasn't allowlisted for Dosu Invite NFTs. Try
               another one?
             </BodyText>
           )}
         </div>
       )}
 
-      {userAddress && tokenId > 0 && (
+      {userAddress && NftStore.tokenId !== undefined && (
         <div className={marginBottom}>
           {mintLoading ? (
             <Loader size="small" />
           ) : (
             <div className={inviteText}>
               <BodyText>
-                Your invite is #{tokenId},{' '}
+                Your invite is #{NftStore.tokenId},{' '}
                 <LinkText>
                   <button
                     onClick={() => {
-                      setDragFrame(NftStore.tokenId)
+                      if (NftStore.tokenId !== undefined) {
+                        setDragFrame(NftStore.tokenId)
+                      }
                     }}
                   >
                     go check it out

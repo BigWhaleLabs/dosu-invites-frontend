@@ -21,7 +21,7 @@ if (window.ethereum) {
 
 class NftStore extends PersistableStore {
   userAddress = ''
-  tokenId = 0
+  tokenId: number | undefined
 
   getProvider() {
     if (!provider) return undefined
@@ -49,6 +49,7 @@ class NftStore extends PersistableStore {
   async handleAccountChanged(accounts: string[]) {
     if (accounts.length === 0) {
       this.userAddress = ''
+      this.tokenId = undefined
     } else if (accounts[0] !== this.userAddress) {
       this.userAddress = accounts[0]
       await this.checkTokenId()
@@ -67,13 +68,15 @@ class NftStore extends PersistableStore {
   async checkTokenId() {
     if (!contract || !this.userAddress) return
 
+    if (!+(await contract.balanceOf(this.userAddress))) {
+      this.tokenId = undefined
+      return
+    }
+
     const { _hex } = await contract.checkTokenId(this.userAddress)
     const tokenId = +_hex
 
-    if (tokenId) {
-      this.tokenId = tokenId
-      return
-    }
+    this.tokenId = tokenId
   }
 
   async mintNFT() {
