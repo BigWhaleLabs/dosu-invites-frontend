@@ -4,14 +4,14 @@
   "license": "MIT",
   "scripts": {
     "start": "vite",
-    "prepare": "yarn generate-abi-types & yarn generate-css-types",
-    "postinstall": "yarn prepare",
     "build": "cross-env NODE_ENV=production tsc && vite build",
     "pretty": "prettier --check src",
     "lint": "yarn pretty && eslint --max-warnings 0 --ext ts,tsx src",
+    "fix-style": "prettier --write src/ && eslint --fix src/",
+    "postinstall": "yarn prepare",
+    "prepare": "yarn generate-abi-types & yarn generate-css-types",
     "generate-css-types": "tailwindcss-classnames -o src/classnames/tailwind.ts && prettier --write 'src/classnames/tailwind.ts'",
-    "generate-abi-types": "typechain --target=ethers-v5 'src/@types/abi.json' --out-dir 'src/helpers/abiTypes'",
-    "fix-style": "prettier --write src/ && eslint --fix src/"
+    "generate-abi-types": "typechain --target=ethers-v5 'src/@types/abi.json' --out-dir 'src/helpers/abiTypes'"
   },
   "browserslist": {
     "production": [
