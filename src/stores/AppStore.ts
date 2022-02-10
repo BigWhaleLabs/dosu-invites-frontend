@@ -9,16 +9,10 @@ export enum Theme {
 
 class AppStore extends PersistableStore {
   language: Language = Language.en
-  theme: Theme = this.useThemeDetector()
+  theme: Theme = this.usePreferredTheme()
   cookieAccepted = false
 
-  useThemeDetector() {
-    window
-      .matchMedia('(prefers-color-scheme: dark)')
-      .addEventListener('change', () => {
-        this.toggleDark()
-      })
-
+  usePreferredTheme() {
     return window.matchMedia('(prefers-color-scheme: dark)').matches
       ? Theme.dark
       : Theme.light
