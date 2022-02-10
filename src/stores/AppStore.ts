@@ -2,15 +2,30 @@ import { proxy } from 'valtio'
 import Language from 'models/Language'
 import PersistableStore from 'stores/persistence/PersistableStore'
 
-export type Theme = 'dark' | 'light'
+export enum Theme {
+  dark = 'dark',
+  light = 'light',
+}
 
 class AppStore extends PersistableStore {
   language: Language = Language.en
-  theme: Theme = 'dark'
+  theme: Theme = this.useThemeDetector()
   cookieAccepted = false
 
+  useThemeDetector() {
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', () => {
+        this.toggleDark()
+      })
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? Theme.dark
+      : Theme.light
+  }
+
   toggleDark() {
-    this.theme = this.theme === 'dark' ? 'light' : 'dark'
+    this.theme = this.theme === Theme.dark ? Theme.light : Theme.dark
   }
 
   acceptCookie() {
