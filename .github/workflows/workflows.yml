@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install modules
         run: yarn
-      - name: Pretty the code for linter
+      - name: Fix the types for linter
         run: yarn fix
       - name: Compile code
         run: yarn tsc --skipLibCheck
