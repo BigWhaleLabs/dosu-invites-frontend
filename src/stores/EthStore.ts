@@ -3,12 +3,37 @@ import { Abi__factory } from 'helpers/abiTypes/factories/Abi__factory'
 import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
 import PersistableStore from 'stores/persistence/PersistableStore'
+import Torus from '@toruslabs/torus-embed'
+import WalletConnect from '@walletconnect/web3-provider'
+import Web3Modal from 'web3modal'
 
 let provider: Web3Provider
 let contract: Abi
 
+const infuraId = process.env.VITE_INFURA_ID
+
 if (window.ethereum) {
-  provider = new Web3Provider(window.ethereum)
+  const providerOptions = {
+    binancechainwallet: {
+      package: true,
+    },
+    walletconnect: {
+      package: WalletConnect,
+      options: {
+        infuraId,
+      },
+    },
+    torus: {
+      package: Torus,
+    },
+  }
+
+  const web3Modal = new Web3Modal({
+    cacheProvider: true,
+    providerOptions,
+  })
+
+  provider = new Web3Provider(await web3Modal.connect())
 
   contract = Abi__factory.connect(
     import.meta.env.VITE_CONTRACT_ADDRESS as string,
@@ -36,7 +61,7 @@ class EthStore extends PersistableStore {
     this.setupListeners()
   }
 
-  async connectMetaMask() {
+  async connectProvider() {
     if (!provider) return
 
     await provider.send('eth_requestAccounts', [])

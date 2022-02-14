@@ -27,9 +27,11 @@
   },
   "dependencies": {
     "@borodutch-labs/localize-react": "^1.7.6",
+    "@toruslabs/torus-embed": "^1.20.4",
     "@vime/core": "^5.3.1",
     "@vime/react": "^5.3.1",
     "@vitejs/plugin-react": "^1.1.4",
+    "@walletconnect/web3-provider": "^1.7.1",
     "axios": "^0.25.0",
     "ethers": "^5.5.4",
     "mobx": "^6.3.13",
@@ -42,7 +44,8 @@
     "react-spring": "^9.4.2",
     "tailwind-scrollbar-hide": "^1.1.7",
     "unfetch": "^4.2.0",
-    "valtio": "^1.2.11"
+    "valtio": "^1.2.11",
+    "web3modal": "^1.9.5"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.1.7",
