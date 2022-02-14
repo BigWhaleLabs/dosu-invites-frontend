@@ -8,10 +8,7 @@ let provider: Web3Provider
 let contract: Abi
 
 if (window.ethereum) {
-  provider = new Web3Provider(
-    window.ethereum,
-    import.meta.env.VITE_ETH_NETWORK as string
-  )
+  provider = new Web3Provider(window.ethereum)
 
   contract = Abi__factory.connect(
     import.meta.env.VITE_CONTRACT_ADDRESS as string,
