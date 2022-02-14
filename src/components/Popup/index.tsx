@@ -23,7 +23,7 @@ import {
   zIndex,
 } from 'classnames/tailwind'
 import Cross from 'icons/Cross'
-import NftStore from 'stores/NftStore'
+import EthStore from 'stores/EthStore'
 import usePopUp from 'components/Popup/usePopup'
 
 interface PopupProps {
@@ -96,7 +96,7 @@ const Popup: FC<PopupProps> = ({
   const { showPopup, togglePopup } = usePopUp()
 
   const activatorButton = activator ? (
-    <div onClick={() => !NftStore.getProvider() && togglePopup()}>
+    <div onClick={() => !EthStore.getProvider() && togglePopup()}>
       {activator}
     </div>
   ) : (

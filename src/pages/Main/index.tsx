@@ -33,9 +33,9 @@ import { useEffect, useState } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import AppStore from 'stores/AppStore'
 import Draggable from 'react-draggable'
+import EthStore from 'stores/EthStore'
 import Footer from 'components/Footer'
 import Loader from 'components/Loader'
-import NftStore from 'stores/NftStore'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useIpfs from 'pages/Main/useIpfs'
@@ -124,7 +124,7 @@ const inviteText = classnames(
 )
 
 function Main() {
-  const { userAddress } = useSnapshot(NftStore)
+  const { userAddress } = useSnapshot(EthStore)
   const { theme } = useSnapshot(AppStore)
   const { framesToEth, loading, invited, mintAddress, mintLoading } = useNft()
   const { ipfsLink } = useIpfs()
@@ -232,13 +232,13 @@ function Main() {
         </LinkText>
       </div>
 
-      {userAddress && NftStore.tokenId === undefined && (
+      {userAddress && EthStore.tokenId === undefined && (
         <div className={marginBottom}>
           {invited ? (
             <Button
               onClick={async () => {
                 await mintAddress()
-                setTimeout(() => reloadVideo(NftStore.tokenId), 3000)
+                setTimeout(() => reloadVideo(EthStore.tokenId), 3000)
               }}
               loading={mintLoading}
             >
@@ -253,19 +253,19 @@ function Main() {
         </div>
       )}
 
-      {userAddress && NftStore.tokenId !== undefined && (
+      {userAddress && EthStore.tokenId !== undefined && (
         <div className={marginBottom}>
           {mintLoading ? (
             <Loader size="small" />
           ) : (
             <div className={inviteText}>
               <BodyText>
-                Your invite is #{NftStore.tokenId},{' '}
+                Your invite is #{EthStore.tokenId},{' '}
                 <LinkText>
                   <button
                     onClick={() => {
-                      if (NftStore.tokenId !== undefined) {
-                        setDragFrame(NftStore.tokenId)
+                      if (EthStore.tokenId !== undefined) {
+                        setDragFrame(EthStore.tokenId)
                       }
                     }}
                   >

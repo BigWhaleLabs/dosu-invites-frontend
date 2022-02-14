@@ -2,11 +2,11 @@ import * as api from 'helpers/api'
 import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import { useState } from 'react'
+import EthStore from 'stores/EthStore'
 import Invites from 'models/Invites'
-import NftStore from 'stores/NftStore'
 
 export default function useNft() {
-  const { tokenId, userAddress } = useSnapshot(NftStore)
+  const { tokenId, userAddress } = useSnapshot(EthStore)
 
   const [loading, setLoading] = useState(false)
   const [invited, setInvited] = useState(false)
@@ -29,8 +29,8 @@ export default function useNft() {
 
     try {
       setMintLoading(true)
-      await NftStore.mintNFT()
-      await NftStore.checkTokenId()
+      await EthStore.mintNFT()
+      await EthStore.checkTokenId()
       await getMintedAddresses()
       setMintLoading(false)
     } catch (error) {
@@ -42,7 +42,7 @@ export default function useNft() {
   useEffect(() => {
     async function checkInvite() {
       setMintLoading(true)
-      await NftStore.checkTokenId()
+      await EthStore.checkTokenId()
       setMintLoading(false)
     }
 
@@ -52,8 +52,8 @@ export default function useNft() {
 
   useEffect(() => {
     const checkUserInvite = async () => {
-      if (NftStore.userAddress)
-        setInvited(await api.checkInvite(NftStore.userAddress))
+      if (EthStore.userAddress)
+        setInvited(await api.checkInvite(EthStore.userAddress))
     }
 
     void checkUserInvite()

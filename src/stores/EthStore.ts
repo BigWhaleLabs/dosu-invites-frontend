@@ -19,7 +19,7 @@ if (window.ethereum) {
   )
 }
 
-class NftStore extends PersistableStore {
+class EthStore extends PersistableStore {
   userAddress = ''
   tokenId: number | undefined
 
@@ -87,4 +87,4 @@ class NftStore extends PersistableStore {
   }
 }
 
-export default proxy(new NftStore()).makePersistent()
+export default proxy(new EthStore()).makePersistent()

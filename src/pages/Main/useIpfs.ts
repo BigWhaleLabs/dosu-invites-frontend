@@ -2,18 +2,18 @@ import * as api from 'helpers/api'
 import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import { useState } from 'react'
-import NftStore from 'stores/NftStore'
+import EthStore from 'stores/EthStore'
 
 export default function useNft() {
-  const { tokenId } = useSnapshot(NftStore)
+  const { tokenId } = useSnapshot(EthStore)
 
   const [ipfsLink, setIpfsLink] = useState<string>()
 
   useEffect(() => {
     async function checkTokenURI() {
-      if (NftStore.tokenId === undefined) return
+      if (EthStore.tokenId === undefined) return
 
-      const tokenURI = await api.getIpfsLink(NftStore.tokenId)
+      const tokenURI = await api.getIpfsLink(EthStore.tokenId)
 
       if (tokenURI) setIpfsLink(tokenURI)
     }
