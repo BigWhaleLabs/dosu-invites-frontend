@@ -82,25 +82,25 @@ function Navbar() {
             activator={
               <Button
                 circle
-                onClick={async () => await EthStore.connectMetaMask()}
+                onClick={async () => await EthStore.connectProvider()}
                 outlined={!md}
               >
-                {md ? 'Connect MetaMask to claim your invite' : <MetaMask />}
+                {md ? 'Connect Eth Wallet to claim your invite' : <MetaMask />}
               </Button>
             }
             title={
               isNotSupportedMobile
                 ? 'Please use the MetaMask app'
                 : isSafari
-                ? 'MetaMask is not supported'
-                : 'MetaMask is not installed'
+                ? 'Eth Wallets are not supported'
+                : 'Eth Wallet is not installed'
             }
             body={
               isNotSupportedMobile
-                ? 'To use Web3 technologies, please use a browser with the MetaMask extension'
+                ? 'To use Web3 technologies, please use a browser with the Eth Wallet extension'
                 : isSafari
-                ? 'Safari does not support MetaMask, please, use another browser'
-                : 'To use Web3 technologies, please, install MetaMask extension for your browser'
+                ? 'Safari does not support Eth Wallets, please, use another browser'
+                : 'To use Web3 technologies, please, install Eth Wallet extension for your browser'
             }
             confirmTitle="Okay, thanks"
           />
