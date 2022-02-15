@@ -17,6 +17,7 @@ import {
   zIndex,
 } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
+import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import CryptoWallet from 'icons/CryptoWallet'
 import EthStore from 'stores/EthStore'
@@ -58,6 +59,11 @@ function Navbar() {
   const { md } = useBreakpoints()
   const isSafari = userAgent() === UserAgent.Safari
   const isNotSupportedMobile = mobileCheck() && !EthStore.userAddress
+
+  useEffect(() => {
+    // TODO: add this into the store itself
+    EthStore.setupListeners()
+  }, [])
 
   return (
     <nav className={navbar}>

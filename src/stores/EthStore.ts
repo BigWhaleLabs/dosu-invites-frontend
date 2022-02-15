@@ -30,7 +30,6 @@ class EthStore extends PersistableStore {
       provider = new Web3Provider(web3Modal)
 
       await this.handleAccountChanged(await provider.listAccounts())
-      this.setupListeners()
 
       contract = Abi__factory.connect(
         import.meta.env.VITE_CONTRACT_ADDRESS as string,
@@ -52,6 +51,8 @@ class EthStore extends PersistableStore {
   }
 
   setupListeners() {
+    if (!window.ethereum.on) return
+
     window.ethereum.on('error', (error: Error) => {
       console.error(error)
     })
