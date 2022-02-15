@@ -19,9 +19,9 @@ import {
 import { observer } from 'mobx-react-lite'
 import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
+import CryptoWallet from 'icons/CryptoWallet'
 import EthStore from 'stores/EthStore'
 import Logo from 'components/Logo'
-import MetaMask from 'icons/MetaMask'
 import Popup from 'components/Popup'
 import ThemeToggle from 'components/ThemeToggle'
 import truncateMiddle from 'helpers/truncateMiddle'
@@ -61,7 +61,7 @@ function Navbar() {
   const isNotSupportedMobile = mobileCheck() && !EthStore.userAddress
 
   useEffect(() => {
-    void EthStore.checkMetaMask()
+    void EthStore.checkProvider()
   }, [])
 
   return (
@@ -85,12 +85,16 @@ function Navbar() {
                 onClick={async () => await EthStore.connectProvider()}
                 outlined={!md}
               >
-                {md ? 'Connect Eth Wallet to claim your invite' : <MetaMask />}
+                {md ? (
+                  'Connect Eth Wallet to claim your invite'
+                ) : (
+                  <CryptoWallet />
+                )}
               </Button>
             }
             title={
               isNotSupportedMobile
-                ? 'Please use the MetaMask app'
+                ? 'Please use the app, that supports Crypto Wallets'
                 : isSafari
                 ? 'Eth Wallets are not supported'
                 : 'Eth Wallet is not installed'

@@ -8,24 +8,28 @@ import Web3Modal from 'web3modal'
 let provider: Web3Provider
 let contract: Abi
 
-if (window.ethereum) {
-  const providerOptions = {
-    binancechainwallet: {
-      package: true,
-    },
+export async function connectProvider() {
+  try {
+    const providerOptions = {
+      binancechainwallet: {
+        package: true,
+      },
+    }
+
+    const web3Modal = new Web3Modal({
+      cacheProvider: true,
+      providerOptions,
+    })
+
+    contract = Abi__factory.connect(
+      import.meta.env.VITE_CONTRACT_ADDRESS as string,
+      provider.getSigner()
+    )
+
+    provider = new Web3Provider(await web3Modal.connect())
+  } catch (error) {
+    console.error(error)
   }
-
-  const web3Modal = new Web3Modal({
-    cacheProvider: true,
-    providerOptions,
-  })
-
-  provider = new Web3Provider(await web3Modal.connect())
-
-  contract = Abi__factory.connect(
-    import.meta.env.VITE_CONTRACT_ADDRESS as string,
-    provider.getSigner()
-  )
 }
 
 class EthStore extends PersistableStore {
@@ -38,7 +42,7 @@ class EthStore extends PersistableStore {
     return provider
   }
 
-  async checkMetaMask() {
+  async checkProvider() {
     if (!provider) {
       this.userAddress = ''
       return
