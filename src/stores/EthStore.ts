@@ -3,28 +3,15 @@ import { Abi__factory } from 'helpers/abiTypes/factories/Abi__factory'
 import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
 import PersistableStore from 'stores/persistence/PersistableStore'
-import Torus from '@toruslabs/torus-embed'
-import WalletConnect from '@walletconnect/web3-provider'
 import Web3Modal from 'web3modal'
 
 let provider: Web3Provider
 let contract: Abi
 
-const infuraId = process.env.VITE_INFURA_ID
-
 if (window.ethereum) {
   const providerOptions = {
     binancechainwallet: {
       package: true,
-    },
-    walletconnect: {
-      package: WalletConnect,
-      options: {
-        infuraId,
-      },
-    },
-    torus: {
-      package: Torus,
     },
   }
 
