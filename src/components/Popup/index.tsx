@@ -96,7 +96,7 @@ const Popup: FC<PopupProps> = ({
   const { showPopup, togglePopup } = usePopUp()
 
   const activatorButton = activator ? (
-    <div onClick={() => !EthStore.getProvider() && togglePopup()}>
+    <div onClick={() => !EthStore.checkEthAvailability() && togglePopup()}>
       {activator}
     </div>
   ) : (

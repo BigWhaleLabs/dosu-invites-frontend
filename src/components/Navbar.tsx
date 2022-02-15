@@ -17,7 +17,6 @@ import {
   zIndex,
 } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
-import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import CryptoWallet from 'icons/CryptoWallet'
 import EthStore from 'stores/EthStore'
@@ -60,10 +59,6 @@ function Navbar() {
   const isSafari = userAgent() === UserAgent.Safari
   const isNotSupportedMobile = mobileCheck() && !EthStore.userAddress
 
-  useEffect(() => {
-    void EthStore.checkProvider()
-  }, [])
-
   return (
     <nav className={navbar}>
       <Logo />
@@ -82,7 +77,7 @@ function Navbar() {
             activator={
               <Button
                 circle
-                onClick={async () => await EthStore.connectProvider()}
+                onClick={async () => await EthStore.connectBlockchain()}
                 outlined={!md}
               >
                 {md ? (

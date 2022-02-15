@@ -8,55 +8,37 @@ import Web3Modal from 'web3modal'
 let provider: Web3Provider
 let contract: Abi
 
-export async function connectProvider() {
-  try {
-    const providerOptions = {
-      binancechainwallet: {
-        package: true,
-      },
-    }
-
-    const web3Modal = new Web3Modal({
-      cacheProvider: true,
-      providerOptions,
-    })
-
-    contract = Abi__factory.connect(
-      import.meta.env.VITE_CONTRACT_ADDRESS as string,
-      provider.getSigner()
-    )
-
-    provider = new Web3Provider(await web3Modal.connect())
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 class EthStore extends PersistableStore {
   userAddress = ''
   tokenId: number | undefined
 
-  getProvider() {
-    if (!provider) return undefined
-
-    return provider
+  checkEthAvailability() {
+    return !!window.ethereum
   }
 
-  async checkProvider() {
-    if (!provider) {
-      this.userAddress = ''
-      return
+  async connectBlockchain() {
+    try {
+      const web3Modal = await new Web3Modal({
+        cacheProvider: true,
+        providerOptions: {
+          binancechainwallet: {
+            package: true,
+          },
+        },
+      }).connect()
+
+      provider = new Web3Provider(web3Modal)
+
+      await this.handleAccountChanged(await provider.listAccounts())
+      this.setupListeners()
+
+      contract = Abi__factory.connect(
+        import.meta.env.VITE_CONTRACT_ADDRESS as string,
+        provider.getSigner()
+      )
+    } catch (error) {
+      console.error(error)
     }
-
-    await this.handleAccountChanged(await provider.listAccounts())
-    this.setupListeners()
-  }
-
-  async connectProvider() {
-    if (!provider) return
-
-    await provider.send('eth_requestAccounts', [])
-    this.userAddress = await provider.getSigner().getAddress()
   }
 
   async handleAccountChanged(accounts: string[]) {
@@ -74,6 +56,9 @@ class EthStore extends PersistableStore {
       console.error(error)
     })
     window.ethereum.on('accountsChanged', async (accounts: string[]) => {
+      await this.handleAccountChanged(accounts)
+    })
+    window.ethereum.on('disconnect', async (accounts: string[]) => {
       await this.handleAccountChanged(accounts)
     })
   }
