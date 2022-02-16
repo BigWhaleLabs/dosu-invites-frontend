@@ -44,6 +44,20 @@
     <meta name="msapplication-TileColor" content="#00aba9" />
     <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
     <meta name="theme-color" content="#f9f9f9" />
+
+    <!-- Define to use some web3 libs -->
+    <script>
+      window.global = window
+    </script>
+    <script type="module">
+      import process from 'process'
+      import { Buffer } from 'buffer'
+      import EventEmitter from 'events'
+
+      window.Buffer = Buffer
+      window.process = process
+      window.EventEmitter = EventEmitter
+    </script>
   </head>
   <body>
     <noscript>Please, turn on JavaScript to see this page.</noscript>

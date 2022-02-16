@@ -23,7 +23,6 @@ import {
   zIndex,
 } from 'classnames/tailwind'
 import Cross from 'icons/Cross'
-import EthStore from 'stores/EthStore'
 import usePopUp from 'components/Popup/usePopup'
 
 interface PopupProps {
@@ -96,9 +95,7 @@ const Popup: FC<PopupProps> = ({
   const { showPopup, togglePopup } = usePopUp()
 
   const activatorButton = activator ? (
-    <div onClick={() => !EthStore.checkEthAvailability() && togglePopup()}>
-      {activator}
-    </div>
+    <div onClick={() => togglePopup()}>{activator}</div>
   ) : (
     <Button title={activatorTitle || 'Open'} onClick={() => closeMethod()} />
   )

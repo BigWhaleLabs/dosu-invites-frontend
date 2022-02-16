@@ -1,9 +1,18 @@
 import { Abi } from 'helpers/abiTypes/Abi'
 import { Abi__factory } from 'helpers/abiTypes/factories/Abi__factory'
+// import { Bitski } from 'bitski'
 import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
+import Authereum from 'authereum'
+import Fortmatic from 'fortmatic'
 import PersistableStore from 'stores/persistence/PersistableStore'
+import Torus from '@toruslabs/torus-embed'
 import Web3Modal from 'web3modal'
+
+const fortmaticNetwork = {
+  rpcUrl: 'https://rpc-mainnet.maticvigil.com',
+  chainId: 137,
+}
 
 let provider: Web3Provider
 let contract: Abi
@@ -12,15 +21,31 @@ class EthStore extends PersistableStore {
   userAddress = ''
   tokenId: number | undefined
 
-  checkEthAvailability() {
-    return !!window.ethereum
-  }
-
   async connectBlockchain() {
     try {
       const web3Modal = await new Web3Modal({
         cacheProvider: true,
         providerOptions: {
+          torus: {
+            package: Torus,
+          },
+          fortmatic: {
+            package: Fortmatic, // required
+            options: {
+              key: import.meta.env.VITE_FORTMATIC_KEY, // required
+              network: fortmaticNetwork, // if we don't pass it, it will default to localhost:8454
+            },
+          },
+          authereum: {
+            package: Authereum, // required
+          },
+          // bitski: {
+          //   package: Bitski, // required
+          //   options: {
+          //     clientId: import.meta.env.VITE_BITSKI_CLIENT_ID,
+          //     callbackUrl: import.meta.env.VITE_BITSKI_CALLBACK_URL,
+          //   },
+          // },
           binancechainwallet: {
             package: true,
           },
@@ -51,15 +76,15 @@ class EthStore extends PersistableStore {
   }
 
   setupListeners() {
-    if (!window.ethereum.on) return
+    if (!provider || !provider.on) return
 
-    window.ethereum.on('error', (error: Error) => {
+    provider.on('error', (error: Error) => {
       console.error(error)
     })
-    window.ethereum.on('accountsChanged', async (accounts: string[]) => {
+    provider.on('accountsChanged', async (accounts: string[]) => {
       await this.handleAccountChanged(accounts)
     })
-    window.ethereum.on('disconnect', async (accounts: string[]) => {
+    provider.on('disconnect', async (accounts: string[]) => {
       await this.handleAccountChanged(accounts)
     })
   }
