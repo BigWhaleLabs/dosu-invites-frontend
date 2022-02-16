@@ -7,52 +7,68 @@ import Authereum from 'authereum'
 import Fortmatic from 'fortmatic'
 import PersistableStore from 'stores/persistence/PersistableStore'
 import Torus from '@toruslabs/torus-embed'
+import WalletConnect from '@walletconnect/web3-provider'
 import Web3Modal from 'web3modal'
 
+let provider: Web3Provider
+let contract: Abi
+const infuraId = import.meta.env.VITE_INFURA_ID as string
 const fortmaticNetwork = {
   rpcUrl: 'https://rpc-mainnet.maticvigil.com',
   chainId: 137,
 }
 
-let provider: Web3Provider
-let contract: Abi
+export const web3Modal = new Web3Modal({
+  cacheProvider: true,
+  providerOptions: {
+    torus: {
+      package: Torus,
+      display: { name: 'Torus' },
+    },
+    fortmatic: {
+      package: Fortmatic,
+      options: {
+        key: import.meta.env.VITE_FORTMATIC_KEY as string,
+        network: fortmaticNetwork, // defaults to localhost:8454
+      },
+      display: { name: 'Fortmatic' },
+    },
+    authereum: {
+      package: Authereum,
+      display: { name: 'Authereum' },
+    },
+    walletconnect: {
+      package: WalletConnect,
+      options: {
+        infuraId,
+      },
+      display: { name: 'Mobile' },
+    },
+    // bitski: {
+    //   package: Bitski, // required
+    //   options: {
+    //     clientId: import.meta.env.VITE_BITSKI_CLIENT_ID,
+    //     callbackUrl: import.meta.env.VITE_BITSKI_CALLBACK_URL,
+    //   },
+    // },
+    binancechainwallet: {
+      package: true,
+      display: { name: 'Binance' },
+    },
+  },
+})
 
 class EthStore extends PersistableStore {
   userAddress = ''
   tokenId: number | undefined
 
-  async connectBlockchain() {
+  async onConnect() {
     try {
-      const web3Modal = await new Web3Modal({
-        cacheProvider: true,
-        providerOptions: {
-          torus: {
-            package: Torus,
-          },
-          fortmatic: {
-            package: Fortmatic, // required
-            options: {
-              key: import.meta.env.VITE_FORTMATIC_KEY, // required
-              network: fortmaticNetwork, // if we don't pass it, it will default to localhost:8454
-            },
-          },
-          authereum: {
-            package: Authereum, // required
-          },
-          // bitski: {
-          //   package: Bitski, // required
-          //   options: {
-          //     clientId: import.meta.env.VITE_BITSKI_CLIENT_ID,
-          //     callbackUrl: import.meta.env.VITE_BITSKI_CALLBACK_URL,
-          //   },
-          // },
-          binancechainwallet: {
-            package: true,
-          },
-        },
-      }).connect()
+      // await web3Modal.connect() && await web3Modal.enable()
 
-      provider = new Web3Provider(web3Modal)
+      provider = new Web3Provider(await web3Modal.connect())
+
+      this.subscribeProvider(provider)
 
       await this.handleAccountChanged(await provider.listAccounts())
 
@@ -75,8 +91,8 @@ class EthStore extends PersistableStore {
     }
   }
 
-  setupListeners() {
-    if (!provider || !provider.on) return
+  subscribeProvider(provider: Web3Provider) {
+    if (!provider.on) return
 
     provider.on('error', (error: Error) => {
       console.error(error)

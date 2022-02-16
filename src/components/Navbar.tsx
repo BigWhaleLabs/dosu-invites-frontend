@@ -20,7 +20,7 @@ import { observer } from 'mobx-react-lite'
 import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import CryptoWallet from 'icons/CryptoWallet'
-import EthStore from 'stores/EthStore'
+import EthStore, { web3Modal } from 'stores/EthStore'
 import Logo from 'components/Logo'
 import Popup from 'components/Popup'
 import ThemeToggle from 'components/ThemeToggle'
@@ -61,8 +61,9 @@ function Navbar() {
   const isNotSupportedMobile = mobileCheck() && !EthStore.userAddress
 
   useEffect(() => {
-    // TODO: add this into the store itself
-    EthStore.setupListeners()
+    if (web3Modal.cachedProvider) {
+      void EthStore.onConnect()
+    }
   }, [])
 
   return (
@@ -83,7 +84,7 @@ function Navbar() {
             activator={
               <Button
                 circle
-                onClick={async () => await EthStore.connectBlockchain()}
+                onClick={async () => await EthStore.onConnect()}
                 outlined={!md}
               >
                 {md ? (
