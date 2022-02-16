@@ -1,25 +1,22 @@
+import { Theme } from 'models/Theme'
 import { proxy } from 'valtio'
 import Language from 'models/Language'
 import PersistableStore from 'stores/persistence/PersistableStore'
-
-export enum Theme {
-  dark = 'dark',
-  light = 'light',
-}
+import configuredModal from 'helpers/configuredModal'
+import usePreferredTheme from 'helpers/usePreferredTheme'
 
 class AppStore extends PersistableStore {
   language: Language = Language.en
-  theme: Theme = this.usePreferredTheme()
+  theme: Theme = usePreferredTheme()
   cookieAccepted = false
 
-  usePreferredTheme() {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? Theme.dark
-      : Theme.light
+  async updateModalTheme() {
+    await configuredModal.updateTheme(this.theme as string)
   }
 
   toggleDark() {
     this.theme = this.theme === Theme.dark ? Theme.light : Theme.dark
+    void this.updateModalTheme()
   }
 
   acceptCookie() {

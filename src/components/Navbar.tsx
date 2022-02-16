@@ -1,5 +1,4 @@
 import { Button } from 'components/Button'
-import { UserAgent, mobileCheck, userAgent } from 'helpers/userAgent'
 import {
   alignItems,
   backgroundColor,
@@ -20,10 +19,10 @@ import { observer } from 'mobx-react-lite'
 import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import CryptoWallet from 'icons/CryptoWallet'
-import EthStore, { web3Modal } from 'stores/EthStore'
+import EthStore from 'stores/EthStore'
 import Logo from 'components/Logo'
-import Popup from 'components/Popup'
 import ThemeToggle from 'components/ThemeToggle'
+import configuredModal from 'helpers/configuredModal'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 
@@ -57,11 +56,9 @@ const buttonBox = classnames(margin('xl:ml-10', 'ml-3'))
 function Navbar() {
   const { userAddress } = useSnapshot(EthStore)
   const { md } = useBreakpoints()
-  const isSafari = userAgent() === UserAgent.Safari
-  const isNotSupportedMobile = mobileCheck() && !EthStore.userAddress
 
   useEffect(() => {
-    if (web3Modal.cachedProvider) {
+    if (configuredModal.cachedProvider) {
       void EthStore.onConnect()
     }
   }, [])
@@ -80,36 +77,13 @@ function Navbar() {
             {md ? userAddress : truncateMiddle(userAddress)}
           </Button>
         ) : (
-          <Popup
-            activator={
-              <Button
-                circle
-                onClick={async () => await EthStore.onConnect()}
-                outlined={!md}
-              >
-                {md ? (
-                  'Connect Eth Wallet to claim your invite'
-                ) : (
-                  <CryptoWallet />
-                )}
-              </Button>
-            }
-            title={
-              isNotSupportedMobile
-                ? 'Please use the app, that supports Crypto Wallets'
-                : isSafari
-                ? 'Eth Wallets are not supported'
-                : 'Eth Wallet is not installed'
-            }
-            body={
-              isNotSupportedMobile
-                ? 'To use Web3 technologies, please use a browser with the Eth Wallet extension'
-                : isSafari
-                ? 'Safari does not support Eth Wallets, please, use another browser'
-                : 'To use Web3 technologies, please, install Eth Wallet extension for your browser'
-            }
-            confirmTitle="Okay, thanks"
-          />
+          <Button
+            circle
+            onClick={async () => await EthStore.onConnect()}
+            outlined={!md}
+          >
+            {md ? 'Connect Eth Wallet to claim your invite' : <CryptoWallet />}
+          </Button>
         )}
       </div>
     </nav>

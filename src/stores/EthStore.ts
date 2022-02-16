@@ -1,62 +1,12 @@
 import { Abi } from 'helpers/abiTypes/Abi'
 import { Abi__factory } from 'helpers/abiTypes/factories/Abi__factory'
-// import { Bitski } from 'bitski'
 import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
-import Authereum from 'authereum'
-import Fortmatic from 'fortmatic'
 import PersistableStore from 'stores/persistence/PersistableStore'
-import Torus from '@toruslabs/torus-embed'
-import WalletConnect from '@walletconnect/web3-provider'
-import Web3Modal from 'web3modal'
+import configuredModal from 'helpers/configuredModal'
 
 let provider: Web3Provider
 let contract: Abi
-const infuraId = import.meta.env.VITE_INFURA_ID as string
-const fortmaticNetwork = {
-  rpcUrl: 'https://rpc-mainnet.maticvigil.com',
-  chainId: 137,
-}
-
-export const web3Modal = new Web3Modal({
-  cacheProvider: true,
-  providerOptions: {
-    torus: {
-      package: Torus,
-      display: { name: 'Torus' },
-    },
-    fortmatic: {
-      package: Fortmatic,
-      options: {
-        key: import.meta.env.VITE_FORTMATIC_KEY as string,
-        network: fortmaticNetwork, // defaults to localhost:8454
-      },
-      display: { name: 'Fortmatic' },
-    },
-    authereum: {
-      package: Authereum,
-      display: { name: 'Authereum' },
-    },
-    walletconnect: {
-      package: WalletConnect,
-      options: {
-        infuraId,
-      },
-      display: { name: 'Mobile' },
-    },
-    // bitski: {
-    //   package: Bitski, // required
-    //   options: {
-    //     clientId: import.meta.env.VITE_BITSKI_CLIENT_ID,
-    //     callbackUrl: import.meta.env.VITE_BITSKI_CALLBACK_URL,
-    //   },
-    // },
-    binancechainwallet: {
-      package: true,
-      display: { name: 'Binance' },
-    },
-  },
-})
 
 class EthStore extends PersistableStore {
   userAddress = ''
@@ -64,12 +14,11 @@ class EthStore extends PersistableStore {
 
   async onConnect() {
     try {
-      // await web3Modal.connect() && await web3Modal.enable()
+      const instance = await configuredModal.connect()
+      instance.enable()
 
-      provider = new Web3Provider(await web3Modal.connect())
-
+      provider = new Web3Provider(instance)
       this.subscribeProvider(provider)
-
       await this.handleAccountChanged(await provider.listAccounts())
 
       contract = Abi__factory.connect(

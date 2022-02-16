@@ -1,4 +1,5 @@
 import { Idea, Moon } from 'icons'
+import { Theme } from 'models/Theme'
 import {
   alignItems,
   borderColor,
@@ -19,7 +20,7 @@ import {
 } from 'classnames/tailwind'
 import { animated, useSpring } from 'react-spring'
 import { useSnapshot } from 'valtio'
-import AppStore, { Theme } from 'stores/AppStore'
+import AppStore from 'stores/AppStore'
 
 const toggleContainer = classnames(
   transitionProperty('transition-colors'),

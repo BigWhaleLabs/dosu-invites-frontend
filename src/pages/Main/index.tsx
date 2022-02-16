@@ -284,6 +284,7 @@ function Main() {
           )}
         </div>
       )}
+
       <Footer />
     </div>
   )

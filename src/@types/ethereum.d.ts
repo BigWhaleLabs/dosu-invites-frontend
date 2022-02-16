@@ -1,9 +1,10 @@
-import { MetaMaskInpageProvider } from '@ethersproject/providers'
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 declare global {
   interface Window {
-    ethereum: MetaMaskInpageProvider
-    eth: MetaMaskInpageProvider
-    web3: MetaMaskInpageProvider
+    ethereum: any
+    BinanceChain: any
+    web3: any
+    celo: any
+    updateWeb3Modal: any
   }
 }
