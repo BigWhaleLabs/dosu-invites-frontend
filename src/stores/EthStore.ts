@@ -41,15 +41,15 @@ class EthStore extends PersistableStore {
   }
 
   subscribeProvider(provider: Web3Provider) {
-    if (!provider.on) return
+    if (!provider.on || !window.ethereum.on) return
 
-    provider.on('error', (error: Error) => {
+    window.ethereum.on('error', (error: Error) => {
       console.error(error)
     })
-    provider.on('accountsChanged', async (accounts: string[]) => {
+    window.ethereum.on('accountsChanged', async (accounts: string[]) => {
       await this.handleAccountChanged(accounts)
     })
-    provider.on('disconnect', async (accounts: string[]) => {
+    window.ethereum.on('disconnect', async (accounts: string[]) => {
       await this.handleAccountChanged(accounts)
     })
   }

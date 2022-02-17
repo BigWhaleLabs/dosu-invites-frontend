@@ -1,3 +1,4 @@
+import { Bitski } from 'bitski'
 import Authereum from 'authereum'
 import Fortmatic from 'fortmatic'
 import Torus from '@toruslabs/torus-embed'
@@ -12,12 +13,11 @@ const fortmaticNetwork = {
 }
 
 const configuredModal = new Web3Modal({
-  cacheProvider: true,
+  // cacheProvider: true,
   theme: usePreferredTheme(),
   providerOptions: {
     torus: {
       package: Torus,
-      display: { name: 'Torus' },
     },
     fortmatic: {
       package: Fortmatic,
@@ -25,26 +25,23 @@ const configuredModal = new Web3Modal({
         key: import.meta.env.VITE_FORTMATIC_KEY as string,
         network: fortmaticNetwork, // defaults to localhost:8454
       },
-      display: { name: 'Fortmatic' },
     },
     authereum: {
       package: Authereum,
-      display: { name: 'Authereum' },
     },
     walletconnect: {
       package: WalletConnect,
       options: {
         infuraId,
       },
-      display: { name: 'Mobile' },
     },
-    // bitski: {
-    //   package: Bitski, // required
-    //   options: {
-    //     clientId: import.meta.env.VITE_BITSKI_CLIENT_ID,
-    //     callbackUrl: import.meta.env.VITE_BITSKI_CALLBACK_URL,
-    //   },
-    // },
+    bitski: {
+      package: Bitski,
+      options: {
+        clientId: import.meta.env.VITE_BITSKI_CLIENT_ID,
+        callbackUrl: import.meta.env.VITE_BITSKI_CALLBACK_URL,
+      },
+    },
     binancechainwallet: {
       package: true,
       display: { name: 'Binance' },
