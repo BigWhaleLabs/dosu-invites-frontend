@@ -74,7 +74,10 @@ function Navbar() {
       <div className={buttonBox}>
         <Button
           circle
-          onClick={async () => await EthStore.onConnect()}
+          onClick={async () => {
+            configuredModal.clearCachedProvider()
+            await EthStore.onConnect()
+          }}
           outlined={!!userAddress}
         >
           {userAddress ? (
