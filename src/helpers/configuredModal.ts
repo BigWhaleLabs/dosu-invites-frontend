@@ -11,7 +11,7 @@ const fortmaticNetwork = {
 }
 
 const configuredModal = new Web3Modal({
-  // cacheProvider: true,
+  cacheProvider: true,
   theme: usePreferredTheme(),
   providerOptions: {
     // TODO: Throws an error `https.Agent is not a constructor`
