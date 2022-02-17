@@ -46,14 +46,12 @@
     <meta name="theme-color" content="#f9f9f9" />
 
     <!-- Define to use some web3 libs -->
-    <script>
-      window.global = window
-    </script>
     <script type="module">
       import process from 'process'
       import { Buffer } from 'buffer'
       import EventEmitter from 'events'
 
+      window.global = window
       window.Buffer = Buffer
       window.process = process
       window.EventEmitter = EventEmitter

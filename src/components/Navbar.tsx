@@ -75,7 +75,7 @@ function Navbar() {
         <Button
           circle
           onClick={async () => await EthStore.onConnect()}
-          outlined
+          outlined={!!userAddress}
         >
           {userAddress ? (
             md ? (
