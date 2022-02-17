@@ -72,19 +72,23 @@ function Navbar() {
       </div>
 
       <div className={buttonBox}>
-        {userAddress ? (
-          <Button circle outlined>
-            {md ? userAddress : truncateMiddle(userAddress)}
-          </Button>
-        ) : (
-          <Button
-            circle
-            onClick={async () => await EthStore.onConnect()}
-            outlined={!md}
-          >
-            {md ? 'Connect Eth Wallet to claim your invite' : <CryptoWallet />}
-          </Button>
-        )}
+        <Button
+          circle
+          onClick={async () => await EthStore.onConnect()}
+          outlined
+        >
+          {userAddress ? (
+            md ? (
+              userAddress
+            ) : (
+              truncateMiddle(userAddress)
+            )
+          ) : md ? (
+            'Connect Eth Wallet to claim your invite'
+          ) : (
+            <CryptoWallet />
+          )}
+        </Button>
       </div>
     </nav>
   )
