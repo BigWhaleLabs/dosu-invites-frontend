@@ -16,10 +16,19 @@
 
 ## Environment variables
 
-| Name                  | Description                   |
-| --------------------- | ----------------------------- |
-| VITE_BACKEND          | API root URL                  |
-| VITE_CONTRACT_ADDRESS | Dosu invites contract address |
+| Name                     | Description                                                             |
+| ------------------------ | ----------------------------------------------------------------------- |
+| VITE_BACKEND             | API root URL                                                            |
+| VITE_CONTRACT_ADDRESS    | Dosu invites contract address                                           |
+| VITE_INFURA_ID           | Create an app and get one [here][infura-dev]                            |
+| VITE_FORTMATIC_KEY       | Create a project and get one [here][formatic-dev]                       |
+| VITE_BITSKI_CLIENT_ID    | [Register][bitski-wallet], confirm your email and [get one][bitski-dev] |
+| VITE_BITSKI_CALLBACK_URL | You need a domain for [your app][bitski-dev], then you can use this URL |
+
+=123
+=123
+=123
+=https://www.myapp.com
 
 ## Local launch
 
@@ -32,3 +41,8 @@
 - `yarn build` — builds the app for production to the `docs` folder
 - `yarn lint` — checks if the code is linted and formatted
 - `yarn generate-css-types` — generates the CSS types for `tailwind-css`
+
+[infura-dev]: https://infura.io/dashboard
+[formatic-dev]: https://dashboard.fortmatic.com/
+[bitski-wallet]: https://wallet.bitski.com/
+[bitski-dev]: https://developer.bitski.com/
