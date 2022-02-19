@@ -1,4 +1,4 @@
-// import { Bitski } from 'bitski'
+import { Bitski } from 'bitski'
 import Fortmatic from 'fortmatic'
 // import Torus from '@toruslabs/torus-embed'
 import WalletConnect from '@walletconnect/web3-provider'
@@ -51,13 +51,13 @@ const configuredModal = new Web3Modal({
         darkMode: usePreferredTheme() === 'dark' ? true : false,
       },
     },
-    // bitski: {
-    //   package: Bitski,
-    //   options: {
-    //     clientId: import.meta.env.VITE_BITSKI_CLIENT_ID,
-    //     callbackUrl: `${window.location.origin}/callback.html`,
-    //   },
-    // },
+    bitski: {
+      package: Bitski,
+      options: {
+        clientId: import.meta.env.VITE_BITSKI_CLIENT_ID,
+        callbackUrl: `${window.location.origin}/callback.html`,
+      },
+    },
     // TODO: Need to be configure manually, because API is different
     // binancechainwallet: {
     //   package: true,

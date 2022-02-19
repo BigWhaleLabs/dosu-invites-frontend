@@ -15,7 +15,6 @@ class EthStore extends PersistableStore {
   async onConnect() {
     try {
       const instance = await configuredModal.connect()
-      instance.enable()
 
       provider = new Web3Provider(instance)
       this.subscribeProvider(provider)
@@ -41,7 +40,7 @@ class EthStore extends PersistableStore {
   }
 
   subscribeProvider(provider: Web3Provider) {
-    if (!provider.on || !window.ethereum.on) return
+    if (!provider.on || !window.ethereum || !window.ethereum.on) return
 
     window.ethereum.on('error', (error: Error) => {
       console.error(error)
