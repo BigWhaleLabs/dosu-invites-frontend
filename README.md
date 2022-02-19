@@ -16,19 +16,13 @@
 
 ## Environment variables
 
-| Name                     | Description                                                             |
-| ------------------------ | ----------------------------------------------------------------------- |
-| VITE_BACKEND             | API root URL                                                            |
-| VITE_CONTRACT_ADDRESS    | Dosu invites contract address                                           |
-| VITE_INFURA_ID           | Create an app and get one [here][infura-dev]                            |
-| VITE_FORTMATIC_KEY       | Create a project and get one [here][formatic-dev]                       |
-| VITE_BITSKI_CLIENT_ID    | [Register][bitski-wallet], confirm your email and [get one][bitski-dev] |
-| VITE_BITSKI_CALLBACK_URL | You need a domain for [your app][bitski-dev], then you can use this URL |
-
-=123
-=123
-=123
-=https://www.myapp.com
+| Name                  | Description                                                                                                                                                                            |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| VITE_BACKEND          | API root URL                                                                                                                                                                           |
+| VITE_CONTRACT_ADDRESS | Dosu invites contract address                                                                                                                                                          |
+| VITE_INFURA_ID        | Create an app and get one [here][infura-dev]                                                                                                                                           |
+| VITE_FORTMATIC_KEY    | Create a project and get one [here][formatic-dev]                                                                                                                                      |
+| VITE_BITSKI_CLIENT_ID | [Register][bitski-wallet], confirm your email and [get one][bitski-dev]. Use `localhost` as homepage in [your app][bitski-dev] + redirect to `localhost/callback.html` in auth section |
 
 ## Local launch
 
