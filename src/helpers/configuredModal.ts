@@ -1,6 +1,5 @@
 import { Bitski } from 'bitski'
 import Fortmatic from 'fortmatic'
-// import Torus from '@toruslabs/torus-embed'
 import WalletConnect from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
 import Web3Modal from 'web3modal'
@@ -17,20 +16,6 @@ const configuredModal = new Web3Modal({
   theme: usePreferredTheme(),
   disableInjectedProvider: false,
   providerOptions: {
-    // TODO: Throws an error `https.Agent is not a constructor`
-    // torus: {
-    //   package: Torus,
-    //   options: {
-    //     networkParams: {
-    //       host: 'https://localhost:8545',
-    //       chainId: 1337,
-    //       networkId: 1337,
-    //     },
-    //     config: {
-    //       buildEnv: 'development',
-    //     },
-    //   },
-    // },
     fortmatic: {
       package: Fortmatic,
       options: {

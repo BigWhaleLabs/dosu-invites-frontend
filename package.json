@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "yarn prepare && vite",
+    "start": "yarn prepare && vite --https",
     "build": "yarn prepare && cross-env NODE_ENV=production tsc && vite build",
     "pretty": "prettier --check src",
     "lint": "yarn pretty && eslint --max-warnings 0 --ext ts,tsx src",
@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "@borodutch-labs/localize-react": "^1.7.6",
-    "@toruslabs/torus-embed": "^1.20.4",
     "@vime/core": "^5.3.1",
     "@vime/react": "^5.3.1",
     "@vitejs/plugin-react": "^1.2.0",
