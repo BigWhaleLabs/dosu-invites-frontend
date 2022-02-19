@@ -15,6 +15,7 @@ const fortmaticNetwork = {
 const configuredModal = new Web3Modal({
   cacheProvider: true,
   theme: usePreferredTheme(),
+  disableInjectedProvider: false,
   providerOptions: {
     // TODO: Throws an error `https.Agent is not a constructor`
     // torus: {
@@ -58,10 +59,9 @@ const configuredModal = new Web3Modal({
         callbackUrl: `${window.location.origin}/callback.html`,
       },
     },
-    // TODO: Need to be configure manually, because API is different
-    // binancechainwallet: {
-    //   package: true,
-    // },
+    binancechainwallet: {
+      package: true,
+    },
   },
 })
 
