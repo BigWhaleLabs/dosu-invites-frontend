@@ -1,12 +1,10 @@
 import { FC } from 'react'
 import { observer } from 'mobx-react-lite'
-import AppStore from 'stores/AppStore'
 import ISVGIcon from 'models/ISVGIcon'
 import classNamesToString from 'helpers/classNamesToString'
 import classnames, { transitionProperty } from 'classnames/tailwind'
 
 const CryptoWallet: FC<ISVGIcon> = ({
-  theme,
   title = 'Crypto wallet icon',
   height = 24,
   width = 24,
@@ -14,11 +12,6 @@ const CryptoWallet: FC<ISVGIcon> = ({
 }) => {
   const commonProps = {
     className: classnames(transitionProperty('transition-colors')),
-  }
-  const themeSheme = theme || AppStore.theme
-  const colors = {
-    svg: themeSheme === 'light' ? 'none' : 'var(--accent)',
-    path: themeSheme === 'light' ? 'var(--border)' : 'var(--background)',
   }
   const classes = classnames(transitionProperty('transition-colors'))
 
@@ -28,7 +21,7 @@ const CryptoWallet: FC<ISVGIcon> = ({
       width={width}
       height={height}
       viewBox="0 0 24 24"
-      fill={colors.svg}
+      fill="currentColor"
       className={classNamesToString([classes, className])}
     >
       <title>{title}</title>

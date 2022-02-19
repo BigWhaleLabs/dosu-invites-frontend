@@ -78,7 +78,7 @@ function Navbar() {
             configuredModal.clearCachedProvider()
             await EthStore.onConnect()
           }}
-          outlined={!!userAddress}
+          outlined
         >
           {userAddress ? (
             md ? (
