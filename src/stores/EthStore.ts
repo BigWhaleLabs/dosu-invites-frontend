@@ -18,12 +18,13 @@ class EthStore extends PersistableStore {
 
       provider = new Web3Provider(instance)
       this.subscribeProvider(provider)
-      await this.handleAccountChanged(await provider.listAccounts())
 
       contract = Abi__factory.connect(
         import.meta.env.VITE_CONTRACT_ADDRESS as string,
         provider.getSigner()
       )
+
+      await this.handleAccountChanged(await provider.listAccounts())
     } catch (error) {
       console.error(error)
     }
