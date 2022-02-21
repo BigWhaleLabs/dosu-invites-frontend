@@ -44,9 +44,6 @@ const configuredModal = new Web3Modal({
         callbackUrl: `${window.location.origin}/callback.html`,
       },
     },
-    binancechainwallet: {
-      package: true,
-    },
   },
 })
 

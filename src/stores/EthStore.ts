@@ -55,24 +55,36 @@ class EthStore extends PersistableStore {
   }
 
   async checkTokenId() {
-    if (!contract || !this.userAddress) return
+    try {
+      if (
+        !contract ||
+        !this.userAddress ||
+        !(await contract.allowlist(this.userAddress)) ||
+        +(await contract.balanceOf(this.userAddress))
+      ) {
+        this.tokenId = undefined
+        return
+      }
 
-    if (!+(await contract.balanceOf(this.userAddress))) {
+      const { _hex } = await contract.checkTokenId(this.userAddress)
+      const tokenId = +_hex
+
+      this.tokenId = tokenId
+    } catch (error) {
+      console.error(error)
       this.tokenId = undefined
-      return
     }
-
-    const { _hex } = await contract.checkTokenId(this.userAddress)
-    const tokenId = +_hex
-
-    this.tokenId = tokenId
   }
 
   async mintNFT() {
-    if (!contract) return
+    try {
+      if (!contract) return
 
-    const transaction = await contract.mint(this.userAddress)
-    await transaction.wait()
+      const transaction = await contract.mint(this.userAddress)
+      await transaction.wait()
+    } catch (error) {
+      console.error(error)
+    }
   }
 }
 

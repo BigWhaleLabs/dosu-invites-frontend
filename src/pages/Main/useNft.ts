@@ -32,10 +32,10 @@ export default function useNft() {
       await EthStore.mintNFT()
       await EthStore.checkTokenId()
       await getMintedAddresses()
-      setMintLoading(false)
     } catch (error) {
-      setMintLoading(false)
       console.error(error)
+    } finally {
+      setMintLoading(false)
     }
   }
 
