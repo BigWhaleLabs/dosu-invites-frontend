@@ -13,7 +13,7 @@ const fortmaticNetwork = {
 
 const configuredModal = new Web3Modal({
   cacheProvider: true,
-  theme: usePreferredTheme(),
+  theme: 'dark',
   disableInjectedProvider: false,
   providerOptions: {
     fortmatic: {
