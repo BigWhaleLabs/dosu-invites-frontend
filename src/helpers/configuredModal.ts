@@ -3,7 +3,6 @@ import Fortmatic from 'fortmatic'
 import WalletConnect from '@walletconnect/web3-provider'
 import WalletLink from 'walletlink'
 import Web3Modal from 'web3modal'
-import usePreferredTheme from 'helpers/usePreferredTheme'
 
 const infuraId = import.meta.env.VITE_INFURA_ID as string
 const fortmaticNetwork = {
@@ -34,7 +33,7 @@ const configuredModal = new Web3Modal({
       options: {
         appName: 'Dosu-Invites',
         infuraId,
-        darkMode: usePreferredTheme() === 'dark' ? true : false,
+        darkMode: true,
       },
     },
     bitski: {
