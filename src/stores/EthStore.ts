@@ -27,7 +27,6 @@ class EthStore extends PersistableStore {
       )
 
       await this.handleAccountChanged(accounts)
-      await this.checkUserData()
       this.subscribeProvider(instance)
     } catch (error) {
       console.error(error)
@@ -38,6 +37,11 @@ class EthStore extends PersistableStore {
 
   private async checkUserData() {
     this.allowListed = await contract.allowlist(this.userAddress)
+    const minted = +(await contract.balanceOf(this.userAddress))
+    if (!this.allowListed || !minted) {
+      this.tokenId = undefined
+      return
+    }
     await this.checkTokenId()
   }
 
@@ -50,7 +54,6 @@ class EthStore extends PersistableStore {
     } else {
       this.userAddress = accounts[0]
       await this.checkUserData()
-      await this.checkTokenId()
     }
 
     this.ethLoading = false
@@ -74,11 +77,6 @@ class EthStore extends PersistableStore {
   }
 
   private async checkTokenId() {
-    if (!+(await contract.balanceOf(this.userAddress))) {
-      this.tokenId = undefined
-      return
-    }
-
     try {
       this.ethLoading = true
 
@@ -97,7 +95,7 @@ class EthStore extends PersistableStore {
     try {
       const transaction = await contract.mint(this.userAddress)
       await transaction.wait()
-      await this.checkTokenId()
+      await this.checkUserData()
     } catch (error) {
       console.error(error)
     }

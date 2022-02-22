@@ -24,12 +24,11 @@ export default function useNft() {
   }
 
   const mintAddress = async () => {
-    if (tokenId && tokenId >= 0) return
+    if (tokenId !== undefined) return
 
     try {
       setMintLoading(true)
       await EthStore.mintNFT()
-      await EthStore.checkTokenId()
       await getMintedAddresses()
     } catch (error) {
       console.error(error)
