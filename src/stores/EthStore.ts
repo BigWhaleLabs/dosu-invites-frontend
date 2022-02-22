@@ -5,7 +5,6 @@ import { proxy } from 'valtio'
 import PersistableStore from 'stores/persistence/PersistableStore'
 import configuredModal from 'helpers/configuredModal'
 
-let provider: Web3Provider
 let contract: Abi
 
 class EthStore extends PersistableStore {
@@ -15,16 +14,15 @@ class EthStore extends PersistableStore {
   async onConnect() {
     try {
       const instance = await configuredModal.connect()
-
-      provider = new Web3Provider(instance)
-      this.subscribeProvider(provider)
+      const provider = new Web3Provider(instance)
 
       contract = Abi__factory.connect(
         import.meta.env.VITE_CONTRACT_ADDRESS as string,
-        provider.getSigner()
+        provider.getSigner(0)
       )
 
       await this.handleAccountChanged(await provider.listAccounts())
+      this.subscribeProvider(instance)
     } catch (error) {
       console.error(error)
     }
@@ -41,15 +39,18 @@ class EthStore extends PersistableStore {
   }
 
   subscribeProvider(provider: Web3Provider) {
-    if (!provider.on || !window.ethereum || !window.ethereum.on) return
+    if (!provider.on) return
 
-    window.ethereum.on('error', (error: Error) => {
+    provider.on('error', (error: Error) => {
       console.error(error)
     })
-    window.ethereum.on('accountsChanged', async (accounts: string[]) => {
+    provider.on('accountsChanged', async (accounts: string[]) => {
       await this.handleAccountChanged(accounts)
     })
-    window.ethereum.on('disconnect', async (accounts: string[]) => {
+    provider.on('disconnect', async (accounts: string[]) => {
+      await this.handleAccountChanged(accounts)
+    })
+    provider.on('stop', async (accounts: string[]) => {
       await this.handleAccountChanged(accounts)
     })
   }
@@ -60,16 +61,14 @@ class EthStore extends PersistableStore {
         !contract ||
         !this.userAddress ||
         !(await contract.allowlist(this.userAddress)) ||
-        +(await contract.balanceOf(this.userAddress))
+        !+(await contract.balanceOf(this.userAddress))
       ) {
         this.tokenId = undefined
         return
       }
 
       const { _hex } = await contract.checkTokenId(this.userAddress)
-      const tokenId = +_hex
-
-      this.tokenId = tokenId
+      this.tokenId = +_hex
     } catch (error) {
       console.error(error)
       this.tokenId = undefined

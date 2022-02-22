@@ -14,6 +14,7 @@ const configuredModal = new Web3Modal({
   cacheProvider: true,
   theme: 'dark',
   disableInjectedProvider: false,
+  network: import.meta.env.VITE_ETH_NETWORK as string,
   providerOptions: {
     fortmatic: {
       package: Fortmatic,

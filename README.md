@@ -23,6 +23,7 @@
 | VITE_INFURA_ID        | Create an app and get one [here][infura-dev]                                                                                                                                           |
 | VITE_FORTMATIC_KEY    | Create a project and get one [here][formatic-dev]                                                                                                                                      |
 | VITE_BITSKI_CLIENT_ID | [Register][bitski-wallet], confirm your email and [get one][bitski-dev]. Use `localhost` as homepage in [your app][bitski-dev] + redirect to `localhost/callback.html` in auth section |
+| VITE_ETH_NETWORK      | Eth network for your providers and contract                                                                                                                                            |
 
 ## Local launch
 
