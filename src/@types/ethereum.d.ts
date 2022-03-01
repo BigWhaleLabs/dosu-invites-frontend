@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { WalletLinkProvider } from 'walletlink'
 declare global {
   interface Window {
-    ethereum: any
-    BinanceChain: any
-    web3: any
-    celo: any
-    updateWeb3Modal: any
+    ethereum: WalletLinkProvider
   }
 }

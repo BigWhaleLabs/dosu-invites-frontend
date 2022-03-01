@@ -21,7 +21,7 @@ const configuredModal = new Web3Modal({
       package: Fortmatic,
       options: {
         key: import.meta.env.VITE_FORTMATIC_KEY as string,
-        network: fortmaticNetwork, // defaults to localhost:8454
+        network: fortmaticNetwork,
       },
     },
     torus: {
