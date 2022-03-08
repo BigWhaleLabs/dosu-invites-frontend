@@ -39,6 +39,7 @@ import Loader from 'components/Loader'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useIpfs from 'pages/Main/useIpfs'
+import useMerkleTree from 'pages/Main/useMerkleTree'
 import useNft from 'pages/Main/useNft'
 import useVideo from 'pages/Main/useVideo'
 
@@ -51,7 +52,7 @@ const mainBox = classnames(
   alignItems('items-center'),
   zIndex('z-10')
 )
-const marginBottom = classnames(margin('mb-12'))
+const marginBottom = classnames(margin('mb-6'))
 
 const playerBox = classnames(
   display('flex'),
@@ -141,6 +142,7 @@ function Main() {
     videoRef,
     doSetVideo,
   } = useVideo()
+  const { merkleVerified } = useMerkleTree()
   const { md } = useBreakpoints()
 
   const [ethAddress, setEthAddress] = useState('0x')
@@ -287,6 +289,10 @@ function Main() {
           )}
         </div>
       )}
+
+      <div className={marginBottom}>
+        <BodyText>Merkle Verified: {merkleVerified ? '✔️' : '❌'}</BodyText>
+      </div>
 
       <Footer />
     </div>
