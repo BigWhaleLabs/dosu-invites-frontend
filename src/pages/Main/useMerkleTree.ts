@@ -5,17 +5,19 @@ import EthStore from 'stores/EthStore'
 import checkInMerkleTree from 'helpers/checkInMerkleTree'
 
 export default function useMerkleTree() {
-  const { userAddress } = useSnapshot(EthStore)
+  const { tokenId } = useSnapshot(EthStore)
 
   const [merkleVerified, setMerkleVerified] = useState(false)
 
   useEffect(() => {
     async function check() {
-      setMerkleVerified(await checkInMerkleTree(userAddress))
+      if (tokenId !== undefined) {
+        setMerkleVerified(await checkInMerkleTree(tokenId))
+      }
     }
 
     void check()
-  }, [userAddress])
+  }, [tokenId])
 
   return {
     merkleVerified,
