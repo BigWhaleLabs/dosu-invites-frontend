@@ -1,4 +1,4 @@
-name: Dosu frontend
+name: Dosu invites frontend
 
 on:
   pull_request:
