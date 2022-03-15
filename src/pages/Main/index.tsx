@@ -1,6 +1,5 @@
 import { BodyText, LinkText } from 'components/Text'
 import { Button } from 'components/Button'
-import { DefaultUi, Player, Poster, Video } from '@vime/react'
 import {
   alignItems,
   backgroundColor,
@@ -31,11 +30,11 @@ import {
 import { observer } from 'mobx-react-lite'
 import { useEffect, useState } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
-import AppStore from 'stores/AppStore'
 import Draggable from 'react-draggable'
 import EthStore from 'stores/EthStore'
 import Footer from 'components/Footer'
 import Loader from 'components/Loader'
+import VideoJS from 'components/VideoJS'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useIpfs from 'pages/Main/useIpfs'
@@ -60,7 +59,6 @@ const playerBox = classnames(
   width('w-full'),
   borderRadius('rounded-3xl')
 )
-const playerStyles = classnames(width('w-full'))
 const altImg = classnames(height('h-fit'), borderRadius('rounded-3xl'))
 
 const draggableBox = classnames(
@@ -127,21 +125,20 @@ const inviteText = classnames(
 
 function Main() {
   const { userAddress, ethLoading, allowListed } = useSnapshot(EthStore)
-  const { theme } = useSnapshot(AppStore)
   const { framesToEth, loading, mintAddress, mintLoading } = useNft()
-  const { ipfsLink } = useIpfs()
   const {
-    onTimeUpdate,
+    draggableGrid,
     setDragPause,
     dragFrame,
-    setDragFrame,
-    draggableGrid,
-    multiplier,
     frame,
+    setDragFrame,
+    multiplier,
     reloadVideo,
     videoRef,
-    doSetVideo,
+    setupVideo,
+    videoJsOptions,
   } = useVideo()
+  const { ipfsLink } = useIpfs()
   const { merkleVerified } = useMerkleTree()
   const { md } = useBreakpoints()
 
@@ -159,30 +156,19 @@ function Main() {
   return (
     <div className={mainBox}>
       <div className={playerBox}>
-        <Player
-          theme={theme}
-          className={playerStyles}
-          aspectRatio={md ? '16:9' : '1:1'}
-          onVmCurrentTimeChange={(currentTime) =>
-            onTimeUpdate(currentTime.detail)
-          }
-          onVmPlaybackReady={async () => await doSetVideo()}
-        >
-          {dragFrame > framesToEthLength ? (
-            <img
-              className={altImg}
-              src={md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
-            />
-          ) : (
-            <>
-              <Video poster="img/poster" crossOrigin="anonymous" ref={videoRef}>
-                <source src={videoLink} type="video/mp4" />
-              </Video>
-              <Poster fit="fill" />
-              <DefaultUi noSettings noCaptions />
-            </>
-          )}
-        </Player>
+        {dragFrame > framesToEthLength ? (
+          <img
+            className={altImg}
+            src={md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
+          />
+        ) : (
+          <VideoJS
+            options={videoJsOptions}
+            onReady={() => setupVideo()}
+            videoRef={videoRef}
+            videoLink={videoLink}
+          />
+        )}
       </div>
 
       <div className={draggableBox}>
