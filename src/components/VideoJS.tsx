@@ -2,7 +2,6 @@ import 'video.js/dist/video-js.css'
 import { FC } from 'preact/compat'
 import { Ref } from 'preact/compat'
 import { useEffect, useState } from 'preact/hooks'
-import classnames, { width } from 'classnames/tailwind'
 import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from 'video.js'
 
 interface VideoJsProps {
@@ -11,8 +10,6 @@ interface VideoJsProps {
   videoRef: Ref<HTMLVideoElement>
   videoLink: string
 }
-
-const playerStyles = classnames(width('w-full'))
 
 export const VideoJS: FC<VideoJsProps> = ({
   options,
@@ -34,17 +31,18 @@ export const VideoJS: FC<VideoJsProps> = ({
     )
   }, [onReady, options, player, videoRef])
 
+  const videoStyles = 'video-js vjs-1-1'
+
   return (
     <div data-vjs-player>
       <video
         controls
-        preload="none"
         ref={videoRef}
-        className="video-js vjs-default-skin"
-        poster="img/poster"
+        className={videoStyles}
         crossOrigin="anonymous"
       >
         <source src={videoLink} type="video/mp4" />
+        Your browser doesn't support this video
       </video>
     </div>
   )

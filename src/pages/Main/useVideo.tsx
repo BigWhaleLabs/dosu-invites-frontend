@@ -1,17 +1,18 @@
 import { VideoJsPlayerOptions } from 'video.js'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { useNavigate } from 'react-router-dom'
-import useBreakpoints from 'helpers/useBreakpoints'
 
 export default function useVideo() {
-  const { md } = useBreakpoints()
   const videoJsOptions: VideoJsPlayerOptions = {
-    aspectRatio: md ? '16:9' : '1:1',
+    aspectRatio: '1:1',
     controlBar: { volumePanel: false, pictureInPictureToggle: false },
     autoplay: false,
     controls: true,
     responsive: true,
+    fluid: true,
     poster: 'img/poster.png',
+    preload: 'auto',
+    techOrder: ['html5'],
     bigPlayButton: false,
   }
 

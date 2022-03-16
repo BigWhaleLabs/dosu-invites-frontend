@@ -77,7 +77,7 @@ video,
 .vjs-slider,
 .vjs-poster {
   border-radius: 24px !important;
-  font-family: var(--font-primary);
+  font-family: var(--font-primary) !important;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -85,6 +85,9 @@ video,
   margin-bottom: 1rem;
 }
 @media screen and (min-width: 768px) {
+  .video-js {
+    padding-top: 56.25% !important;
+  }
   .vjs-control-bar {
     width: 80% !important;
     margin-left: 10%;

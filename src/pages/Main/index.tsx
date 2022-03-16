@@ -53,12 +53,6 @@ const mainBox = classnames(
 )
 const marginBottom = classnames(margin('mb-6'))
 
-const playerBox = classnames(
-  display('flex'),
-  alignItems('items-center'),
-  width('w-full'),
-  borderRadius('rounded-3xl')
-)
 const altImg = classnames(height('h-fit'), borderRadius('rounded-3xl'))
 
 const draggableBox = classnames(
@@ -155,21 +149,19 @@ function Main() {
 
   return (
     <div className={mainBox}>
-      <div className={playerBox}>
-        {dragFrame > framesToEthLength ? (
-          <img
-            className={altImg}
-            src={md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
-          />
-        ) : (
-          <VideoJS
-            options={videoJsOptions}
-            onReady={() => setupVideo()}
-            videoRef={videoRef}
-            videoLink={videoLink}
-          />
-        )}
-      </div>
+      {dragFrame > framesToEthLength ? (
+        <img
+          className={altImg}
+          src={md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
+        />
+      ) : (
+        <VideoJS
+          options={videoJsOptions}
+          onReady={() => setupVideo()}
+          videoRef={videoRef}
+          videoLink={videoLink}
+        />
+      )}
 
       <div className={draggableBox}>
         {!framesToEth || loading ? (
