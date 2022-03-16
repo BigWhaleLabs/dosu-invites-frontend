@@ -74,7 +74,8 @@ a {
 video,
 .video-js,
 .vjs-control-bar,
-.vjs-slider {
+.vjs-slider,
+.vjs-poster {
   border-radius: 24px !important;
   font-family: var(--font-primary);
   -webkit-tap-highlight-color: transparent;
@@ -85,6 +86,7 @@ video,
 }
 @media screen and (min-width: 768px) {
   .vjs-control-bar {
+    width: 80% !important;
     margin-left: 10%;
   }
 }

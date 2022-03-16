@@ -12,7 +12,7 @@ export default function useVideo() {
     controls: true,
     responsive: true,
     poster: 'img/poster.png',
-    bigPlayButton: true,
+    bigPlayButton: false,
   }
 
   const navigate = useNavigate()
