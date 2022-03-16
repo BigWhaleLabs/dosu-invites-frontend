@@ -6,12 +6,11 @@ import useBreakpoints from 'helpers/useBreakpoints'
 export default function useVideo() {
   const { md } = useBreakpoints()
   const videoJsOptions: VideoJsPlayerOptions = {
-    aspectRatio: md ? '16:9' : '4:3',
+    aspectRatio: md ? '16:9' : '1:1',
     controlBar: { volumePanel: false, pictureInPictureToggle: false },
     autoplay: false,
     controls: true,
     responsive: true,
-    fluid: true,
     poster: 'img/poster.png',
     bigPlayButton: true,
   }

@@ -71,10 +71,27 @@ a {
 }
 
 /* Video Player */
+video,
 .video-js,
-.vjs-control-bar {
-  border-radius: 24px;
+.vjs-control-bar,
+.vjs-slider {
+  border-radius: 24px !important;
   font-family: var(--font-primary);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.vjs-control-bar {
+  margin-bottom: 1rem;
+}
+@media screen and (min-width: 768px) {
+  .vjs-control-bar {
+    margin-left: 10%;
+  }
+}
+
+.vjs-play-progress {
+  border-radius: 24px;
+  background-color: var(--accent) !important;
 }
 
 .web3modal-modal-lightbox {
