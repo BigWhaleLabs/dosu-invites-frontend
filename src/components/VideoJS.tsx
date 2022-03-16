@@ -9,6 +9,7 @@ interface VideoJsProps {
   onReady: () => void
   videoRef: Ref<HTMLVideoElement>
   videoLink: string
+  onTimeUpdate: (time: number) => void
 }
 
 export const VideoJS: FC<VideoJsProps> = ({
@@ -16,6 +17,7 @@ export const VideoJS: FC<VideoJsProps> = ({
   onReady,
   videoRef,
   videoLink,
+  onTimeUpdate,
 }) => {
   const [player, setPlayer] = useState<VideoJsPlayer | null>(null)
 
@@ -25,11 +27,14 @@ export const VideoJS: FC<VideoJsProps> = ({
     if (!videoElement) return
 
     setPlayer(
-      videojs(videoElement, options, () => {
+      videojs(videoElement, options, function () {
         onReady()
+        this.on('timeupdate', function (this: VideoJsPlayer) {
+          onTimeUpdate(this.currentTime())
+        })
       })
     )
-  }, [onReady, options, player, videoRef])
+  }, [onReady, onTimeUpdate, options, player, videoRef])
 
   const videoStyles = 'video-js vjs-1-1'
 

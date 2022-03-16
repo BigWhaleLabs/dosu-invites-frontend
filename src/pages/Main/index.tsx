@@ -131,6 +131,7 @@ function Main() {
     videoRef,
     setupVideo,
     videoJsOptions,
+    onTimeUpdate,
   } = useVideo()
   const { ipfsLink } = useIpfs()
   const { merkleVerified } = useMerkleTree()
@@ -160,6 +161,7 @@ function Main() {
           onReady={() => setupVideo()}
           videoRef={videoRef}
           videoLink={videoLink}
+          onTimeUpdate={onTimeUpdate}
         />
       )}
 

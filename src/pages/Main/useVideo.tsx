@@ -10,10 +10,9 @@ export default function useVideo() {
     controls: true,
     responsive: true,
     fluid: true,
-    poster: 'img/poster.png',
     preload: 'auto',
     techOrder: ['html5'],
-    bigPlayButton: false,
+    bigPlayButton: true,
   }
 
   const navigate = useNavigate()
