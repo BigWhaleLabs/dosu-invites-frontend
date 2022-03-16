@@ -133,7 +133,7 @@ function Main() {
     videoJsOptions,
     onTimeUpdate,
   } = useVideo()
-  const { ipfsLink } = useIpfs()
+  const { ipfsLink, ipfsLoading } = useIpfs()
   const { merkleVerified } = useMerkleTree()
   const { md } = useBreakpoints()
 
@@ -258,7 +258,9 @@ function Main() {
                   </button>
                 </LinkText>
               </BodyText>
-              {ipfsLink ? (
+              {ipfsLoading ? (
+                <Loader size="small" />
+              ) : ipfsLink ? (
                 <LinkText centered>
                   <a href={ipfsLink} target="_blank">
                     Look at Your frame at the InterPlanetary File System (IPFS)

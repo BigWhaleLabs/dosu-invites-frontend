@@ -8,14 +8,23 @@ export default function useNft() {
   const { tokenId } = useSnapshot(EthStore)
 
   const [ipfsLink, setIpfsLink] = useState<string>()
+  const [ipfsLoading, setIpfsLoading] = useState(false)
 
   useEffect(() => {
     async function checkTokenURI() {
-      if (EthStore.tokenId === undefined) return
+      try {
+        setIpfsLoading(true)
 
-      const tokenURI = await api.getIpfsLink(EthStore.tokenId)
+        if (EthStore.tokenId === undefined) return
 
-      if (tokenURI) setIpfsLink(tokenURI)
+        const tokenURI = await api.getIpfsLink(EthStore.tokenId)
+
+        if (tokenURI) setIpfsLink(tokenURI)
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setIpfsLoading(false)
+      }
     }
 
     void checkTokenURI()
@@ -23,5 +32,6 @@ export default function useNft() {
 
   return {
     ipfsLink,
+    ipfsLoading,
   }
 }
