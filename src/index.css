@@ -93,6 +93,12 @@ video,
 .vjs-control-bar {
   margin-bottom: 1rem;
 }
+
+.vjs-play-progress {
+  border-radius: 24px;
+  background-color: var(--accent) !important;
+}
+
 @media screen and (min-width: 768px) {
   .video-js {
     padding-top: 56.25% !important;
@@ -101,11 +107,6 @@ video,
     width: 80% !important;
     margin-left: 10%;
   }
-}
-
-.vjs-play-progress {
-  border-radius: 24px;
-  background-color: var(--accent) !important;
 }
 
 .web3modal-modal-lightbox {
