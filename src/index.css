@@ -84,7 +84,7 @@ video,
 .video-js .vjs-big-play-button {
   border-radius: 50em !important;
   border: none !important;
-  background-color: var(--primary-disabled-text) !important;
+  background-color: var(--primary-text-dimmed) !important;
 }
 .video-js .vjs-big-play-button:hover {
   background-color: var(--accent) !important;
