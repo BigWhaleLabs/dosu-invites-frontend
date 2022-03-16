@@ -12,7 +12,7 @@ export default function useVideo() {
     controls: true,
     responsive: true,
     fluid: true,
-    poster: 'img/poster',
+    poster: 'img/poster.png',
     bigPlayButton: true,
   }
 
