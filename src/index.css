@@ -81,13 +81,8 @@ video,
   -webkit-tap-highlight-color: transparent;
 }
 
-.video-js .vjs-big-play-button {
-  border-radius: 50em !important;
-  border: none !important;
-  background-color: var(--primary-text-dimmed) !important;
-}
-.video-js .vjs-big-play-button:hover {
-  background-color: var(--accent) !important;
+.vjs-paused .vjs-control-bar {
+  display: flex !important;
 }
 
 .vjs-control-bar {

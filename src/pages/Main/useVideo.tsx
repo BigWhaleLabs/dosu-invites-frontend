@@ -12,7 +12,7 @@ export default function useVideo() {
     fluid: true,
     preload: 'auto',
     techOrder: ['html5'],
-    bigPlayButton: true,
+    bigPlayButton: false,
   }
 
   const navigate = useNavigate()
