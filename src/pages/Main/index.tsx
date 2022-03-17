@@ -172,7 +172,7 @@ function Main() {
           <>
             <Draggable
               bounds={{
-                left: -draggableGrid * (framesToEthLength - 1) * multiplier,
+                left: -draggableGrid * framesToEthLength * multiplier,
                 right: 0,
               }}
               grid={[draggableGrid, draggableGrid]}
