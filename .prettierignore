@@ -1,3 +1,3 @@
 # Abi types
-src/@types/abiTypes/*
-src/@types/abi.json
+src/helpers/abiTypes/*
+src/helpers/abi.json

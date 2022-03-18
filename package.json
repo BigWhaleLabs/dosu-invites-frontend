@@ -10,7 +10,7 @@
     "postinstall": "yarn prepare",
     "prepare": "yarn generate-abi-types & yarn generate-css-types",
     "generate-css-types": "tailwindcss-classnames -o src/classnames/tailwind.ts && prettier --write 'src/classnames/tailwind.ts'",
-    "generate-abi-types": "typechain --target=ethers-v5 'src/@types/abi.json' --out-dir 'src/@types/abiTypes'"
+    "generate-abi-types": "typechain --target=ethers-v5 'src/helpers/abi.json' --out-dir 'src/helpers/abiTypes'"
   },
   "browserslist": {
     "production": [

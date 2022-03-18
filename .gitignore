@@ -4,7 +4,7 @@ dist
 stats.html
 
 # Contract types files
-src/@types/abiTypes
+src/helpers/abiTypes
 
 # local env files
 .env
