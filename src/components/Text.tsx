@@ -18,6 +18,8 @@ export const primaryText = classnames(
   textColor('text-primary')
 )
 
+const transitionColors = classnames(transitionProperty('transition-colors'))
+
 const headerText = (h1?: boolean) =>
   classnames(
     transitionProperty('transition-colors'),
@@ -136,6 +138,16 @@ const logoText = (large?: boolean) =>
 export const LogoText: FC<{ large?: boolean }> = ({ large, children }) => {
   return <span className={logoText(large)}>{children}</span>
 }
+
+const errorText = classnames(
+  textColor('text-error'),
+  fontWeight('font-medium'),
+  fontFamily('font-primary'),
+  transitionColors
+)
+export const ErrorText: FC = ({ children }) => (
+  <p className={errorText}>{children}</p>
+)
 
 const linkText = (centered?: boolean) =>
   classnames(

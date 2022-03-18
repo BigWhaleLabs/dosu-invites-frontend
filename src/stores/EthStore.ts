@@ -5,6 +5,8 @@ import { proxy } from 'valtio'
 import PersistableStore from 'stores/persistence/PersistableStore'
 import configuredModal from 'helpers/configuredModal'
 
+const network = import.meta.env.VITE_ETH_NETWORK
+
 let contract: Abi
 
 class EthStore extends PersistableStore {
@@ -12,10 +14,12 @@ class EthStore extends PersistableStore {
   tokenId: number | undefined
   ethLoading = false
   allowListed = false
+  ethError = ''
 
   async onConnect() {
     try {
       this.ethLoading = true
+      this.ethError = ''
 
       const instance = await configuredModal.connect()
       const provider = new Web3Provider(instance)
@@ -29,10 +33,17 @@ class EthStore extends PersistableStore {
       await this.handleAccountChanged(accounts)
       this.subscribeProvider(instance)
     } catch (error) {
-      console.error(error)
+      this.ethError = `Looks like you're using not a ${network} network`
+      this.clearData()
     } finally {
       this.ethLoading = false
     }
+  }
+
+  private clearData() {
+    configuredModal.clearCachedProvider()
+    this.userAddress = ''
+    this.tokenId = undefined
   }
 
   private async checkUserData() {
@@ -66,13 +77,20 @@ class EthStore extends PersistableStore {
       console.error(error)
     })
     provider.on('accountsChanged', async (accounts: string[]) => {
+      if (this.ethError) return
       await this.handleAccountChanged(accounts)
     })
     provider.on('disconnect', async (accounts: string[]) => {
+      if (this.ethError) return
       await this.handleAccountChanged(accounts)
     })
     provider.on('stop', async (accounts: string[]) => {
+      if (this.ethError) return
       await this.handleAccountChanged(accounts)
+    })
+    provider.on('networkChanged', async () => {
+      this.clearData()
+      await this.onConnect()
     })
   }
 
