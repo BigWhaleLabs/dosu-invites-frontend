@@ -1,4 +1,3 @@
-postcss.config.js
-vite.config.ts
+# Abi types
 src/@types/abiTypes/*
 src/@types/abi.json

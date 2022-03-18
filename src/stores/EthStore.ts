@@ -1,5 +1,5 @@
-import { Abi } from 'helpers/abiTypes/Abi'
-import { Abi__factory } from 'helpers/abiTypes/factories/Abi__factory'
+import { Abi } from '@types/abiTypes/Abi'
+import { Abi__factory } from '@types/abiTypes/factories/Abi__factory'
 import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
 import PersistableStore from 'stores/persistence/PersistableStore'
