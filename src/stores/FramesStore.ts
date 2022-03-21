@@ -1,12 +1,12 @@
 import * as api from 'helpers/api'
 import { proxy } from 'valtio'
 
-const SuspenseStore = proxy({
+const FramesStore = proxy({
   framesToEth: api.getMintedAddresses(),
   ethAddress: '0x',
   requestFrames: () => {
-    SuspenseStore.framesToEth = api.getMintedAddresses()
+    FramesStore.framesToEth = api.getMintedAddresses()
   },
 })
 
-export default SuspenseStore
+export default FramesStore

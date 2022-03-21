@@ -36,7 +36,7 @@ import AppStore from 'stores/AppStore'
 import Draggable from 'react-draggable'
 import Footer from 'components/Footer'
 import Loader from 'components/Loader'
-import SuspenseStore from 'stores/SuspenseStore'
+import FramesStore from 'stores/FramesStore'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useNft from 'pages/Main/useNft'
@@ -118,7 +118,7 @@ const ethText = classnames(
 
 function Main() {
   const { theme, userAddress, userFrame } = useSnapshot(AppStore)
-  const { framesToEth } = useSnapshot(SuspenseStore)
+  const { framesToEth } = useSnapshot(FramesStore)
   const { invited, mintAddress, mintLoading } = useNft()
   const {
     onTimeUpdate,
@@ -136,7 +136,7 @@ function Main() {
 
   useEffect(() => {
     if (framesToEth[frame]) {
-      SuspenseStore.ethAddress = framesToEth[frame]
+      FramesStore.ethAddress = framesToEth[frame]
     }
   }, [frame, framesToEth])
 
@@ -207,11 +207,11 @@ function Main() {
 
         <Link
           to={{
-            pathname: `https://etherscan.io/address/${SuspenseStore.ethAddress}`,
+            pathname: `https://etherscan.io/address/${FramesStore.ethAddress}`,
           }}
           target="_blank"
         >
-          <p className={ethText}>{SuspenseStore.ethAddress}</p>
+          <p className={ethText}>{FramesStore.ethAddress}</p>
         </Link>
       </div>
 

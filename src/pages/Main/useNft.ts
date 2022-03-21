@@ -3,7 +3,7 @@ import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import { useState } from 'react'
 import AppStore from 'stores/AppStore'
-import SuspenseState from 'stores/SuspenseStore'
+import FramesStore from 'stores/FramesStore'
 
 export default function useNft() {
   const { userAddress, userFrame } = useSnapshot(AppStore)
@@ -17,7 +17,7 @@ export default function useNft() {
         setMintLoading(true)
         await AppStore.mintNFT()
         await AppStore.checkInvite()
-        SuspenseState.requestFrames()
+        FramesStore.requestFrames()
         setMintLoading(false)
       } catch (error) {
         setMintLoading(false)
