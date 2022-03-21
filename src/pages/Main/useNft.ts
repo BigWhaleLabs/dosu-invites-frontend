@@ -6,10 +6,9 @@ import EthStore from 'stores/EthStore'
 import Invites from 'models/Invites'
 
 export default function useNft() {
-  const { tokenId, userAddress } = useSnapshot(EthStore)
+  const { tokenId } = useSnapshot(EthStore)
 
   const [loading, setLoading] = useState(false)
-  const [invited, setInvited] = useState(false)
   const [framesToEth, setFramesToEth] = useState<Invites>({})
   const [mintLoading, setMintLoading] = useState(false)
 
@@ -50,19 +49,9 @@ export default function useNft() {
     void getMintedAddresses()
   }, [])
 
-  useEffect(() => {
-    const checkUserInvite = async () => {
-      if (EthStore.userAddress)
-        setInvited(await api.checkInvite(EthStore.userAddress))
-    }
-
-    void checkUserInvite()
-  }, [userAddress])
-
   return {
     framesToEth,
     loading,
-    invited,
     getMintedAddresses,
     mintAddress,
     mintLoading,

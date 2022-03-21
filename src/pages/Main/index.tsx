@@ -124,9 +124,9 @@ const inviteText = classnames(
 )
 
 function Main() {
-  const { userAddress } = useSnapshot(EthStore)
+  const { userAddress, allowListed } = useSnapshot(EthStore)
   const { theme } = useSnapshot(AppStore)
-  const { framesToEth, loading, invited, mintAddress, mintLoading } = useNft()
+  const { framesToEth, loading, mintAddress, mintLoading } = useNft()
   const { ipfsLink } = useIpfs()
   const {
     onTimeUpdate,
@@ -234,11 +234,13 @@ function Main() {
 
       {userAddress && EthStore.tokenId === undefined && (
         <div className={marginBottom}>
-          {invited ? (
+          {ethLoading ? (
+            <Loader />
+          ) : allowListed ? (
             <Button
               onClick={async () => {
                 await mintAddress()
-                setTimeout(() => reloadVideo(EthStore.tokenId), 3000)
+                setTimeout(() => reloadVideo(EthStore.tokenId), 10000)
               }}
               loading={mintLoading}
             >

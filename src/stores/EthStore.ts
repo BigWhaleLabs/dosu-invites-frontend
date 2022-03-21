@@ -19,6 +19,8 @@ if (window.ethereum) {
 class EthStore extends PersistableStore {
   userAddress = ''
   tokenId: number | undefined
+  allowListed = false
+  ethLoading = false
 
   getProvider() {
     if (!provider) return undefined
@@ -60,6 +62,16 @@ class EthStore extends PersistableStore {
     window.ethereum.on('accountsChanged', async (accounts: string[]) => {
       await this.handleAccountChanged(accounts)
     })
+  }
+
+  private async checkUserData() {
+    this.allowListed = await contract.allowlist(this.userAddress)
+    const minted = +(await contract.balanceOf(this.userAddress))
+    if (!this.allowListed || !minted) {
+      this.tokenId = undefined
+      return
+    }
+    await this.checkTokenId()
   }
 
   async checkTokenId() {
