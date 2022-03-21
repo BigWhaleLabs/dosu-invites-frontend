@@ -30,12 +30,13 @@ import {
   zIndex,
 } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import AppStore from 'stores/AppStore'
 import Draggable from 'react-draggable'
 import Footer from 'components/Footer'
 import Loader from 'components/Loader'
+import SuspenseStore from 'stores/SuspenseStore'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useNft from 'pages/Main/useNft'
@@ -117,7 +118,8 @@ const ethText = classnames(
 
 function Main() {
   const { theme, userAddress, userFrame } = useSnapshot(AppStore)
-  const { framesToEth, loading, invited, mintAddress, mintLoading } = useNft()
+  const { framesToEth } = useSnapshot(SuspenseStore)
+  const { invited, mintAddress, mintLoading } = useNft()
   const {
     onTimeUpdate,
     setDragPause,
@@ -132,11 +134,9 @@ function Main() {
   } = useVideo()
   const { md } = useBreakpoints()
 
-  const [ethAddress, setEthAddress] = useState('0x')
-
   useEffect(() => {
     if (framesToEth[frame]) {
-      setEthAddress(framesToEth[frame])
+      SuspenseStore.ethAddress = framesToEth[frame]
     }
   }, [frame, framesToEth])
 
@@ -173,49 +173,45 @@ function Main() {
       </div>
 
       <div className={draggableBox}>
-        {!framesToEth || loading ? (
-          <Loader size="small" />
-        ) : (
-          <>
-            <Draggable
-              bounds={{
-                left: -draggableGrid * framesToEthLength * multiplier,
-                right: 0,
-              }}
-              grid={[draggableGrid, draggableGrid]}
-              positionOffset={{
-                x: `calc(50% - 0.85rem)`,
-                y: 0,
-              }}
-              position={{ x: -frame * draggableGrid * multiplier, y: 0 }}
-              axis="x"
-              onDrag={(_e, data) => {
-                setDragPause(true)
-                setDragFrame(frame + -data.deltaX / draggableGrid)
-              }}
-              onStop={() => setDragPause(false)}
-            >
-              <div className={draggableText}>
-                {Object.keys(framesToEth).map((tokenId) => (
-                  <div className={draggableSymbolBox}>
-                    <p className={draggableSymbol}>{+tokenId}</p>
-                  </div>
-                ))}
+        <Draggable
+          bounds={{
+            left: -draggableGrid * framesToEthLength * multiplier,
+            right: 0,
+          }}
+          grid={[draggableGrid, draggableGrid]}
+          positionOffset={{
+            x: `calc(50% - 0.85rem)`,
+            y: 0,
+          }}
+          position={{ x: -frame * draggableGrid * multiplier, y: 0 }}
+          axis="x"
+          onDrag={(_e, data) => {
+            setDragPause(true)
+            setDragFrame(frame + -data.deltaX / draggableGrid)
+          }}
+          onStop={() => setDragPause(false)}
+        >
+          <div className={draggableText}>
+            {Object.keys(framesToEth).map((tokenId) => (
+              <div className={draggableSymbolBox}>
+                <p className={draggableSymbol}>{+tokenId}</p>
               </div>
-            </Draggable>
-            <div className={indicator} />
-          </>
-        )}
+            ))}
+          </div>
+        </Draggable>
+        <div className={indicator} />
       </div>
 
       <div className={ethAddressBox}>
         <BodyText>ETH ADDRESS</BodyText>
 
         <Link
-          to={{ pathname: `https://etherscan.io/address/${ethAddress}` }}
+          to={{
+            pathname: `https://etherscan.io/address/${SuspenseStore.ethAddress}`,
+          }}
           target="_blank"
         >
-          <p className={ethText}>{ethAddress}</p>
+          <p className={ethText}>{SuspenseStore.ethAddress}</p>
         </Link>
       </div>
 

@@ -3,26 +3,13 @@ import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import { useState } from 'react'
 import AppStore from 'stores/AppStore'
-import Invites from 'models/Invites'
+import SuspenseState from 'stores/SuspenseStore'
 
 export default function useNft() {
   const { userAddress, userFrame } = useSnapshot(AppStore)
 
-  const [loading, setLoading] = useState(false)
   const [invited, setInvited] = useState(false)
-  const [framesToEth, setFramesToEth] = useState<Invites>({})
   const [mintLoading, setMintLoading] = useState(false)
-
-  const getMintedAddresses = async () => {
-    setLoading(true)
-    try {
-      setFramesToEth(await api.getMintedAddresses())
-    } catch (error) {
-      console.error(error)
-    } finally {
-      setLoading(false)
-    }
-  }
 
   const mintAddress = async () => {
     if (!userFrame) {
@@ -30,7 +17,7 @@ export default function useNft() {
         setMintLoading(true)
         await AppStore.mintNFT()
         await AppStore.checkInvite()
-        await getMintedAddresses()
+        SuspenseState.requestFrames()
         setMintLoading(false)
       } catch (error) {
         setMintLoading(false)
@@ -50,10 +37,6 @@ export default function useNft() {
   }, [])
 
   useEffect(() => {
-    void getMintedAddresses()
-  }, [])
-
-  useEffect(() => {
     const checkUserInvite = async () => {
       if (AppStore.userAddress) {
         setInvited(await api.checkInvite(AppStore.userAddress))
@@ -64,10 +47,7 @@ export default function useNft() {
   }, [userAddress])
 
   return {
-    framesToEth,
-    loading,
     invited,
-    getMintedAddresses,
     mintAddress,
     mintLoading,
   }
