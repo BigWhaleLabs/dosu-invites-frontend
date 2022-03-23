@@ -19,7 +19,7 @@ import {
 import { observer } from 'mobx-react-lite'
 import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
-import AppStore from 'stores/AppStore'
+import EthStore from 'stores/EthStore'
 import Logo from 'components/Logo'
 import MetaMask from 'icons/MetaMask'
 import Popup from 'components/Popup'
@@ -55,13 +55,13 @@ const themeToggleBox = classnames(
 const buttonBox = classnames(margin('xl:ml-10', 'ml-3'))
 
 function Navbar() {
-  const { userAddress } = useSnapshot(AppStore)
+  const { userAddress } = useSnapshot(EthStore)
   const { md } = useBreakpoints()
   const isSafari = userAgent() === UserAgent.Safari
-  const isNotSupportedMobile = mobileCheck() && !AppStore.metaMaskInstalled
+  const isNotSupportedMobile = mobileCheck() && !EthStore.userAddress
 
   useEffect(() => {
-    void AppStore.isMetaMaskConnected()
+    void EthStore.checkMetaMask()
   }, [])
 
   return (
@@ -82,7 +82,7 @@ function Navbar() {
             activator={
               <Button
                 circle
-                onClick={async () => await AppStore.connectMetaMask()}
+                onClick={async () => await EthStore.connectMetaMask()}
                 outlined={!md}
               >
                 {md ? 'Connect MetaMask to claim your invite' : <MetaMask />}

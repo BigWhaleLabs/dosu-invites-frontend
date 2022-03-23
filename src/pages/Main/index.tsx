@@ -1,7 +1,6 @@
 import { BodyText, LinkText } from 'components/Text'
 import { Button } from 'components/Button'
 import { DefaultUi, Player, Poster, Video } from '@vime/react'
-import { Link } from 'react-router-dom'
 import {
   alignItems,
   backgroundColor,
@@ -34,10 +33,12 @@ import { useEffect, useState } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import AppStore from 'stores/AppStore'
 import Draggable from 'react-draggable'
+import EthStore from 'stores/EthStore'
 import Footer from 'components/Footer'
 import Loader from 'components/Loader'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
+import useIpfs from 'pages/Main/useIpfs'
 import useNft from 'pages/Main/useNft'
 import useVideo from 'pages/Main/useVideo'
 
@@ -115,9 +116,18 @@ const ethText = classnames(
   textOverflow('truncate')
 )
 
+const inviteText = classnames(
+  display('flex'),
+  flexDirection('flex-col'),
+  justifyContent('justify-center'),
+  alignItems('items-center')
+)
+
 function Main() {
-  const { theme, userAddress, userFrame } = useSnapshot(AppStore)
-  const { framesToEth, loading, invited, mintAddress, mintLoading } = useNft()
+  const { userAddress, allowListed, ethLoading } = useSnapshot(EthStore)
+  const { theme } = useSnapshot(AppStore)
+  const { framesToEth, loading, mintAddress, mintLoading } = useNft()
+  const { ipfsLink } = useIpfs()
   const {
     onTimeUpdate,
     setDragPause,
@@ -196,9 +206,9 @@ function Main() {
               onStop={() => setDragPause(false)}
             >
               <div className={draggableText}>
-                {Object.keys(framesToEth).map((tokenId) => (
+                {Object.keys(framesToEth).map((frameId) => (
                   <div className={draggableSymbolBox}>
-                    <p className={draggableSymbol}>{+tokenId}</p>
+                    <p className={draggableSymbol}>{+frameId}</p>
                   </div>
                 ))}
               </div>
@@ -211,21 +221,26 @@ function Main() {
       <div className={ethAddressBox}>
         <BodyText>ETH ADDRESS</BodyText>
 
-        <Link
-          to={{ pathname: `https://etherscan.io/address/${ethAddress}` }}
-          target="_blank"
-        >
-          <p className={ethText}>{ethAddress}</p>
-        </Link>
+        <LinkText>
+          <a
+            href={`https://etherscan.io/address/${ethAddress}`}
+            target="_blank"
+            className={ethText}
+          >
+            {ethAddress}
+          </a>
+        </LinkText>
       </div>
 
-      {userAddress && !userFrame && (
+      {userAddress && EthStore.tokenId === undefined && (
         <div className={marginBottom}>
-          {invited ? (
+          {ethLoading ? (
+            <Loader />
+          ) : allowListed ? (
             <Button
               onClick={async () => {
                 await mintAddress()
-                setTimeout(() => reloadVideo(AppStore.userFrame), 3000)
+                setTimeout(() => reloadVideo(EthStore.tokenId), 10000)
               }}
               loading={mintLoading}
             >
@@ -233,32 +248,41 @@ function Main() {
             </Button>
           ) : (
             <BodyText>
-              Your Ethereum address wasn't whitelisted for Dosu Invite NFTs. Try
+              Your Ethereum address wasn't allowlisted for Dosu Invite NFTs. Try
               another one?
             </BodyText>
           )}
         </div>
       )}
 
-      {userAddress && userFrame && (
+      {userAddress && EthStore.tokenId !== undefined && (
         <div className={marginBottom}>
           {mintLoading ? (
-            <Loader />
+            <Loader size="small" />
           ) : (
-            <BodyText>
-              Your invite is #{userFrame},{' '}
-              <LinkText>
-                <button
-                  onClick={() => {
-                    if (AppStore.userFrame) {
-                      setDragFrame(AppStore.userFrame)
-                    }
-                  }}
-                >
-                  go check it out
-                </button>
-              </LinkText>
-            </BodyText>
+            <div className={inviteText}>
+              <BodyText>
+                Your invite is #{EthStore.tokenId},{' '}
+                <LinkText>
+                  <button
+                    onClick={() => {
+                      if (EthStore.tokenId !== undefined) {
+                        setDragFrame(EthStore.tokenId)
+                      }
+                    }}
+                  >
+                    go check it out
+                  </button>
+                </LinkText>
+              </BodyText>
+              {ipfsLink ? (
+                <LinkText>
+                  <a href={ipfsLink} target="_blank">
+                    Look at Your frame at the InterPlanetary File System (IPFS)
+                  </a>
+                </LinkText>
+              ) : undefined}
+            </div>
           )}
         </div>
       )}

@@ -7,9 +7,12 @@ export async function getMintedAddresses() {
   return data
 }
 
-export async function checkInvite(ethAddress: string) {
-  const { data }: AxiosResponse<boolean> = await Api.post('/invites/invite', {
-    ethAddress,
-  })
+export async function getIpfsLink(tokenId: number) {
+  const { data }: AxiosResponse<string | undefined> = await Api.post(
+    '/invites/ipfs',
+    {
+      tokenId,
+    }
+  )
   return data
 }

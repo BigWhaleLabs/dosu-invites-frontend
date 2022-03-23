@@ -22,8 +22,8 @@ import {
   visibility,
   zIndex,
 } from 'classnames/tailwind'
-import AppStore from 'stores/AppStore'
 import Cross from 'icons/Cross'
+import EthStore from 'stores/EthStore'
 import usePopUp from 'components/Popup/usePopup'
 
 interface PopupProps {
@@ -96,7 +96,7 @@ const Popup: FC<PopupProps> = ({
   const { showPopup, togglePopup } = usePopUp()
 
   const activatorButton = activator ? (
-    <div onClick={() => !AppStore.getProvider() && togglePopup()}>
+    <div onClick={() => !EthStore.getProvider() && togglePopup()}>
       {activator}
     </div>
   ) : (
@@ -151,7 +151,7 @@ const Popup: FC<PopupProps> = ({
   const closePopup = () => togglePopup(false)
 
   return (
-    <div className="popup-wrapper">
+    <div>
       {activatorButton}
       <div
         className={popupOverlay(showPopup)}

@@ -19,7 +19,6 @@
 | Name                  | Description                   |
 | --------------------- | ----------------------------- |
 | VITE_BACKEND          | API root URL                  |
-| VITE_ETH_NETWORK      | Ethereum network              |
 | VITE_CONTRACT_ADDRESS | Dosu invites contract address |
 
 ## Local launch
