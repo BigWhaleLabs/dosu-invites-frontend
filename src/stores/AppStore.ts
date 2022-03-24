@@ -1,7 +1,7 @@
-import { Theme } from 'models/Theme'
 import { proxy } from 'valtio'
 import Language from 'models/Language'
 import PersistableStore from 'stores/persistence/PersistableStore'
+import Theme from 'models/Theme'
 import usePreferredTheme from 'helpers/usePreferredTheme'
 
 class AppStore extends PersistableStore {
