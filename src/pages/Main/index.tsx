@@ -1,6 +1,5 @@
 import { BodyText, LinkText } from 'components/Text'
 import { Button } from 'components/Button'
-import { Link } from 'react-router-dom'
 import { Suspense } from 'react'
 import {
   alignItems,
@@ -23,14 +22,11 @@ import {
 } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
 import { useSnapshot } from 'valtio'
-import AppStore from 'stores/AppStore'
-import Draggable from 'react-draggable'
 import EthStore from 'stores/EthStore'
 import Footer from 'components/Footer'
 import FramesStore from 'stores/FramesStore'
 import Loader from 'components/Loader'
 import truncateMiddle from 'helpers/truncateMiddle'
-import useBreakpoints from 'helpers/useBreakpoints'
 import useIpfs from 'pages/Main/useIpfs'
 import useNft from 'pages/Main/useNft'
 import useVideo from 'pages/Main/useVideo'
