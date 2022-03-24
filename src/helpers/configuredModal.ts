@@ -1,8 +1,8 @@
 import { Bitski } from 'bitski'
+import CoinbaseWalletProvider from '@coinbase/wallet-sdk'
 import Fortmatic from 'fortmatic'
 import Torus from '@toruslabs/torus-embed'
 import WalletConnect from '@walletconnect/web3-provider'
-import WalletLink from 'walletlink'
 import Web3Modal from 'web3modal'
 
 const infuraId = import.meta.env.VITE_INFURA_ID as string
@@ -34,7 +34,7 @@ const configuredModal = new Web3Modal({
       },
     },
     walletlink: {
-      package: WalletLink,
+      package: CoinbaseWalletProvider,
       options: {
         appName: 'Dosu-Invites',
         infuraId,

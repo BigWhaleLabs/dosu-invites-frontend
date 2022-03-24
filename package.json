@@ -7,11 +7,10 @@
     "build": "yarn prepare && cross-env NODE_ENV=production tsc && vite build",
     "pretty": "prettier --check src",
     "lint": "yarn pretty && eslint --max-warnings 0 --ext ts,tsx src",
-    "fix": "prettier --write src/ && eslint --fix src/",
     "postinstall": "yarn prepare",
     "prepare": "yarn generate-abi-types & yarn generate-css-types",
     "generate-css-types": "tailwindcss-classnames -o src/classnames/tailwind.ts && prettier --write 'src/classnames/tailwind.ts'",
-    "generate-abi-types": "typechain --target=ethers-v5 'src/@types/abi.json' --out-dir 'src/helpers/abiTypes'"
+    "generate-abi-types": "typechain --target=ethers-v5 'src/helpers/abi.json' --out-dir 'src/helpers/abiTypes'"
   },
   "browserslist": {
     "production": [
@@ -27,13 +26,17 @@
   },
   "dependencies": {
     "@borodutch-labs/localize-react": "^1.7.6",
+    "@coinbase/wallet-sdk": "^3.0.5",
+    "@toruslabs/torus-embed": "^1.21.0",
     "@vime/core": "^5.3.1",
     "@vime/react": "^5.3.1",
     "@vitejs/plugin-react": "^1.2.0",
-    "axios": "^0.26.1",
-    "ethers": "^5.6.0",
     "keccak256": "^1.0.6",
     "merkletreejs": "^0.2.31",
+    "@walletconnect/web3-provider": "^1.7.5",
+    "axios": "^0.26.1",
+    "bitski": "^0.14.0",
+    "ethers": "^5.6.0",
     "mobx": "^6.4.2",
     "mobx-react-lite": "^3.3.0",
     "preact": "^10.6.6",
@@ -58,7 +61,6 @@
     "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
-    "@walletconnect/web3-provider": "^1.7.5",
     "autoprefixer": "^10.4.2",
     "bitski": "^0.14.0",
     "cross-env": "^7.0.3",
@@ -83,8 +85,7 @@
     "typescript": "^4.6.2",
     "vite": "^2.8.6",
     "vite-plugin-environment": "^1.1.0",
-    "vite-tsconfig-paths": "^3.4.1",
-    "walletlink": "^2.5.0"
+    "vite-tsconfig-paths": "^3.4.1"
   },
   "packageManager": "yarn@3.1.1"
 }
