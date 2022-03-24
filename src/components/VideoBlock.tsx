@@ -77,7 +77,7 @@ const indicator = classnames(
 
 function VideoBlock() {
   const { theme } = useSnapshot(AppStore)
-  const { framesToEth, framesToEthLength } = useSnapshot(FramesStore)
+  const { framesToEth } = useSnapshot(FramesStore)
   const {
     onTimeUpdate,
     setDragPause,
@@ -97,9 +97,7 @@ function VideoBlock() {
     }
   }, [frame, framesToEth])
 
-  useEffect(() => {
-    FramesStore.framesToEthLength = Object.keys(framesToEth).length
-  }, [framesToEth])
+  const framesToEthLength = Object.keys(framesToEth).length
 
   const videoLink = `${backend}/video`
 
