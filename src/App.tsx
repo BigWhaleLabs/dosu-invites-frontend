@@ -1,6 +1,4 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
-import { Suspense } from 'react'
-import Loader from 'components/Loader'
 import LocalizationProvider from 'localization/LocalizationProvider'
 import Main from 'pages/Main'
 import Navbar from 'components/Navbar'
@@ -16,14 +14,7 @@ const App = () => {
           <Router>
             <Navbar />
             <Routes>
-              <Route
-                path="/*"
-                element={
-                  <Suspense fallback={<Loader size="small" />}>
-                    <Main />
-                  </Suspense>
-                }
-              />
+              <Route path="/*" element={<Main />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Router>
