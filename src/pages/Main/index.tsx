@@ -125,7 +125,7 @@ const inviteText = classnames(
 )
 
 function Main() {
-  const { userAddress, ethLoading, allowListed } = useSnapshot(EthStore)
+  const { userAddress, allowListed, ethLoading } = useSnapshot(EthStore)
   const { theme } = useSnapshot(AppStore)
   const { framesToEth, loading, mintAddress, mintLoading } = useNft()
   const { ipfsLink } = useIpfs()
