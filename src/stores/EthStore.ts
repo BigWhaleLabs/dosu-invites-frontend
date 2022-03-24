@@ -3,65 +3,36 @@ import { Abi__factory } from 'helpers/abiTypes/factories/Abi__factory'
 import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
 import PersistableStore from 'stores/persistence/PersistableStore'
+import configuredModal from 'helpers/configuredModal'
 
-let provider: Web3Provider
 let contract: Abi
-
-if (window.ethereum) {
-  provider = new Web3Provider(window.ethereum)
-
-  contract = Abi__factory.connect(
-    import.meta.env.VITE_CONTRACT_ADDRESS as string,
-    provider.getSigner()
-  )
-}
 
 class EthStore extends PersistableStore {
   userAddress = ''
   tokenId: number | undefined
-  allowListed = false
   ethLoading = false
+  allowListed = false
 
-  getProvider() {
-    if (!provider) return undefined
+  async onConnect() {
+    try {
+      this.ethLoading = true
 
-    return provider
-  }
+      const instance = await configuredModal.connect()
+      const provider = new Web3Provider(instance)
+      const accounts = await provider.listAccounts()
 
-  async checkMetaMask() {
-    if (!provider) {
-      this.userAddress = ''
-      return
-    }
+      contract = Abi__factory.connect(
+        import.meta.env.VITE_CONTRACT_ADDRESS as string,
+        provider.getSigner(0)
+      )
 
-    await this.handleAccountChanged(await provider.listAccounts())
-    this.setupListeners()
-  }
-
-  async connectMetaMask() {
-    if (!provider) return
-
-    await provider.send('eth_requestAccounts', [])
-    this.userAddress = await provider.getSigner().getAddress()
-  }
-
-  async handleAccountChanged(accounts: string[]) {
-    if (accounts.length === 0) {
-      this.userAddress = ''
-      this.tokenId = undefined
-    } else if (accounts[0] !== this.userAddress) {
-      this.userAddress = accounts[0]
-      await this.checkTokenId()
-    }
-  }
-
-  setupListeners() {
-    window.ethereum.on('error', (error: Error) => {
-      console.error(error)
-    })
-    window.ethereum.on('accountsChanged', async (accounts: string[]) => {
       await this.handleAccountChanged(accounts)
-    })
+      this.subscribeProvider(instance)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      this.ethLoading = false
+    }
   }
 
   private async checkUserData() {
@@ -74,25 +45,60 @@ class EthStore extends PersistableStore {
     await this.checkTokenId()
   }
 
-  async checkTokenId() {
-    if (!contract || !this.userAddress) return
+  private async handleAccountChanged(accounts: string[]) {
+    this.ethLoading = true
 
-    if (!+(await contract.balanceOf(this.userAddress))) {
+    if (accounts.length === 0) {
+      this.userAddress = ''
       this.tokenId = undefined
-      return
+    } else {
+      this.userAddress = accounts[0]
+      await this.checkUserData()
     }
 
-    const { _hex } = await contract.checkTokenId(this.userAddress)
-    const tokenId = +_hex
+    this.ethLoading = false
+  }
 
-    this.tokenId = tokenId
+  private subscribeProvider(provider: Web3Provider) {
+    if (!provider.on) return
+
+    provider.on('error', (error: Error) => {
+      console.error(error)
+    })
+    provider.on('accountsChanged', async (accounts: string[]) => {
+      await this.handleAccountChanged(accounts)
+    })
+    provider.on('disconnect', async (accounts: string[]) => {
+      await this.handleAccountChanged(accounts)
+    })
+    provider.on('stop', async (accounts: string[]) => {
+      await this.handleAccountChanged(accounts)
+    })
+  }
+
+  private async checkTokenId() {
+    try {
+      this.ethLoading = true
+
+      const { _hex } = await contract.checkTokenId(this.userAddress)
+      this.tokenId = +_hex
+    } catch (error) {
+      console.error(error)
+      this.tokenId = undefined
+    } finally {
+      this.ethLoading = false
+    }
   }
 
   async mintNFT() {
     if (!contract) return
-
-    const transaction = await contract.mint(this.userAddress)
-    await transaction.wait()
+    try {
+      const transaction = await contract.mint(this.userAddress)
+      await transaction.wait()
+      await this.checkUserData()
+    } catch (error) {
+      console.error(error)
+    }
   }
 }
 

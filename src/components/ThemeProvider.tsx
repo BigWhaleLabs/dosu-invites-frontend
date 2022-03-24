@@ -6,7 +6,8 @@ import {
   transitionProperty,
 } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
-import AppStore, { Theme } from 'stores/AppStore'
+import AppStore from 'stores/AppStore'
+import Theme from 'models/Theme'
 
 const ThemeProvider: FC = ({ children }) => {
   const backgroundStyle = classnames(

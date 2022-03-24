@@ -83,6 +83,10 @@ vm-player {
   --vm-slider-track-focused-height: 7px;
 }
 
+.web3modal-modal-lightbox {
+  z-index: 100 !important;
+}
+
 @media screen and (max-width: 1024px) {
   vm-player {
     --vm-control-icon-size: 1.5em;

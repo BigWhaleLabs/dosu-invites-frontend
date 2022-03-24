@@ -60,6 +60,7 @@ const playerBox = classnames(
   borderRadius('rounded-3xl')
 )
 const playerStyles = classnames(width('w-full'))
+const altImg = classnames(height('h-fit'), borderRadius('rounded-3xl'))
 
 const draggableBox = classnames(
   display('flex'),
@@ -167,7 +168,7 @@ function Main() {
         >
           {dragFrame > framesToEthLength ? (
             <img
-              className="h-fit rounded-3xl"
+              className={altImg}
               src={md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
             />
           ) : (
@@ -194,7 +195,7 @@ function Main() {
               }}
               grid={[draggableGrid, draggableGrid]}
               positionOffset={{
-                x: `calc(50% - 0.85rem)`,
+                x: 'calc(50% - 0.85rem)',
                 y: 0,
               }}
               position={{ x: -frame * draggableGrid * multiplier, y: 0 }}
@@ -257,7 +258,7 @@ function Main() {
 
       {userAddress && EthStore.tokenId !== undefined && (
         <div className={marginBottom}>
-          {mintLoading ? (
+          {ethLoading ? (
             <Loader size="small" />
           ) : (
             <div className={inviteText}>
@@ -286,6 +287,7 @@ function Main() {
           )}
         </div>
       )}
+
       <Footer />
     </div>
   )
