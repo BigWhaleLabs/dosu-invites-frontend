@@ -26,11 +26,11 @@ import EthStore from 'stores/EthStore'
 import Footer from 'components/Footer'
 import FramesStore from 'stores/FramesStore'
 import Loader from 'components/Loader'
+import VideoBlock from 'components/VideoBlock'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useIpfs from 'pages/Main/useIpfs'
 import useNft from 'pages/Main/useNft'
 import useVideo from 'pages/Main/useVideo'
-import VideoBlock from 'components/VideoBlock'
 
 const mainBox = classnames(
   display('flex'),
