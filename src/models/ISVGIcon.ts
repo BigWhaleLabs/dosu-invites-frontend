@@ -1,4 +1,4 @@
-import { Theme } from 'stores/AppStore'
+import Theme from 'models/Theme'
 
 export default interface ISVGIcon extends React.SVGAttributes<SVGElement> {
   theme?: Theme

@@ -1,53 +1,27 @@
-import * as api from 'helpers/api'
-import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import { useState } from 'react'
-import AppStore from 'stores/AppStore'
+import EthStore from 'stores/EthStore'
 import FramesStore from 'stores/FramesStore'
 
 export default function useNft() {
-  const { userAddress, userFrame } = useSnapshot(AppStore)
+  const { tokenId } = useSnapshot(EthStore)
 
-  const [invited, setInvited] = useState(false)
   const [mintLoading, setMintLoading] = useState(false)
 
   const mintAddress = async () => {
-    if (!userFrame) {
-      try {
-        setMintLoading(true)
-        await AppStore.mintNFT()
-        await AppStore.checkInvite()
-        FramesStore.requestFrames()
-        setMintLoading(false)
-      } catch (error) {
-        setMintLoading(false)
-        console.error(error)
-      }
+    if (tokenId !== undefined) return
+    try {
+      setMintLoading(true)
+      await EthStore.mintNFT()
+      FramesStore.requestFrames()
+      setMintLoading(false)
+    } catch (error) {
+      setMintLoading(false)
+      console.error(error)
     }
   }
 
-  useEffect(() => {
-    async function checkInvite() {
-      setMintLoading(true)
-      await AppStore.checkInvite()
-      setMintLoading(false)
-    }
-
-    void checkInvite()
-  }, [])
-
-  useEffect(() => {
-    const checkUserInvite = async () => {
-      if (AppStore.userAddress) {
-        setInvited(await api.checkInvite(AppStore.userAddress))
-      }
-    }
-
-    void checkUserInvite()
-  }, [userAddress])
-
   return {
-    invited,
     mintAddress,
     mintLoading,
   }

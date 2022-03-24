@@ -20,6 +20,7 @@ import {
 import { animated, useSpring } from 'react-spring'
 import { useSnapshot } from 'valtio'
 import AppStore from 'stores/AppStore'
+import Theme from 'models/Theme'
 
 const toggleContainer = classnames(
   transitionProperty('transition-colors'),
@@ -46,12 +47,12 @@ const ThemeToggle = () => {
   const { theme } = useSnapshot(AppStore)
 
   const moonAnimation = useSpring({
-    transform: theme === 'light' ? 'rotate(360deg)' : 'rotate(0deg)',
+    transform: theme === Theme.light ? 'rotate(360deg)' : 'rotate(0deg)',
     config: { mass: 1, tension: 210, friction: 30 },
   })
 
   const ideaAnimation = useSpring({
-    transform: theme === 'light' ? 'rotate(0deg)' : 'rotate(360deg)',
+    transform: theme === Theme.light ? 'rotate(0deg)' : 'rotate(360deg)',
     config: { mass: 1, tension: 210, friction: 30 },
   })
 

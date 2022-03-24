@@ -7,6 +7,7 @@ import {
 } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import AppStore from 'stores/AppStore'
+import Theme from 'models/Theme'
 
 const ThemeProvider: FC = ({ children }) => {
   const backgroundStyle = classnames(
@@ -16,7 +17,7 @@ const ThemeProvider: FC = ({ children }) => {
   )
   const root = window.document.documentElement
   const { theme } = useSnapshot(AppStore)
-  root.classList.remove(theme === 'dark' ? 'light' : 'dark')
+  root.classList.remove(theme === Theme.dark ? Theme.light : Theme.dark)
   root.classList.add(theme)
   return <div className={`${theme} ${backgroundStyle}`}>{children}</div>
 }

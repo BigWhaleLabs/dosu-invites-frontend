@@ -38,6 +38,8 @@ const playerBox = classnames(
   borderRadius('rounded-3xl')
 )
 const playerStyles = classnames(width('w-full'))
+const altImg = classnames(height('h-fit'), borderRadius('rounded-3xl'))
+
 const draggableBox = classnames(
   display('flex'),
   flexDirection('flex-col'),
@@ -115,7 +117,7 @@ function VideoBlock() {
         >
           {dragFrame > framesToEthLength ? (
             <img
-              className="h-fit rounded-3xl"
+              className={altImg}
               src={md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
             />
           ) : (
@@ -138,7 +140,7 @@ function VideoBlock() {
           }}
           grid={[draggableGrid, draggableGrid]}
           positionOffset={{
-            x: `calc(50% - 0.85rem)`,
+            x: 'calc(50% - 0.85rem)',
             y: 0,
           }}
           position={{ x: -frame * draggableGrid * multiplier, y: 0 }}
@@ -150,9 +152,9 @@ function VideoBlock() {
           onStop={() => setDragPause(false)}
         >
           <div className={draggableText}>
-            {Object.keys(framesToEth).map((tokenId) => (
+            {Object.keys(framesToEth).map((frameId) => (
               <div className={draggableSymbolBox}>
-                <p className={draggableSymbol}>{+tokenId}</p>
+                <p className={draggableSymbol}>{+frameId}</p>
               </div>
             ))}
           </div>

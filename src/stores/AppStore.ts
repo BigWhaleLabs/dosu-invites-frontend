@@ -1,116 +1,20 @@
-import { ethers } from 'ethers'
 import { proxy } from 'valtio'
 import Language from 'models/Language'
 import PersistableStore from 'stores/persistence/PersistableStore'
-import getContractABI from 'helpers/getContractABI'
-
-export type Theme = 'dark' | 'light'
+import Theme from 'models/Theme'
+import usePreferredTheme from 'helpers/usePreferredTheme'
 
 class AppStore extends PersistableStore {
   language: Language = Language.en
-  theme: Theme = 'dark'
+  theme: Theme = usePreferredTheme()
   cookieAccepted = false
-  metaMaskInstalled = false
-  userAddress = ''
-  userFrame: number | undefined
 
   toggleDark() {
-    this.theme = this.theme === 'dark' ? 'light' : 'dark'
+    this.theme = this.theme === Theme.dark ? Theme.light : Theme.dark
   }
 
   acceptCookie() {
     this.cookieAccepted = true
-  }
-
-  async isMetaMaskConnected() {
-    const provider = this.getProvider()
-    if (provider) {
-      const accounts = await provider.listAccounts()
-      this.handleAccountChanged(accounts)
-      this.setupListeners()
-    } else {
-      this.userAddress = ''
-    }
-  }
-
-  async connectMetaMask() {
-    const provider = this.getProvider()
-
-    if (provider) {
-      await provider.send('eth_requestAccounts', [])
-
-      const signer = provider.getSigner()
-      this.userAddress = await signer.getAddress()
-    }
-  }
-
-  handleAccountChanged(accounts: string[]) {
-    if (accounts.length === 0) {
-      this.userAddress = ''
-    } else if (accounts[0] !== this.userAddress) {
-      this.userAddress = accounts[0]
-    }
-  }
-
-  setupListeners() {
-    window.ethereum.on('error', (error: Error) => {
-      console.error(error)
-    })
-    window.ethereum.on('accountsChanged', async (accounts: string[]) => {
-      this.handleAccountChanged(accounts)
-      await this.checkInvite()
-    })
-  }
-
-  getProvider() {
-    if (window.ethereum) {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum,
-        import.meta.env.VITE_ETH_NETWORK as string
-      )
-      this.metaMaskInstalled = true
-      return provider
-    } else {
-      this.metaMaskInstalled = false
-    }
-  }
-
-  getContract() {
-    const provider = this.getProvider()
-    const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS as string
-    const contractAbi = getContractABI()
-
-    if (provider) {
-      const contract = new ethers.Contract(
-        contractAddress,
-        contractAbi,
-        provider.getSigner()
-      )
-
-      return contract
-    }
-  }
-
-  async checkInvite() {
-    await this.isMetaMaskConnected()
-    const contract = this.getContract()
-    if (contract && this.userAddress) {
-      const data = await contract.checkTokenId(this.userAddress)
-      const frame = +data._hex
-      if (frame && frame > 0) {
-        this.userFrame = frame - 1
-      } else {
-        this.userFrame = undefined
-      }
-    }
-  }
-
-  async mintNFT() {
-    const contract = this.getContract()
-    if (contract) {
-      const transaction = await contract.mint(this.userAddress)
-      await transaction.wait()
-    }
   }
 }
 
