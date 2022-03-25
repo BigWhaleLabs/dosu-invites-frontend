@@ -5,7 +5,7 @@ import { proxy } from 'valtio'
 import PersistableStore from 'stores/persistence/PersistableStore'
 import configuredModal from 'helpers/configuredModal'
 
-const network = import.meta.env.VITE_ETH_NETWORK
+const ethNetwork = import.meta.env.VITE_ETH_NETWORK
 let contract: Abi
 
 class EthStore extends PersistableStore {
@@ -22,6 +22,12 @@ class EthStore extends PersistableStore {
 
       const instance = await configuredModal.connect()
       const provider = new Web3Provider(instance)
+      const userNetwork = (await provider.getNetwork()).name
+      if (userNetwork !== ethNetwork) {
+        this.ethError = `Looks like you're using ${userNetwork} network, try switching to ${ethNetwork} and connect again`
+        return
+      }
+
       const accounts = await provider.listAccounts()
 
       contract = Abi__factory.connect(
@@ -33,7 +39,6 @@ class EthStore extends PersistableStore {
       this.subscribeProvider(instance)
     } catch (error) {
       if ((error as string) === 'Modal closed by user') return
-      this.ethError = `Looks like you're using wrong network, try switching to ${network} and try connecting again`
       console.error(error)
       this.clearData()
     } finally {
