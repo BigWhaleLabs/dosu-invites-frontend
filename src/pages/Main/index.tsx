@@ -274,14 +274,16 @@ function Main() {
                   </a>
                 </LinkText>
               ) : undefined}
+
+              <div className={marginBottom}>
+                <BodyText>
+                  Merkle Verified: {merkleVerified ? '✔️' : '❌'}
+                </BodyText>
+              </div>
             </div>
           )}
         </div>
       )}
-
-      <div className={marginBottom}>
-        <BodyText>Merkle Verified: {merkleVerified ? '✔️' : '❌'}</BodyText>
-      </div>
 
       <Footer />
     </div>

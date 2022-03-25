@@ -32,8 +32,9 @@ class EthStore extends PersistableStore {
       await this.handleAccountChanged(accounts)
       this.subscribeProvider(instance)
     } catch (error) {
+      if ((error as string) === 'Modal closed by user') return
+      this.ethError = `Looks like you're using wrong network, try switching to ${network} and try connecting again`
       console.error(error)
-      this.ethError = `Looks like you're using not a ${network} network`
       this.clearData()
     } finally {
       this.ethLoading = false
