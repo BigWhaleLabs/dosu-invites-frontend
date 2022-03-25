@@ -1,4 +1,4 @@
-import { BodyText, LinkText } from 'components/Text'
+import { BodyText, ErrorText, LinkText } from 'components/Text'
 import { Button } from 'components/Button'
 import {
   alignItems,
@@ -118,7 +118,8 @@ const inviteText = classnames(
 )
 
 function Main() {
-  const { userAddress, ethLoading, allowListed } = useSnapshot(EthStore)
+  const { userAddress, ethLoading, allowListed, ethError } =
+    useSnapshot(EthStore)
   const { framesToEth, loading, mintAddress, mintLoading } = useNft()
   const {
     draggableGrid,
@@ -150,6 +151,12 @@ function Main() {
 
   return (
     <div className={mainBox}>
+      {ethError ? (
+        <div className={marginBottom}>
+          <ErrorText>{ethError}</ErrorText>
+        </div>
+      ) : undefined}
+
       {dragFrame > framesToEthLength ? (
         <img
           className={altImg}
@@ -267,14 +274,16 @@ function Main() {
                   </a>
                 </LinkText>
               ) : undefined}
+
+              <div className={marginBottom}>
+                <BodyText>
+                  Merkle Verified: {merkleVerified ? '✔️' : '❌'}
+                </BodyText>
+              </div>
             </div>
           )}
         </div>
       )}
-
-      <div className={marginBottom}>
-        <BodyText>Merkle Verified: {merkleVerified ? '✔️' : '❌'}</BodyText>
-      </div>
 
       <Footer />
     </div>
