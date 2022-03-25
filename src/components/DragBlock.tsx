@@ -72,7 +72,7 @@ function VideoBlock() {
 
   useEffect(() => {
     FramesStore.framesToEthLength = Object.keys(framesToEth).length
-  }, [])
+  }, [framesToEth])
 
   useEffect(() => {
     if (framesToEth[frame]) {
