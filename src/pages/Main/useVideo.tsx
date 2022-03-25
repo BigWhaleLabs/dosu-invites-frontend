@@ -1,7 +1,20 @@
+import { VideoJsPlayerOptions } from 'video.js'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { useNavigate } from 'react-router-dom'
 
 export default function useVideo() {
+  const videoJsOptions: VideoJsPlayerOptions = {
+    aspectRatio: '1:1',
+    controlBar: { volumePanel: false, pictureInPictureToggle: false },
+    autoplay: false,
+    controls: true,
+    responsive: true,
+    fluid: true,
+    preload: 'auto',
+    techOrder: ['html5'],
+    bigPlayButton: false,
+  }
+
   const navigate = useNavigate()
 
   const draggableGrid = 16
@@ -12,15 +25,13 @@ export default function useVideo() {
   const [dragPause, setDragPause] = useState(true)
   const [video, setVideo] = useState<HTMLMediaElement>()
 
-  const videoRef = useRef<HTMLVmVideoElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
-  async function doSetVideo() {
+  function setupVideo() {
     if (!videoRef.current) return
 
-    const adapter = await videoRef.current.getAdapter()
-    const player = await adapter.getInternalPlayer()
-    player.playbackRate = draggableGrid
-    setVideo(player)
+    videoRef.current.playbackRate = draggableGrid
+    setVideo(videoRef.current)
   }
 
   function reloadVideo(time?: number) {
@@ -64,6 +75,7 @@ export default function useVideo() {
     multiplier,
     reloadVideo,
     videoRef,
-    doSetVideo,
+    setupVideo,
+    videoJsOptions,
   }
 }

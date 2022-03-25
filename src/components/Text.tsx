@@ -137,14 +137,17 @@ export const LogoText: FC<{ large?: boolean }> = ({ large, children }) => {
   return <span className={logoText(large)}>{children}</span>
 }
 
-const linkText = classnames(
-  transitionProperty('transition-colors'),
-  textColor('text-primary-dimmed')
-)
+const linkText = (centered?: boolean) =>
+  classnames(
+    textAlign(centered ? 'text-center' : 'text-left'),
+    transitionProperty('transition-colors'),
+    textColor('text-primary-dimmed')
+  )
 export const LinkText: FC<{
   href?: string | undefined
-}> = ({ children, href }) => (
-  <a className={linkText} href={href} rel="noopener noreferrer">
+  centered?: boolean
+}> = ({ children, href, centered }) => (
+  <a className={linkText(centered)} href={href} rel="noopener noreferrer">
     {children}
   </a>
 )
