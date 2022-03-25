@@ -35,6 +35,8 @@
     "axios": "^0.26.1",
     "bitski": "^0.14.0",
     "ethers": "^5.6.0",
+    "keccak256": "^1.0.6",
+    "merkletreejs": "^0.2.31",
     "mobx": "^6.4.2",
     "mobx-react-lite": "^3.3.0",
     "preact": "^10.6.6",
