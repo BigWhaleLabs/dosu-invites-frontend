@@ -58,9 +58,7 @@ function Navbar() {
   const { md } = useBreakpoints()
 
   useEffect(() => {
-    if (configuredModal.cachedProvider) {
-      void EthStore.onConnect()
-    }
+    if (configuredModal.cachedProvider) void EthStore.onConnect()
   }, [])
 
   return (

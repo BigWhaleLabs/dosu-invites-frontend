@@ -13,14 +13,15 @@ import {
   wordBreak,
 } from 'classnames/tailwind'
 
+const transitionColors = classnames(transitionProperty('transition-colors'))
 export const primaryText = classnames(
-  transitionProperty('transition-colors'),
+  transitionColors,
   textColor('text-primary')
 )
 
 const headerText = (h1?: boolean) =>
   classnames(
-    transitionProperty('transition-colors'),
+    transitionColors,
     textAlign(h1 ? undefined : 'text-center'),
     textColor('text-accent'),
     fontFamily('font-primary'),
@@ -33,7 +34,7 @@ export const HeaderText: FC<{ h1?: boolean }> = ({ children, h1 }) => (
 )
 
 const dimmedSubheaderText = classnames(
-  transitionProperty('transition-colors'),
+  transitionColors,
   textColor('text-primary-text-dimmed'),
   textAlign('text-center'),
   wordBreak('break-words'),
@@ -95,7 +96,7 @@ export const SubheaderText: FC<{
   )
 
 const secondaryText = classnames(
-  transitionProperty('transition-colors'),
+  transitionColors,
   textColor('text-primary-text-dimmed')
 )
 export const SecondaryText: FC = ({ children }) => (
@@ -127,7 +128,7 @@ export const LogoDot: FC = ({ children }) => {
 
 const logoText = (large?: boolean) =>
   classnames(
-    transitionProperty('transition-colors'),
+    transitionColors,
     textColor('text-primary'),
     fontFamily('font-logo'),
     fontSize(large ? 'text-5xl' : 'text-3xl'),
@@ -140,7 +141,7 @@ export const LogoText: FC<{ large?: boolean }> = ({ large, children }) => {
 const linkText = (centered?: boolean) =>
   classnames(
     textAlign(centered ? 'text-center' : 'text-left'),
-    transitionProperty('transition-colors'),
+    transitionColors,
     textColor('text-primary-dimmed')
   )
 export const LinkText: FC<{
@@ -150,4 +151,14 @@ export const LinkText: FC<{
   <a className={linkText(centered)} href={href} rel="noopener noreferrer">
     {children}
   </a>
+)
+
+const errorText = classnames(
+  textColor('text-error'),
+  fontWeight('font-medium'),
+  fontFamily('font-primary'),
+  transitionColors
+)
+export const ErrorText: FC = ({ children }) => (
+  <p className={errorText}>{children}</p>
 )
