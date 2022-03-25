@@ -11,6 +11,7 @@ import {
   flex,
   flexDirection,
   fontSize,
+  height,
   justifyContent,
   margin,
   padding,
@@ -28,11 +29,15 @@ import Footer from 'components/Footer'
 import FramesStore from 'stores/FramesStore'
 import Loader from 'components/Loader'
 import PlayerStore from 'stores/PlayerStore'
-import VideoBlock from 'components/VideoBlock'
+import VideoJS from 'components/VideoJS'
 import truncateMiddle from 'helpers/truncateMiddle'
+import useBreakpoints from 'helpers/useBreakpoints'
 import useIpfs from 'pages/Main/useIpfs'
+import useMerkleTree from 'pages/Main/useMerkleTree'
 import useNft from 'pages/Main/useNft'
 import useVideo from 'pages/Main/useVideo'
+
+const backend = import.meta.env.VITE_BACKEND as string
 
 const mainBox = classnames(
   display('flex'),
@@ -41,7 +46,8 @@ const mainBox = classnames(
   alignItems('items-center'),
   zIndex('z-10')
 )
-const marginBottom = classnames(margin('mb-12'))
+const marginBottom = classnames(margin('mb-6'))
+const altImg = classnames(height('h-fit'), borderRadius('rounded-3xl'))
 
 const ethAddressBox = classnames(
   flex('flex-auto'),
@@ -73,13 +79,32 @@ const marginWrapper = classnames(margin('my-12'))
 function Main() {
   const { userAddress, allowListed, ethLoading } = useSnapshot(EthStore)
   const { framesToEthLength } = useSnapshot(FramesStore)
+  const { dragFrame } = useSnapshot(PlayerStore)
   const { mintAddress, mintLoading } = useNft()
-  const { ipfsLink } = useIpfs()
-  const { reloadVideo } = useVideo()
+  const { ipfsLink, ipfsLoading } = useIpfs()
+  const { merkleVerified } = useMerkleTree()
+  const { reloadVideo, videoRef, setupVideo, videoJsOptions, onTimeUpdate } =
+    useVideo()
+  const { md } = useBreakpoints()
+
+  const videoLink = `${backend}/video`
 
   return (
     <div className={mainBox}>
-      <VideoBlock />
+      {dragFrame > framesToEthLength ? (
+        <img
+          className={altImg}
+          src={md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
+        />
+      ) : (
+        <VideoJS
+          options={videoJsOptions}
+          onReady={() => setupVideo()}
+          videoRef={videoRef}
+          videoLink={videoLink}
+          onTimeUpdate={onTimeUpdate}
+        />
+      )}
 
       <Suspense
         fallback={
@@ -149,8 +174,10 @@ function Main() {
                   </button>
                 </LinkText>
               </BodyText>
-              {ipfsLink ? (
-                <LinkText>
+              {ipfsLoading ? (
+                <Loader size="small" />
+              ) : ipfsLink ? (
+                <LinkText centered>
                   <a href={ipfsLink} target="_blank">
                     Look at Your frame at the InterPlanetary File System (IPFS)
                   </a>
@@ -160,6 +187,10 @@ function Main() {
           )}
         </div>
       )}
+
+      <div className={marginBottom}>
+        <BodyText>Merkle Verified: {merkleVerified ? '✔️' : '❌'}</BodyText>
+      </div>
 
       <Footer />
     </div>
