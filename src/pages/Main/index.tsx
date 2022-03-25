@@ -22,10 +22,12 @@ import {
 } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
 import { useSnapshot } from 'valtio'
+import DragBlock from 'components/DragBlock'
 import EthStore from 'stores/EthStore'
 import Footer from 'components/Footer'
 import FramesStore from 'stores/FramesStore'
 import Loader from 'components/Loader'
+import PlayerStore from 'stores/PlayerStore'
 import VideoBlock from 'components/VideoBlock'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useIpfs from 'pages/Main/useIpfs'
@@ -66,30 +68,42 @@ const inviteText = classnames(
   alignItems('items-center')
 )
 
+const marginWrapper = classnames(margin('my-12'))
+
 function Main() {
   const { userAddress, allowListed, ethLoading } = useSnapshot(EthStore)
+  const { framesToEthLength } = useSnapshot(FramesStore)
   const { mintAddress, mintLoading } = useNft()
   const { ipfsLink } = useIpfs()
-  const { setDragFrame, reloadVideo } = useVideo()
+  const { reloadVideo } = useVideo()
 
   return (
     <div className={mainBox}>
-      <Suspense fallback={<Loader size="small" />}>
-        <VideoBlock />
+      <VideoBlock />
+
+      <Suspense
+        fallback={
+          <div className={marginWrapper}>
+            <Loader size="small" />
+          </div>
+        }
+      >
+        <DragBlock />
       </Suspense>
 
       <div className={ethAddressBox}>
         <BodyText>ETH ADDRESS</BodyText>
-
-        <LinkText>
-          <a
-            href={`https://etherscan.io/address/${FramesStore.ethAddress}`}
-            target="_blank"
-            className={ethText}
-          >
-            {FramesStore.ethAddress}
-          </a>
-        </LinkText>
+        {EthStore.ethAddress && framesToEthLength > 0 && (
+          <LinkText>
+            <a
+              href={`https://etherscan.io/address/${EthStore.ethAddress}`}
+              target="_blank"
+              className={ethText}
+            >
+              {EthStore.ethAddress}
+            </a>
+          </LinkText>
+        )}
       </div>
 
       {userAddress && EthStore.tokenId === undefined && (
@@ -127,7 +141,7 @@ function Main() {
                   <button
                     onClick={() => {
                       if (EthStore.tokenId !== undefined) {
-                        setDragFrame(EthStore.tokenId)
+                        PlayerStore.updateDragFrame(EthStore.tokenId)
                       }
                     }}
                   >

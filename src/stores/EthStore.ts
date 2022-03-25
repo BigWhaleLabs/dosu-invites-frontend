@@ -8,6 +8,7 @@ import configuredModal from 'helpers/configuredModal'
 let contract: Abi
 
 class EthStore extends PersistableStore {
+  ethAddress?: string
   userAddress = ''
   tokenId: number | undefined
   ethLoading = false

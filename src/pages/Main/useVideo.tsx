@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { useNavigate } from 'react-router-dom'
+import { useSnapshot } from 'valtio'
+import PlayerStore from 'stores/PlayerStore'
 
 export default function useVideo() {
+  const { dragFrame, frame, pause } = useSnapshot(PlayerStore)
   const navigate = useNavigate()
 
   const draggableGrid = 16
   const multiplier = 2
 
-  const [frame, setFrame] = useState(0)
-  const [dragFrame, setDragFrame] = useState(0)
-  const [dragPause, setDragPause] = useState(true)
   const [video, setVideo] = useState<HTMLMediaElement>()
 
   const videoRef = useRef<HTMLVmVideoElement>(null)
@@ -34,33 +34,29 @@ export default function useVideo() {
 
   useEffect(() => {
     if (video) video.currentTime = dragFrame
-  }, [video, dragFrame, dragPause])
+  }, [video, dragFrame, pause])
 
   useEffect(() => {
     if (video) navigate(frame.toString())
   }, [navigate, frame, video])
 
   const onTimeUpdate = (time: number) => {
-    if (video && dragPause) video.pause()
+    if (video && pause) video.pause()
 
-    setFrame(Math.floor(time))
+    PlayerStore.updateFrame(Math.floor(time))
   }
 
   useEffect(() => {
     const frame = +location.pathname.split('/')[1]
-    !isNaN(frame) && setDragFrame(frame)
+    !isNaN(frame) && PlayerStore.updateDragFrame(frame)
 
     // Allow the user to play the video by clicking the 'play' button
-    setTimeout(() => setDragPause(false), 1000)
+    setTimeout(() => PlayerStore.updatePause(false), 1000)
   }, [])
 
   return {
     draggableGrid,
     onTimeUpdate,
-    setDragPause,
-    dragFrame,
-    frame,
-    setDragFrame,
     multiplier,
     reloadVideo,
     videoRef,
