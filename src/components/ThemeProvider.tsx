@@ -1,5 +1,4 @@
 import { FC } from 'react'
-import { Theme } from 'models/Theme'
 import {
   backgroundColor,
   classnames,
@@ -8,6 +7,7 @@ import {
 } from 'classnames/tailwind'
 import { useSnapshot } from 'valtio'
 import AppStore from 'stores/AppStore'
+import Theme from 'models/Theme'
 
 const ThemeProvider: FC = ({ children }) => {
   const backgroundStyle = classnames(

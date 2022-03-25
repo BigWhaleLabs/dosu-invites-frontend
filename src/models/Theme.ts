@@ -1,5 +1,6 @@
-// eslint-disable-next-line import/prefer-default-export
-export enum Theme {
+enum Theme {
   dark = 'dark',
   light = 'light',
 }
+
+export default Theme

@@ -1,6 +1,7 @@
-import { WalletLinkProvider } from 'walletlink'
+import { CoinbaseWalletProvider } from '@coinbase/wallet-sdk'
+
 declare global {
   interface Window {
-    ethereum: WalletLinkProvider
+    ethereum: CoinbaseWalletProvider
   }
 }

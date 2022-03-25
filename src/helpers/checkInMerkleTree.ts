@@ -17,6 +17,5 @@ export default async function checkInMerkleTree(addressFrame: number) {
   const claimingAddress = leafNodes[addressFrame]
   const hexProof = merkleTree.getHexProof(claimingAddress)
 
-  // Should be implemented is Solidity smart contract
   return merkleTree.verify(hexProof, claimingAddress, rootHash)
 }
