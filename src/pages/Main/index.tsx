@@ -1,4 +1,4 @@
-import { BodyText, LinkText } from 'components/Text'
+import { BodyText, ErrorText, LinkText } from 'components/Text'
 import { Button } from 'components/Button'
 import { Suspense } from 'react'
 import {
@@ -77,7 +77,8 @@ const inviteText = classnames(
 const marginWrapper = classnames(margin('my-12'))
 
 function Main() {
-  const { userAddress, allowListed, ethLoading } = useSnapshot(EthStore)
+  const { userAddress, allowListed, ethLoading, ethError } =
+    useSnapshot(EthStore)
   const { framesToEthLength } = useSnapshot(FramesStore)
   const { dragFrame } = useSnapshot(PlayerStore)
   const { mintAddress, mintLoading } = useNft()
@@ -91,6 +92,12 @@ function Main() {
 
   return (
     <div className={mainBox}>
+      {ethError ? (
+        <div className={marginBottom}>
+          <ErrorText>{ethError}</ErrorText>
+        </div>
+      ) : undefined}
+
       {dragFrame > framesToEthLength ? (
         <img
           className={altImg}
@@ -183,14 +190,16 @@ function Main() {
                   </a>
                 </LinkText>
               ) : undefined}
+
+              <div className={marginBottom}>
+                <BodyText>
+                  Merkle Verified: {merkleVerified ? '✔️' : '❌'}
+                </BodyText>
+              </div>
             </div>
           )}
         </div>
       )}
-
-      <div className={marginBottom}>
-        <BodyText>Merkle Verified: {merkleVerified ? '✔️' : '❌'}</BodyText>
-      </div>
 
       <Footer />
     </div>
