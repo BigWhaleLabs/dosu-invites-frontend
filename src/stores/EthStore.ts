@@ -14,7 +14,7 @@ class EthStore extends PersistableStore {
   tokenId?: number
   ethLoading = false
   allowListed = false
-  ethError = ''
+  ethError?: string
 
   async onConnect() {
     try {
