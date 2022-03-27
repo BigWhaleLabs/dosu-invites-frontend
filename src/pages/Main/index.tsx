@@ -3,22 +3,13 @@ import { Button } from 'components/Button'
 import { Suspense } from 'react'
 import {
   alignItems,
-  borderColor,
   borderRadius,
-  borderWidth,
   classnames,
   display,
-  flex,
   flexDirection,
-  fontSize,
   height,
   justifyContent,
   margin,
-  padding,
-  textColor,
-  textOverflow,
-  userSelect,
-  width,
   zIndex,
 } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
@@ -48,24 +39,6 @@ const mainBox = classnames(
 )
 const marginBottom = classnames(margin('mb-6'))
 const altImg = classnames(height('h-fit'), borderRadius('rounded-3xl'))
-
-const ethAddressBox = classnames(
-  flex('flex-auto'),
-  flexDirection('flex-col'),
-  width('w-full'),
-  borderRadius('rounded-3xl'),
-  borderWidth('border-2'),
-  borderColor('border-border'),
-  margin('mx-auto', marginBottom),
-  padding('p-6')
-)
-
-const ethText = classnames(
-  textColor('text-primary'),
-  fontSize('text-sm', 'md:text-lg'),
-  userSelect('select-all'),
-  textOverflow('truncate')
-)
 
 const inviteText = classnames(
   display('flex'),
@@ -98,7 +71,7 @@ function Main() {
         </div>
       ) : undefined}
 
-      {dragFrame > framesToEthLength ? (
+      {framesToEthLength && dragFrame > framesToEthLength ? (
         <img
           className={altImg}
           src={md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
@@ -122,21 +95,6 @@ function Main() {
       >
         <DragBlock />
       </Suspense>
-
-      <div className={ethAddressBox}>
-        <BodyText>ETH ADDRESS</BodyText>
-        {EthStore.ethAddress && framesToEthLength > 0 && (
-          <LinkText>
-            <a
-              href={`https://etherscan.io/address/${EthStore.ethAddress}`}
-              target="_blank"
-              className={ethText}
-            >
-              {EthStore.ethAddress}
-            </a>
-          </LinkText>
-        )}
-      </div>
 
       {userAddress && EthStore.tokenId === undefined && (
         <div className={marginBottom}>

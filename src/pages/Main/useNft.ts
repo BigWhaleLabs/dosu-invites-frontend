@@ -13,7 +13,7 @@ export default function useNft() {
     try {
       setMintLoading(true)
       await EthStore.mintNFT()
-      FramesStore.requestFrames()
+      await FramesStore.requestFrames()
       setMintLoading(false)
     } catch (error) {
       setMintLoading(false)

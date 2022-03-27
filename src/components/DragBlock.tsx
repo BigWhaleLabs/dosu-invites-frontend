@@ -1,3 +1,4 @@
+import { BodyText, LinkText } from 'components/Text'
 import {
   alignItems,
   backgroundColor,
@@ -7,7 +8,9 @@ import {
   classnames,
   cursor,
   display,
+  flex,
   flexDirection,
+  fontSize,
   height,
   inset,
   margin,
@@ -16,6 +19,7 @@ import {
   position,
   textAlign,
   textColor,
+  textOverflow,
   userSelect,
   whitespace,
   width,
@@ -27,6 +31,8 @@ import EthStore from 'stores/EthStore'
 import FramesStore from 'stores/FramesStore'
 import PlayerStore from 'stores/PlayerStore'
 import useVideo from 'pages/Main/useVideo'
+
+const marginBottom = classnames(margin('mb-6'))
 
 const draggableBox = classnames(
   display('flex'),
@@ -65,6 +71,24 @@ const indicator = classnames(
   borderRadius('rounded-md')
 )
 
+const ethAddressBox = classnames(
+  flex('flex-auto'),
+  flexDirection('flex-col'),
+  width('w-full'),
+  borderRadius('rounded-3xl'),
+  borderWidth('border-2'),
+  borderColor('border-border'),
+  margin('mx-auto', marginBottom),
+  padding('p-6')
+)
+
+const ethText = classnames(
+  textColor('text-primary'),
+  fontSize('text-sm', 'md:text-lg'),
+  userSelect('select-all'),
+  textOverflow('truncate')
+)
+
 function VideoBlock() {
   const { framesToEth, framesToEthLength } = useSnapshot(FramesStore)
   const { frame } = useSnapshot(PlayerStore)
@@ -81,35 +105,55 @@ function VideoBlock() {
   }, [frame, framesToEth])
 
   return (
-    <div className={draggableBox}>
-      <Draggable
-        bounds={{
-          left: -draggableGrid * (framesToEthLength - 1) * multiplier,
-          right: 0,
-        }}
-        grid={[draggableGrid, draggableGrid]}
-        positionOffset={{
-          x: 'calc(50% - 0.85rem)',
-          y: 0,
-        }}
-        position={{ x: -frame * draggableGrid * multiplier, y: 0 }}
-        axis="x"
-        onDrag={(_e, data) => {
-          PlayerStore.updatePause(true)
-          PlayerStore.updateDragFrame(frame + -data.deltaX / draggableGrid)
-        }}
-        onStop={() => PlayerStore.updatePause(false)}
-      >
-        <div className={draggableText}>
-          {Object.keys(framesToEth).map((frameId) => (
-            <div className={draggableSymbolBox}>
-              <p className={draggableSymbol}>{+frameId}</p>
-            </div>
-          ))}
-        </div>
-      </Draggable>
-      <div className={indicator} />
-    </div>
+    <>
+      <div className={draggableBox}>
+        <Draggable
+          bounds={{
+            left:
+              -draggableGrid *
+              (!framesToEthLength ? 0 : framesToEthLength - 1) *
+              multiplier,
+            right: 0,
+          }}
+          grid={[draggableGrid, draggableGrid]}
+          positionOffset={{
+            x: 'calc(50% - 0.85rem)',
+            y: 0,
+          }}
+          position={{ x: -frame * draggableGrid * multiplier, y: 0 }}
+          axis="x"
+          onDrag={(_e, data) => {
+            PlayerStore.updatePause(true)
+            PlayerStore.updateDragFrame(frame + -data.deltaX / draggableGrid)
+          }}
+          onStop={() => PlayerStore.updatePause(false)}
+        >
+          <div className={draggableText}>
+            {Object.keys(framesToEth).map((frameId) => (
+              <div className={draggableSymbolBox}>
+                <p className={draggableSymbol}>{+frameId}</p>
+              </div>
+            ))}
+          </div>
+        </Draggable>
+        <div className={indicator} />
+      </div>
+
+      <div className={ethAddressBox}>
+        <BodyText>ETH ADDRESS</BodyText>
+        {EthStore.ethAddress && framesToEthLength && framesToEthLength > 0 && (
+          <LinkText>
+            <a
+              href={`https://etherscan.io/address/${EthStore.ethAddress}`}
+              target="_blank"
+              className={ethText}
+            >
+              {EthStore.ethAddress}
+            </a>
+          </LinkText>
+        )}
+      </div>
+    </>
   )
 }
 
