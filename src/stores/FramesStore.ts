@@ -1,6 +1,6 @@
-import Invites from 'models/Invites'
 import * as api from 'helpers/api'
 import { proxy } from 'valtio'
+import Invites from 'models/Invites'
 
 interface FrameState {
   framesToEth: Promise<Invites>
