@@ -9,11 +9,12 @@ const ethNetwork = import.meta.env.VITE_ETH_NETWORK
 let contract: Abi
 
 class EthStore extends PersistableStore {
-  userAddress = ''
-  tokenId: number | undefined
+  ethAddress?: string
+  userAddress?: string
+  tokenId?: number
   ethLoading = false
   allowListed = false
-  ethError = ''
+  ethError?: string
 
   async onConnect() {
     try {
@@ -48,11 +49,12 @@ class EthStore extends PersistableStore {
 
   private clearData() {
     configuredModal.clearCachedProvider()
-    this.userAddress = ''
+    this.userAddress = undefined
     this.tokenId = undefined
   }
 
   private async checkUserData() {
+    if (!this.userAddress) return
     this.allowListed = await contract.allowlist(this.userAddress)
     const minted = +(await contract.balanceOf(this.userAddress))
     if (!this.allowListed || !minted) {
@@ -102,9 +104,9 @@ class EthStore extends PersistableStore {
   }
 
   private async checkTokenId() {
+    if (!contract || !this.userAddress) return
     try {
       this.ethLoading = true
-
       const { _hex } = await contract.checkTokenId(this.userAddress)
       this.tokenId = +_hex
     } catch (error) {
@@ -116,7 +118,7 @@ class EthStore extends PersistableStore {
   }
 
   async mintNFT() {
-    if (!contract) return
+    if (!contract || !this.userAddress) return
     try {
       const transaction = await contract.mint(this.userAddress)
       await transaction.wait()

@@ -1,39 +1,25 @@
 import { BodyText, ErrorText, LinkText } from 'components/Text'
 import { Button } from 'components/Button'
+import { Suspense } from 'react'
 import {
   alignItems,
-  backgroundColor,
-  borderColor,
   borderRadius,
-  borderWidth,
   classnames,
-  cursor,
   display,
-  flex,
   flexDirection,
-  fontSize,
   height,
-  inset,
   justifyContent,
   margin,
-  overflow,
-  padding,
-  position,
-  textAlign,
-  textColor,
-  textOverflow,
-  userSelect,
-  whitespace,
-  width,
   zIndex,
 } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
-import { useEffect, useState } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
-import Draggable from 'react-draggable'
+import DragBlock from 'components/DragBlock'
 import EthStore from 'stores/EthStore'
 import Footer from 'components/Footer'
+import FramesStore from 'stores/FramesStore'
 import Loader from 'components/Loader'
+import PlayerStore from 'stores/PlayerStore'
 import VideoJS from 'components/VideoJS'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
@@ -52,63 +38,7 @@ const mainBox = classnames(
   zIndex('z-10')
 )
 const marginBottom = classnames(margin('mb-6'))
-
 const altImg = classnames(height('h-fit'), borderRadius('rounded-3xl'))
-
-const draggableBox = classnames(
-  display('flex'),
-  flexDirection('flex-col'),
-  position('relative'),
-  width('w-full'),
-  overflow('overflow-hidden'),
-  borderRadius('rounded-3xl'),
-  borderWidth('border-2'),
-  borderColor('border-border'),
-  margin('my-12'),
-  padding('p-6')
-)
-const draggableText = classnames(
-  width('w-full'),
-  cursor('cursor-move'),
-  alignItems('items-center'),
-  display('flex'),
-  flexDirection('flex-row'),
-  textColor('text-primary')
-)
-const draggableSymbol = classnames(
-  width('w-8'),
-  textAlign('text-center'),
-  userSelect('select-none'),
-  overflow('overflow-clip', 'overflow-hidden'),
-  whitespace('whitespace-nowrap')
-)
-const draggableSymbolBox = classnames(display('block'))
-const indicator = classnames(
-  position('absolute'),
-  inset('bottom-0', 'left-1/2'),
-  width('w-1'),
-  height('h-6'),
-  backgroundColor('bg-border'),
-  borderRadius('rounded-md')
-)
-
-const ethAddressBox = classnames(
-  flex('flex-auto'),
-  flexDirection('flex-col'),
-  width('w-full'),
-  borderRadius('rounded-3xl'),
-  borderWidth('border-2'),
-  borderColor('border-border'),
-  margin('mx-auto', marginBottom),
-  padding('p-6')
-)
-
-const ethText = classnames(
-  textColor('text-primary'),
-  fontSize('text-sm', 'md:text-lg'),
-  userSelect('select-all'),
-  textOverflow('truncate')
-)
 
 const inviteText = classnames(
   display('flex'),
@@ -117,36 +47,20 @@ const inviteText = classnames(
   alignItems('items-center')
 )
 
+const marginWrapper = classnames(margin('my-12'))
+
 function Main() {
-  const { userAddress, ethLoading, allowListed, ethError } =
+  const { userAddress, allowListed, ethLoading, ethError } =
     useSnapshot(EthStore)
-  const { framesToEth, loading, mintAddress, mintLoading } = useNft()
-  const {
-    draggableGrid,
-    setDragPause,
-    dragFrame,
-    frame,
-    setDragFrame,
-    multiplier,
-    reloadVideo,
-    videoRef,
-    setupVideo,
-    videoJsOptions,
-    onTimeUpdate,
-  } = useVideo()
+  const { framesToEthLength } = useSnapshot(FramesStore)
+  const { dragFrame } = useSnapshot(PlayerStore)
+  const { mintAddress, mintLoading } = useNft()
   const { ipfsLink, ipfsLoading } = useIpfs()
   const { merkleVerified } = useMerkleTree()
+  const { reloadVideo, videoRef, setupVideo, videoJsOptions, onTimeUpdate } =
+    useVideo()
   const { md } = useBreakpoints()
 
-  const [ethAddress, setEthAddress] = useState('0x')
-
-  useEffect(() => {
-    if (framesToEth[frame]) {
-      setEthAddress(framesToEth[frame])
-    }
-  }, [frame, framesToEth])
-
-  const framesToEthLength = Object.keys(framesToEth).length
   const videoLink = `${backend}/video`
 
   return (
@@ -157,7 +71,7 @@ function Main() {
         </div>
       ) : undefined}
 
-      {dragFrame > framesToEthLength ? (
+      {framesToEthLength && dragFrame > framesToEthLength ? (
         <img
           className={altImg}
           src={md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
@@ -172,55 +86,15 @@ function Main() {
         />
       )}
 
-      <div className={draggableBox}>
-        {!framesToEth || loading ? (
-          <Loader size="small" />
-        ) : (
-          <>
-            <Draggable
-              bounds={{
-                left: -draggableGrid * (framesToEthLength - 1) * multiplier,
-                right: 0,
-              }}
-              grid={[draggableGrid, draggableGrid]}
-              positionOffset={{
-                x: 'calc(50% - 0.85rem)',
-                y: 0,
-              }}
-              position={{ x: -frame * draggableGrid * multiplier, y: 0 }}
-              axis="x"
-              onDrag={(_e, data) => {
-                setDragPause(true)
-                setDragFrame(frame + -data.deltaX / draggableGrid)
-              }}
-              onStop={() => setDragPause(false)}
-            >
-              <div className={draggableText}>
-                {Object.keys(framesToEth).map((frameId) => (
-                  <div className={draggableSymbolBox}>
-                    <p className={draggableSymbol}>{+frameId}</p>
-                  </div>
-                ))}
-              </div>
-            </Draggable>
-            <div className={indicator} />
-          </>
-        )}
-      </div>
-
-      <div className={ethAddressBox}>
-        <BodyText>ETH ADDRESS</BodyText>
-
-        <LinkText>
-          <a
-            href={`https://etherscan.io/address/${ethAddress}`}
-            target="_blank"
-            className={ethText}
-          >
-            {ethAddress}
-          </a>
-        </LinkText>
-      </div>
+      <Suspense
+        fallback={
+          <div className={marginWrapper}>
+            <Loader size="small" />
+          </div>
+        }
+      >
+        <DragBlock />
+      </Suspense>
 
       {userAddress && EthStore.tokenId === undefined && (
         <div className={marginBottom}>
@@ -257,7 +131,7 @@ function Main() {
                   <button
                     onClick={() => {
                       if (EthStore.tokenId !== undefined) {
-                        setDragFrame(EthStore.tokenId)
+                        PlayerStore.updateDragFrame(EthStore.tokenId)
                       }
                     }}
                   >
