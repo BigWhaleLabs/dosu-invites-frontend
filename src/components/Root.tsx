@@ -9,7 +9,8 @@ import {
   maxWidth,
   padding,
 } from 'classnames/tailwind'
-import CookieNotification from 'components/CookieNotification'
+import SafariWarning from 'components/SafariWarning'
+import isSafari from 'helpers/isSafari'
 
 const root = classnames(
   display('flex'),
@@ -24,7 +25,7 @@ const Root: FC = ({ children }) => {
   return (
     <div className={root}>
       {children}
-      <CookieNotification />
+      {isSafari && <SafariWarning />}
     </div>
   )
 }
