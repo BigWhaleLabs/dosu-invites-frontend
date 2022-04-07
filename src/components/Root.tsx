@@ -9,8 +9,6 @@ import {
   maxWidth,
   padding,
 } from 'classnames/tailwind'
-import SafariWarning from 'components/SafariWarning'
-import isSafari from 'helpers/isSafari'
 
 const root = classnames(
   display('flex'),
@@ -22,12 +20,7 @@ const root = classnames(
   height('h-screen')
 )
 const Root: FC = ({ children }) => {
-  return (
-    <div className={root}>
-      {children}
-      {isSafari && <SafariWarning />}
-    </div>
-  )
+  return <div className={root}>{children}</div>
 }
 
 export default Root
