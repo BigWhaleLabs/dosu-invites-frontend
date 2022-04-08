@@ -5,9 +5,7 @@ import getAllowlist from 'helpers/getAllowlist'
 export default function checkInMerkleTree(ethAddress: string) {
   const addresses = getAllowlist()
 
-  const leafNodes = Object.values(addresses).map((address: string) =>
-    utils.keccak256(address)
-  )
+  const leafNodes = addresses.map((address: string) => utils.keccak256(address))
   const merkleTree = new MerkleTree(leafNodes, utils.keccak256, {
     sortLeaves: true,
   })
