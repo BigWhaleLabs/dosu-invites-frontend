@@ -10,8 +10,6 @@ export default function checkInMerkleTree(ethAddress: string) {
     sortPairs: true,
   })
 
-  console.log(merkleTree.getHexRoot())
-
   const claimingIndex = addresses.findIndex((address) => address === ethAddress)
 
   if (!claimingIndex) return 'Looks like you dont have an invite'
