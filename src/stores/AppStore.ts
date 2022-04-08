@@ -7,14 +7,10 @@ import usePreferredTheme from 'helpers/usePreferredTheme'
 class AppStore extends PersistableStore {
   language: Language = Language.en
   theme: Theme = usePreferredTheme()
-  cookieAccepted = false
+  warningAccepted = false
 
   toggleDark() {
     this.theme = this.theme === Theme.dark ? Theme.light : Theme.dark
-  }
-
-  acceptCookie() {
-    this.cookieAccepted = true
   }
 }
 
