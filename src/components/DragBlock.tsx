@@ -1,4 +1,4 @@
-import { BodyText, LinkText } from 'components/Text'
+import { BodyText, ErrorText, LinkText } from 'components/Text'
 import {
   alignItems,
   backgroundColor,
@@ -90,6 +90,7 @@ const ethText = classnames(
 )
 
 function VideoBlock() {
+  const { ethError } = useSnapshot(EthStore)
   const { framesToEth, framesToEthLength } = useSnapshot(FramesStore)
   const { frame } = useSnapshot(PlayerStore)
   const { draggableGrid, multiplier } = useVideo()
@@ -138,6 +139,12 @@ function VideoBlock() {
         </Draggable>
         <div className={indicator} />
       </div>
+
+      {ethError ? (
+        <div className={marginBottom}>
+          <ErrorText>{ethError}</ErrorText>
+        </div>
+      ) : undefined}
 
       <div className={ethAddressBox}>
         <BodyText>ETH ADDRESS</BodyText>

@@ -4,6 +4,7 @@ import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
 import PersistableStore from 'stores/persistence/PersistableStore'
 import configuredModal from 'helpers/configuredModal'
+import generateMerkleProof from 'helpers/generateMerkleProof'
 
 const ethNetwork = import.meta.env.VITE_ETH_NETWORK
 let contract: Abi
@@ -13,7 +14,6 @@ class EthStore extends PersistableStore {
   userAddress?: string
   tokenId?: number
   ethLoading = false
-  allowListed = false
   ethError?: string
 
   async onConnect() {
@@ -55,9 +55,8 @@ class EthStore extends PersistableStore {
 
   private async checkUserData() {
     if (!this.userAddress) return
-    this.allowListed = await contract.allowlist(this.userAddress)
-    const minted = +(await contract.balanceOf(this.userAddress))
-    if (!this.allowListed || !minted) {
+    const minted = !(await contract.balanceOf(this.userAddress)).isZero()
+    if (!minted) {
       this.tokenId = undefined
       return
     }
@@ -117,10 +116,21 @@ class EthStore extends PersistableStore {
     }
   }
 
+  getMerkleRoot() {
+    if (!contract) return
+
+    return Promise.resolve(contract.merkleRoot())
+  }
+
   async mintNFT() {
-    if (!contract || !this.userAddress) return
+    if (!contract || !this.ethAddress) return
     try {
-      const transaction = await contract.mint(this.userAddress)
+      const proof = generateMerkleProof(this.ethAddress)
+      // if (typeof proof === 'string') {
+      //   this.ethError = 'Looks like you was not invited'
+      //   return
+      // }
+      const transaction = await contract.mint(proof)
       await transaction.wait()
       await this.checkUserData()
     } catch (error) {
