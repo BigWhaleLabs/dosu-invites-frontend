@@ -127,7 +127,7 @@ class EthStore extends PersistableStore {
     try {
       const proof = generateMerkleProof(this.ethAddress)
       if (typeof proof === 'string') {
-        this.ethError = 'Looks like you was not invited'
+        this.ethError = proof
         return
       }
       const transaction = await contract.mint(proof)
