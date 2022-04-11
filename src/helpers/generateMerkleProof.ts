@@ -7,7 +7,7 @@ export default function checkInMerkleTree(ethAddress: string) {
 
   const leafNodes = addresses.map((address: string) => utils.keccak256(address))
   const merkleTree = new MerkleTree(leafNodes, utils.keccak256, {
-    sortPairs: true,
+    sortLeaves: true,
   })
 
   const claimingIndex = addresses.findIndex((address) => address === ethAddress)
