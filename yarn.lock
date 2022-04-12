@@ -1629,9 +1629,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@coinbase/wallet-sdk@npm:^3.0.5":
-  version: 3.0.5
-  resolution: "@coinbase/wallet-sdk@npm:3.0.5"
+"@coinbase/wallet-sdk@npm:^3.0.6":
+  version: 3.0.6
+  resolution: "@coinbase/wallet-sdk@npm:3.0.6"
   dependencies:
     "@metamask/safe-event-emitter": 2.0.0
     bind-decorator: ^1.0.11
@@ -1646,7 +1646,7 @@ __metadata:
     preact: ^10.5.9
     rxjs: ^6.6.3
     stream-browserify: ^3.0.0
-  checksum: a5e7cb942227cc2e93bd4c16b8f53a3c378c636388156c028638063ba7f6513db6da9e3837889835cabd77609cdfd92726c6f3cf01aae1d9c617eb5aa9ff0015
+  checksum: ac40de6d32b318676a98c336bdb2963f4badc7660371dcda9f1437a9af5236da26e7406f7a332b5d07aedf169927a4e6e4ffde584cd13cbcbb8ebb104a025d5b
   languageName: node
   linkType: hard
 
@@ -7144,7 +7144,7 @@ __metadata:
   resolution: "dosu-invites-frontend@workspace:."
   dependencies:
     "@borodutch-labs/localize-react": ^1.7.6
-    "@coinbase/wallet-sdk": ^3.0.5
+    "@coinbase/wallet-sdk": ^3.0.6
     "@esbuild-plugins/node-globals-polyfill": ^0.1.1
     "@preact/preset-vite": ^2.2.0
     "@toruslabs/torus-embed": ^1.21.0
