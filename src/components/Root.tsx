@@ -9,7 +9,6 @@ import {
   maxWidth,
   padding,
 } from 'classnames/tailwind'
-import CookieNotification from 'components/CookieNotification'
 
 const root = classnames(
   display('flex'),
@@ -21,12 +20,7 @@ const root = classnames(
   height('h-screen')
 )
 const Root: FC = ({ children }) => {
-  return (
-    <div className={root}>
-      {children}
-      <CookieNotification />
-    </div>
-  )
+  return <div className={root}>{children}</div>
 }
 
 export default Root

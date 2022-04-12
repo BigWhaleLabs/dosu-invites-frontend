@@ -1,4 +1,4 @@
-import { BodyText, ErrorText, LinkText } from 'components/Text'
+import { BodyText, LinkText } from 'components/Text'
 import { Button } from 'components/Button'
 import { Suspense } from 'react'
 import {
@@ -24,7 +24,6 @@ import VideoJS from 'components/VideoJS'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useIpfs from 'pages/Main/useIpfs'
-import useMerkleTree from 'pages/Main/useMerkleTree'
 import useNft from 'pages/Main/useNft'
 import useVideo from 'pages/Main/useVideo'
 
@@ -50,27 +49,21 @@ const inviteText = classnames(
 const marginWrapper = classnames(margin('my-12'))
 
 function Main() {
-  const { userAddress, allowListed, ethLoading, ethError } =
-    useSnapshot(EthStore)
+  const { userAddress, ethLoading } = useSnapshot(EthStore)
   const { framesToEthLength } = useSnapshot(FramesStore)
   const { dragFrame } = useSnapshot(PlayerStore)
   const { mintAddress, mintLoading } = useNft()
   const { ipfsLink, ipfsLoading } = useIpfs()
-  const { merkleVerified } = useMerkleTree()
   const { reloadVideo, videoRef, setupVideo, videoJsOptions, onTimeUpdate } =
     useVideo()
   const { md } = useBreakpoints()
+
+  const hasTokenId = EthStore.tokenId !== undefined
 
   const videoLink = `${backend}/video`
 
   return (
     <div className={mainBox}>
-      {ethError ? (
-        <div className={marginBottom}>
-          <ErrorText>{ethError}</ErrorText>
-        </div>
-      ) : undefined}
-
       {framesToEthLength && dragFrame > framesToEthLength ? (
         <img
           className={altImg}
@@ -100,7 +93,7 @@ function Main() {
         <div className={marginBottom}>
           {ethLoading ? (
             <Loader />
-          ) : allowListed ? (
+          ) : (
             <Button
               onClick={async () => {
                 await mintAddress()
@@ -110,16 +103,11 @@ function Main() {
             >
               Mint my Dosu Invite for {truncateMiddle(userAddress)}
             </Button>
-          ) : (
-            <BodyText>
-              Your Ethereum address wasn't allowlisted for Dosu Invite NFTs. Try
-              another one?
-            </BodyText>
           )}
         </div>
       )}
 
-      {userAddress && EthStore.tokenId !== undefined && (
+      {userAddress && hasTokenId && (
         <div className={marginBottom}>
           {ethLoading ? (
             <Loader size="small" />
@@ -130,9 +118,8 @@ function Main() {
                 <LinkText>
                   <button
                     onClick={() => {
-                      if (EthStore.tokenId !== undefined) {
+                      if (EthStore.tokenId !== undefined)
                         PlayerStore.updateDragFrame(EthStore.tokenId)
-                      }
                     }}
                   >
                     go check it out
@@ -150,9 +137,7 @@ function Main() {
               ) : undefined}
 
               <div className={marginBottom}>
-                <BodyText>
-                  Merkle Verified: {merkleVerified ? '✔️' : '❌'}
-                </BodyText>
+                <BodyText>Merkle Verified: {hasTokenId ? '✔️' : '❌'}</BodyText>
               </div>
             </div>
           )}

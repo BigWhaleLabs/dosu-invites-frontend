@@ -47,9 +47,14 @@ export const DimmedSubheaderText: FC = ({ children }) => (
   <div className={dimmedSubheaderText}>{children}</div>
 )
 
-const bodyText = classnames(primaryText, fontSize('text-lg'))
-export const BodyText: FC = ({ children }) => (
-  <div className={bodyText}>{children}</div>
+const bodyText = (center: boolean) =>
+  classnames(
+    primaryText,
+    fontSize('text-lg'),
+    center ? textAlign('text-center') : null
+  )
+export const BodyText: FC<{ center?: boolean }> = ({ center, children }) => (
+  <div className={bodyText(center || false)}>{children}</div>
 )
 
 const subheaderText = (
