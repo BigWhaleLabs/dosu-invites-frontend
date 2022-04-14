@@ -157,13 +157,3 @@ export const LinkText: FC<{
     {children}
   </a>
 )
-
-const errorText = classnames(
-  textColor('text-error'),
-  fontWeight('font-medium'),
-  fontFamily('font-primary'),
-  transitionColors
-)
-export const ErrorText: FC = ({ children }) => (
-  <p className={errorText}>{children}</p>
-)
