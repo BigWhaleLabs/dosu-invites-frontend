@@ -1,3 +1,4 @@
+import { handleError } from 'helpers/handleError'
 import axios from 'axios'
 
 const baseURL = import.meta.env.VITE_BACKEND as string
@@ -13,7 +14,7 @@ Api.interceptors.request.use((request) => {
 Api.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error(error)
+    handleError(error)
     throw error
   }
 )

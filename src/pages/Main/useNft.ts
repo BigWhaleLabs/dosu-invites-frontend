@@ -1,3 +1,4 @@
+import { handleError } from 'helpers/handleError'
 import { useSnapshot } from 'valtio'
 import { useState } from 'react'
 import EthStore from 'stores/EthStore'
@@ -17,7 +18,7 @@ export default function useNft() {
       setMintLoading(false)
     } catch (error) {
       setMintLoading(false)
-      console.error(error)
+      handleError(error)
     }
   }
 

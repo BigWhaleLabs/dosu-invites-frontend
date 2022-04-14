@@ -1,4 +1,5 @@
 import * as api from 'helpers/api'
+import { handleError } from 'helpers/handleError'
 import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import { useState } from 'react'
@@ -21,7 +22,7 @@ export default function useNft() {
 
         if (tokenURI) setIpfsLink(tokenURI)
       } catch (error) {
-        console.error(error)
+        handleError(error)
       } finally {
         setIpfsLoading(false)
       }

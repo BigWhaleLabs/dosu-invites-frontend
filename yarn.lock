@@ -6905,6 +6905,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.4.0
     eslint-plugin-sort-imports-es6-autofix: ^0.6.0
     eslint-plugin-valtio: ^0.4.2
+    eth-rpc-errors: ^4.0.3
     ethers: ^5.6.2
     fortmatic: ^2.2.1
     merkletreejs: ^0.2.31
@@ -6919,6 +6920,7 @@ __metadata:
     react-router-dom: ^6.3.0
     react-scripts: ^5.0.0
     react-spring: ^9.4.4
+    react-toastify: ^8.2.0
     rollup-plugin-node-polyfills: ^0.2.1
     rollup-plugin-visualizer: ^5.6.0
     tailwind-scrollbar-hide: ^1.1.7
@@ -13806,6 +13808,18 @@ __metadata:
     "@react-spring/web": ~9.4.4
     "@react-spring/zdog": ~9.4.4
   checksum: fb2b36580d61f3e70767635ffcdb5b3751a7f12c3c3a78171ad997076dfa032f2cf77cffc9befd13b8194934e083309906beae971a013d848cc46a702732a283
+  languageName: node
+  linkType: hard
+
+"react-toastify@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "react-toastify@npm:8.2.0"
+  dependencies:
+    clsx: ^1.1.1
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: 670f1176fb9fd247c7ce0cad22e72578cbfa356dd1920a810ec4aa19faa4dab16db9efbdaaf761bdd368c4fad5c3d7f15568d5328b7b3c8699539064e88fcd4b
   languageName: node
   linkType: hard
 

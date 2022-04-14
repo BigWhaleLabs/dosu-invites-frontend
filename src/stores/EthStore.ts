@@ -1,12 +1,14 @@
 import { Abi } from 'helpers/abiTypes/Abi'
 import { Abi__factory } from 'helpers/abiTypes/factories/Abi__factory'
+import { ErrorList } from 'helpers/handleError'
 import { Web3Provider } from '@ethersproject/providers'
+import { handleError } from 'helpers/handleError'
 import { proxy } from 'valtio'
 import PersistableStore from 'stores/persistence/PersistableStore'
 import configuredModal from 'helpers/configuredModal'
 import generateMerkleProof from 'helpers/generateMerkleProof'
 
-const ethNetwork = import.meta.env.VITE_ETH_NETWORK
+const ethNetwork = import.meta.env.VITE_ETH_NETWORK as string
 let contract: Abi
 
 class EthStore extends PersistableStore {
@@ -14,20 +16,16 @@ class EthStore extends PersistableStore {
   userAddress?: string
   tokenId?: number
   ethLoading = false
-  ethError?: string
 
   async onConnect() {
     try {
       this.ethLoading = true
-      this.ethError = ''
 
       const instance = await configuredModal.connect()
       const provider = new Web3Provider(instance)
       const userNetwork = (await provider.getNetwork()).name
-      if (userNetwork !== ethNetwork) {
-        this.ethError = `Looks like you're using ${userNetwork} network, try switching to ${ethNetwork} and connect again`
-        return
-      }
+      if (userNetwork !== ethNetwork)
+        throw new Error(ErrorList.wrongNetwork(userNetwork, ethNetwork))
 
       const accounts = await provider.listAccounts()
 
@@ -39,8 +37,7 @@ class EthStore extends PersistableStore {
       await this.handleAccountChanged(accounts)
       this.subscribeProvider(instance)
     } catch (error) {
-      if ((error as string) === 'Modal closed by user') return
-      console.error(error)
+      if (error !== 'Modal closed by user') handleError(error)
       this.clearData()
     } finally {
       this.ethLoading = false
@@ -80,22 +77,19 @@ class EthStore extends PersistableStore {
   private subscribeProvider(provider: Web3Provider) {
     if (!provider.on) return
 
-    provider.on('error', (error: Error) => {
-      console.error(error)
-      this.ethError = error.message
-    })
-    provider.on('accountsChanged', async (accounts: string[]) => {
-      if (this.ethError) return
-      await this.handleAccountChanged(accounts)
-    })
-    provider.on('disconnect', async (accounts: string[]) => {
-      if (this.ethError) return
-      await this.handleAccountChanged(accounts)
-    })
-    provider.on('stop', async (accounts: string[]) => {
-      if (this.ethError) return
-      await this.handleAccountChanged(accounts)
-    })
+    provider.on('error', (error: Error) => handleError(error))
+    provider.on(
+      'accountsChanged',
+      async (accounts: string[]) => await this.handleAccountChanged(accounts)
+    )
+    provider.on(
+      'disconnect',
+      async (accounts: string[]) => await this.handleAccountChanged(accounts)
+    )
+    provider.on(
+      'stop',
+      async (accounts: string[]) => await this.handleAccountChanged(accounts)
+    )
     provider.on('networkChanged', async () => {
       this.clearData()
       await this.onConnect()
@@ -109,7 +103,7 @@ class EthStore extends PersistableStore {
       const { _hex } = await contract.checkTokenId(this.userAddress)
       this.tokenId = +_hex
     } catch (error) {
-      console.error(error)
+      handleError(error)
       this.tokenId = undefined
     } finally {
       this.ethLoading = false
@@ -126,15 +120,13 @@ class EthStore extends PersistableStore {
     if (!contract || !this.ethAddress) return
     try {
       const proof = generateMerkleProof(this.ethAddress)
-      if (typeof proof === 'string') {
-        this.ethError = proof
-        return
-      }
+      if (typeof proof === 'string') throw new Error(ErrorList.invalidProof)
+
       const transaction = await contract.mint(proof)
       await transaction.wait()
       await this.checkUserData()
     } catch (error) {
-      console.error(error)
+      handleError(error)
     }
   }
 }
