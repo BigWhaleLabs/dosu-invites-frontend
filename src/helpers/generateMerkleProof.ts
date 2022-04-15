@@ -7,12 +7,12 @@ export default function checkInMerkleTree(ethAddress: string) {
 
   const leafNodes = addresses.map((address: string) => utils.keccak256(address))
   const merkleTree = new MerkleTree(leafNodes, utils.keccak256, {
-    sortLeaves: true,
+    sortPairs: true,
   })
 
   const claimingIndex = addresses.findIndex((address) => address === ethAddress)
 
-  if (!claimingIndex) return 'Looks like you dont have an invite'
+  if (claimingIndex < 0) return 'Looks like you dont have an invite'
 
   const claimingAddress = leafNodes[claimingIndex]
   const hexProof = merkleTree.getHexProof(claimingAddress)
