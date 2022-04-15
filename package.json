@@ -8,9 +8,8 @@
     "pretty": "prettier --check src",
     "lint": "yarn pretty && eslint --max-warnings 0 --ext ts,tsx src",
     "postinstall": "yarn prepare",
-    "prepare": "yarn generate-abi-types & yarn generate-css-types",
-    "generate-css-types": "tailwindcss-classnames -o src/classnames/tailwind.ts && prettier --write 'src/classnames/tailwind.ts'",
-    "generate-abi-types": "typechain --target=ethers-v5 'src/helpers/abi.json' --out-dir 'src/helpers/abiTypes'"
+    "prepare": "yarn generate-css-types",
+    "generate-css-types": "tailwindcss-classnames -o src/classnames/tailwind.ts && prettier --write 'src/classnames/tailwind.ts'"
   },
   "browserslist": {
     "production": [
@@ -25,6 +24,7 @@
     ]
   },
   "dependencies": {
+    "@big-whale-labs/dosu-invites-contract": "^0.0.5",
     "@borodutch-labs/localize-react": "^1.7.6",
     "@coinbase/wallet-sdk": "^3.0.6",
     "@toruslabs/torus-embed": "^1.21.0",

@@ -1,5 +1,7 @@
-import { Abi } from 'helpers/abiTypes/Abi'
-import { Abi__factory } from 'helpers/abiTypes/factories/Abi__factory'
+import {
+  DosuInvites,
+  DosuInvites__factory,
+} from '@big-whale-labs/dosu-invites-contract/typechain'
 import { ErrorList } from 'helpers/handleError'
 import { Web3Provider } from '@ethersproject/providers'
 import { handleError } from 'helpers/handleError'
@@ -9,7 +11,7 @@ import configuredModal from 'helpers/configuredModal'
 import generateMerkleProof from 'helpers/generateMerkleProof'
 
 const ethNetwork = import.meta.env.VITE_ETH_NETWORK as string
-let contract: Abi
+let contract: DosuInvites
 
 class EthStore extends PersistableStore {
   ethAddress?: string
@@ -29,7 +31,7 @@ class EthStore extends PersistableStore {
 
       const accounts = await provider.listAccounts()
 
-      contract = Abi__factory.connect(
+      contract = DosuInvites__factory.connect(
         import.meta.env.VITE_CONTRACT_ADDRESS as string,
         provider.getSigner(0)
       )
