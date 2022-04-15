@@ -139,10 +139,6 @@ function Main() {
                   </a>
                 </LinkText>
               ) : undefined}
-
-              <div className={marginBottom}>
-                <BodyText>Merkle Verified: {hasTokenId ? '✔️' : '❌'}</BodyText>
-              </div>
             </div>
           )}
         </div>
