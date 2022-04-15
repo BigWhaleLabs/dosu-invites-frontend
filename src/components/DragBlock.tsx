@@ -34,6 +34,14 @@ import useVideo from 'pages/Main/useVideo'
 
 const marginBottom = classnames(margin('mb-6'))
 
+const draggableWrapper = classnames(
+  display('flex'),
+  flex('flex-auto'),
+  flexDirection('flex-col'),
+  width('w-full'),
+  margin('mx-auto', marginBottom)
+)
+
 const draggableBox = classnames(
   display('flex'),
   flexDirection('flex-col'),
@@ -78,7 +86,7 @@ const ethAddressBox = classnames(
   borderRadius('rounded-3xl'),
   borderWidth('border-2'),
   borderColor('border-border'),
-  margin('mx-auto', marginBottom),
+  margin('mx-auto'),
   padding('p-6')
 )
 
@@ -100,60 +108,66 @@ function VideoBlock() {
 
   useEffect(() => {
     if (framesToEth[frame]) {
-      EthStore.ethAddress = framesToEth[frame]
+      EthStore.displayedAddress = framesToEth[frame]
     }
   }, [frame, framesToEth])
 
   return (
-    <>
-      <div className={draggableBox}>
-        <Draggable
-          bounds={{
-            left:
-              -draggableGrid *
-              (!framesToEthLength ? 0 : framesToEthLength - 1) *
-              multiplier,
-            right: 0,
-          }}
-          grid={[draggableGrid, draggableGrid]}
-          positionOffset={{
-            x: 'calc(50% - 0.85rem)',
-            y: 0,
-          }}
-          position={{ x: -frame * draggableGrid * multiplier, y: 0 }}
-          axis="x"
-          onDrag={(_e, data) => {
-            PlayerStore.updatePause(true)
-            PlayerStore.updateDragFrame(frame + -data.deltaX / draggableGrid)
-          }}
-          onStop={() => PlayerStore.updatePause(false)}
-        >
-          <div className={draggableText}>
-            {Object.keys(framesToEth).map((frameId) => (
-              <div className={draggableSymbolBox}>
-                <p className={draggableSymbol}>{+frameId}</p>
-              </div>
-            ))}
-          </div>
-        </Draggable>
-        <div className={indicator} />
-      </div>
-
-      <div className={ethAddressBox}>
-        <BodyText>ETH ADDRESS</BodyText>
-        {EthStore.ethAddress && framesToEthLength && framesToEthLength > 0 && (
-          <LinkText>
-            <a
-              href={`https://etherscan.io/address/${EthStore.ethAddress}`}
-              target="_blank"
-              className={ethText}
+    <div className={draggableWrapper}>
+      {framesToEthLength && framesToEthLength > 0 && (
+        <>
+          <div className={draggableBox}>
+            <Draggable
+              bounds={{
+                left:
+                  -draggableGrid *
+                  (!framesToEthLength ? 0 : framesToEthLength - 1) *
+                  multiplier,
+                right: 0,
+              }}
+              grid={[draggableGrid, draggableGrid]}
+              positionOffset={{
+                x: 'calc(50% - 0.85rem)',
+                y: 0,
+              }}
+              position={{ x: -frame * draggableGrid * multiplier, y: 0 }}
+              axis="x"
+              onDrag={(_e, data) => {
+                PlayerStore.updatePause(true)
+                PlayerStore.updateDragFrame(
+                  frame + -data.deltaX / draggableGrid
+                )
+              }}
+              onStop={() => PlayerStore.updatePause(false)}
             >
-              {EthStore.ethAddress}
-            </a>
-          </LinkText>
-        )}
-      </div>
-    </>
+              <div className={draggableText}>
+                {Object.keys(framesToEth).map((frameId) => (
+                  <div className={draggableSymbolBox}>
+                    <p className={draggableSymbol}>{+frameId}</p>
+                  </div>
+                ))}
+              </div>
+            </Draggable>
+            <div className={indicator} />
+          </div>
+
+          <div className={ethAddressBox}>
+            <BodyText>ETH ADDRESS</BodyText>
+            {EthStore.displayedAddress && (
+              <LinkText>
+                <a
+                  href={`https://etherscan.io/address/${EthStore.displayedAddress}`}
+                  target="_blank"
+                  className={ethText}
+                >
+                  {EthStore.displayedAddress}
+                </a>
+              </LinkText>
+            )}
+          </div>
+        </>
+      )}
+    </div>
   )
 }
 
