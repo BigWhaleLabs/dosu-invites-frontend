@@ -115,9 +115,9 @@ class EthStore extends PersistableStore {
   }
 
   async mintNFT() {
-    if (!contract || !this.ethAddress) return
+    if (!contract || !this.userAddress) return
     try {
-      const proof = generateMerkleProof(this.ethAddress)
+      const proof = generateMerkleProof(this.userAddress)
 
       const transaction = await contract.mint(proof)
       await transaction.wait()
