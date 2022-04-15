@@ -22,7 +22,6 @@ class EthStore extends PersistableStore {
       this.ethLoading = true
 
       const instance = await configuredModal.connect()
-      console.log(instance)
       const provider = new Web3Provider(instance)
       const userNetwork = (await provider.getNetwork()).name
       if (userNetwork !== ethNetwork)
