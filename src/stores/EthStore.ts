@@ -22,19 +22,18 @@ class EthStore extends PersistableStore {
       this.ethLoading = true
 
       const instance = await configuredModal.connect()
+      console.log(instance)
       const provider = new Web3Provider(instance)
       const userNetwork = (await provider.getNetwork()).name
       if (userNetwork !== ethNetwork)
         throw new Error(ErrorList.wrongNetwork(userNetwork, ethNetwork))
-
-      const accounts = await provider.listAccounts()
 
       contract = Abi__factory.connect(
         import.meta.env.VITE_CONTRACT_ADDRESS as string,
         provider.getSigner(0)
       )
 
-      await this.handleAccountChanged(accounts)
+      await this.handleAccountChanged(provider)
       this.subscribeProvider(instance)
     } catch (error) {
       if (error !== 'Modal closed by user') handleError(error)
@@ -60,14 +59,17 @@ class EthStore extends PersistableStore {
     await this.checkTokenId()
   }
 
-  private async handleAccountChanged(accounts: string[]) {
+  private async handleAccountChanged(provider: Web3Provider) {
     this.ethLoading = true
 
-    if (accounts.length === 0) {
+    const signer = provider.getSigner()
+    const currentAddress = await signer.getAddress()
+
+    if (!currentAddress) {
       this.userAddress = ''
       this.tokenId = undefined
     } else {
-      this.userAddress = accounts[0]
+      this.userAddress = currentAddress
       await this.checkUserData()
     }
 
@@ -80,16 +82,13 @@ class EthStore extends PersistableStore {
     provider.on('error', (error: Error) => handleError(error))
     provider.on(
       'accountsChanged',
-      async (accounts: string[]) => await this.handleAccountChanged(accounts)
+      async () => await this.handleAccountChanged(provider)
     )
     provider.on(
       'disconnect',
-      async (accounts: string[]) => await this.handleAccountChanged(accounts)
+      async () => await this.handleAccountChanged(provider)
     )
-    provider.on(
-      'stop',
-      async (accounts: string[]) => await this.handleAccountChanged(accounts)
-    )
+    provider.on('stop', async () => await this.handleAccountChanged(provider))
     provider.on('networkChanged', async () => {
       this.clearData()
       await this.onConnect()

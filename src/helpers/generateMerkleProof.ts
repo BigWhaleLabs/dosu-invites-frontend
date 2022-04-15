@@ -17,7 +17,6 @@ export default function checkInMerkleTree(ethAddress: string) {
 
   const claimingAddress = leafNodes[claimingIndex]
   const hexProof = merkleTree.getHexProof(claimingAddress)
-  console.log(hexProof)
 
   return hexProof
 }
