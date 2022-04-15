@@ -80,18 +80,17 @@ function Main() {
               onTimeUpdate={onTimeUpdate}
             />
           )}
-
-          <Suspense
-            fallback={
-              <div className={marginWrapper}>
-                <Loader size="small" />
-              </div>
-            }
-          >
-            <DragBlock />
-          </Suspense>
         </>
       )}
+      <Suspense
+        fallback={
+          <div className={marginWrapper}>
+            <Loader size="small" />
+          </div>
+        }
+      >
+        <DragBlock />
+      </Suspense>
 
       {userAddress && EthStore.tokenId === undefined && (
         <div className={marginBottom}>
