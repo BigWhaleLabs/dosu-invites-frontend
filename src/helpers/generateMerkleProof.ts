@@ -3,7 +3,7 @@ import { MerkleTree } from 'merkletreejs'
 import getAllowlist from 'helpers/getAllowlist'
 import keccak256 from 'keccak256'
 
-export default function checkInMerkleTree(ethAddress: string) {
+export default function generateMerkleProof(ethAddress: string) {
   const addresses = getAllowlist()
 
   const leafNodes = addresses.map((address: string) => keccak256(address))
