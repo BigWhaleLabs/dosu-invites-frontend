@@ -12,7 +12,7 @@ const ethNetwork = import.meta.env.VITE_ETH_NETWORK as string
 let contract: Abi
 
 class EthStore extends PersistableStore {
-  ethAddress?: string
+  displayedAddress?: string
   userAddress?: string
   tokenId?: number
   ethLoading = false

@@ -64,7 +64,7 @@ function Main() {
 
   return (
     <div className={mainBox}>
-      {framesToEthLength && (
+      {framesToEthLength && framesToEthLength > 1 && (
         <>
           {dragFrame > framesToEthLength ? (
             <img
@@ -80,18 +80,18 @@ function Main() {
               onTimeUpdate={onTimeUpdate}
             />
           )}
-
-          <Suspense
-            fallback={
-              <div className={marginWrapper}>
-                <Loader size="small" />
-              </div>
-            }
-          >
-            <DragBlock />
-          </Suspense>
         </>
       )}
+
+      <Suspense
+        fallback={
+          <div className={marginWrapper}>
+            <Loader size="small" />
+          </div>
+        }
+      >
+        <DragBlock />
+      </Suspense>
 
       {userAddress && EthStore.tokenId === undefined && (
         <div className={marginBottom}>
