@@ -64,30 +64,34 @@ function Main() {
 
   return (
     <div className={mainBox}>
-      {framesToEthLength && dragFrame > framesToEthLength ? (
-        <img
-          className={altImg}
-          src={md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
-        />
-      ) : (
-        <VideoJS
-          options={videoJsOptions}
-          onReady={() => setupVideo()}
-          videoRef={videoRef}
-          videoLink={videoLink}
-          onTimeUpdate={onTimeUpdate}
-        />
-      )}
+      {framesToEthLength && (
+        <>
+          {dragFrame > framesToEthLength ? (
+            <img
+              className={altImg}
+              src={md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
+            />
+          ) : (
+            <VideoJS
+              options={videoJsOptions}
+              onReady={() => setupVideo()}
+              videoRef={videoRef}
+              videoLink={videoLink}
+              onTimeUpdate={onTimeUpdate}
+            />
+          )}
 
-      <Suspense
-        fallback={
-          <div className={marginWrapper}>
-            <Loader size="small" />
-          </div>
-        }
-      >
-        <DragBlock />
-      </Suspense>
+          <Suspense
+            fallback={
+              <div className={marginWrapper}>
+                <Loader size="small" />
+              </div>
+            }
+          >
+            <DragBlock />
+          </Suspense>
+        </>
+      )}
 
       {userAddress && EthStore.tokenId === undefined && (
         <div className={marginBottom}>
