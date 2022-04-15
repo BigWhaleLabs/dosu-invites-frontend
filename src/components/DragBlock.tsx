@@ -114,7 +114,7 @@ function VideoBlock() {
 
   return (
     <div className={draggableWrapper}>
-      {framesToEthLength && framesToEthLength > 1 && (
+      {framesToEthLength && framesToEthLength > 0 && (
         <>
           <div className={draggableBox}>
             <Draggable

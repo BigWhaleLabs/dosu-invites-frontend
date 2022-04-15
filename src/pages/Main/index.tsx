@@ -64,7 +64,7 @@ function Main() {
 
   return (
     <div className={mainBox}>
-      {framesToEthLength && framesToEthLength > 1 && (
+      {framesToEthLength && framesToEthLength > 0 && (
         <>
           {dragFrame > framesToEthLength ? (
             <img
