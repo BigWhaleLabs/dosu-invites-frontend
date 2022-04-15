@@ -92,7 +92,7 @@ class EthStore extends PersistableStore {
       'stop',
       async (accounts: string[]) => await this.handleAccountChanged(accounts)
     )
-    provider.on('networkChanged', async () => {
+    provider.on('chainChanged', async () => {
       this.clearData()
       await this.onConnect()
     })
