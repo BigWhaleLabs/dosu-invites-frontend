@@ -1,7 +1,7 @@
 import { ErrorList } from 'helpers/handleError'
 import { MerkleTree } from 'merkletreejs'
-import { keccak256 } from 'ethers/lib/utils'
 import getAllowlist from 'helpers/getAllowlist'
+import keccak256 from 'keccak256'
 
 export default function checkInMerkleTree(ethAddress: string) {
   const addresses = getAllowlist()
@@ -17,6 +17,7 @@ export default function checkInMerkleTree(ethAddress: string) {
 
   const claimingAddress = leafNodes[claimingIndex]
   const hexProof = merkleTree.getHexProof(claimingAddress)
+  console.log(hexProof)
 
   return hexProof
 }
