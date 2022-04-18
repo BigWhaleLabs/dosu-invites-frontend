@@ -6,7 +6,14 @@ export default function useBreakpoints() {
   const [width, setWidth] = useState(window.innerWidth)
 
   useEffect(() => {
-    window.addEventListener('resize', () => setWidth(window.innerWidth))
+    function resizer() {
+      setWidth(window.innerWidth)
+    }
+
+    window.addEventListener('resize', resizer)
+    return () => {
+      window.removeEventListener('resize', resizer)
+    }
   }, [])
 
   return {
