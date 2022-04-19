@@ -1,4 +1,3 @@
-import * as api from 'helpers/api'
 import { handleError } from 'helpers/handleError'
 import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
@@ -12,13 +11,13 @@ export default function useNft() {
   const [ipfsLoading, setIpfsLoading] = useState(false)
 
   useEffect(() => {
-    async function checkTokenURI() {
+    function checkTokenURI() {
       try {
         setIpfsLoading(true)
 
         if (EthStore.tokenId === undefined) return
 
-        const tokenURI = await api.getIpfsLink(EthStore.tokenId)
+        const tokenURI = `//www.invites.dosu.eth/ipfs/${tokenId}`
 
         if (tokenURI) setIpfsLink(tokenURI)
       } catch (error) {

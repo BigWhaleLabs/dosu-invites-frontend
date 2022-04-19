@@ -4,6 +4,7 @@ import { ErrorList } from 'helpers/handleError'
 import { Web3Provider } from '@ethersproject/providers'
 import { handleError } from 'helpers/handleError'
 import { proxy } from 'valtio'
+import Invites from 'models/Invites'
 import PersistableStore from 'stores/persistence/PersistableStore'
 import configuredModal from 'helpers/configuredModal'
 import generateMerkleProof from 'helpers/generateMerkleProof'
@@ -141,6 +142,21 @@ class EthStore extends PersistableStore {
     } catch (error) {
       handleError(error)
     }
+  }
+
+  async getMintedAddresses() {
+    console.log(
+      (await !contract) ? 'Contract not loaded' : 'Getting minted addresses...'
+    )
+    if (!contract) return
+    const lastId = +(await contract.mintedTokensCount())._hex
+    const tokenToAddressMap: Invites = {}
+    for (let id = 0; id < lastId; id++) {
+      const address = await contract.ownerOf(id)
+      console.log(`Token ${id}: ${address}`)
+      tokenToAddressMap[id] = address
+    }
+    return await tokenToAddressMap
   }
 }
 

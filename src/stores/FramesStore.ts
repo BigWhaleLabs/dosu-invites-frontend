@@ -1,17 +1,17 @@
-import * as api from 'helpers/api'
 import { proxy } from 'valtio'
+import EthStore from 'stores/EthStore'
 import Invites from 'models/Invites'
 
 interface FrameState {
-  framesToEth: Promise<Invites>
+  framesToEth: Promise<Invites | undefined>
   requestFrames: () => void
   framesToEthLength?: number
 }
 
 const FramesStore = proxy<FrameState>({
-  framesToEth: api.getMintedAddresses(),
+  framesToEth: EthStore.getMintedAddresses(),
   requestFrames: () => {
-    FramesStore.framesToEth = api.getMintedAddresses()
+    FramesStore.framesToEth = EthStore.getMintedAddresses()
   },
   framesToEthLength: undefined,
 })

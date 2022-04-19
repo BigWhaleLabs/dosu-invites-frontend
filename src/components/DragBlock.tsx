@@ -103,12 +103,13 @@ function VideoBlock() {
   const { draggableGrid, multiplier } = useVideo()
 
   useEffect(() => {
-    if (!Object.keys(framesToEth).length) return
+    console.log(framesToEth)
+    if (!framesToEth) return
     FramesStore.framesToEthLength = Object.keys(framesToEth).length
   }, [framesToEth])
 
   useEffect(() => {
-    if (framesToEth[frame]) {
+    if (framesToEth && framesToEth[frame]) {
       EthStore.displayedAddress = framesToEth[frame]
     }
   }, [frame, framesToEth])
@@ -142,11 +143,12 @@ function VideoBlock() {
               onStop={() => PlayerStore.updatePause(false)}
             >
               <div className={draggableText}>
-                {Object.keys(framesToEth).map((frameId) => (
-                  <div className={draggableSymbolBox}>
-                    <p className={draggableSymbol}>{+frameId}</p>
-                  </div>
-                ))}
+                {framesToEth &&
+                  Object.keys(framesToEth).map((frameId) => (
+                    <div className={draggableSymbolBox}>
+                      <p className={draggableSymbol}>{+frameId}</p>
+                    </div>
+                  ))}
               </div>
             </Draggable>
             <div className={indicator} />
