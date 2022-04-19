@@ -103,6 +103,7 @@ function VideoBlock() {
   const { draggableGrid, multiplier } = useVideo()
 
   useEffect(() => {
+    if (!Object.keys(framesToEth).length) return
     FramesStore.framesToEthLength = Object.keys(framesToEth).length
   }, [framesToEth])
 
@@ -114,7 +115,7 @@ function VideoBlock() {
 
   return (
     <div className={draggableWrapper}>
-      {framesToEthLength && framesToEthLength > 0 && (
+      {framesToEthLength && (
         <>
           <div className={draggableBox}>
             <Draggable

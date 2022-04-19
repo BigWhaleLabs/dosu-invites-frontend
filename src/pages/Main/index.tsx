@@ -20,7 +20,6 @@ import Footer from 'components/Footer'
 import FramesStore from 'stores/FramesStore'
 import Loader from 'components/Loader'
 import PlayerStore from 'stores/PlayerStore'
-import VideoJS from 'components/VideoJS'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useIpfs from 'pages/Main/useIpfs'
@@ -60,11 +59,9 @@ function Main() {
 
   const hasTokenId = EthStore.tokenId !== undefined
 
-  const videoLink = `${backend}/video`
-
   return (
     <div className={mainBox}>
-      {framesToEthLength && framesToEthLength > 0 && (
+      {framesToEthLength && (
         <>
           {dragFrame > framesToEthLength ? (
             <img
@@ -72,12 +69,9 @@ function Main() {
               src={md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
             />
           ) : (
-            <VideoJS
-              options={videoJsOptions}
-              onReady={() => setupVideo()}
-              videoRef={videoRef}
-              videoLink={videoLink}
-              onTimeUpdate={onTimeUpdate}
+            <img
+              className={altImg}
+              src={`http://bafybeigagsknbnerpon7efn7xha4trkbmmoscof2fhehriutxqmhewn4pe.ipfs.localhost:8080/`}
             />
           )}
         </>

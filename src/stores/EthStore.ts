@@ -51,6 +51,7 @@ class EthStore extends PersistableStore {
   }
 
   private async checkUserData() {
+    console.log('Checking user data...')
     if (!this.userAddress) return
     const minted = !(await contract.balanceOf(this.userAddress)).isZero()
     if (!minted) {
@@ -61,6 +62,7 @@ class EthStore extends PersistableStore {
   }
 
   private async handleAccountChanged(accounts: string[]) {
+    console.log('Accounts changed:', accounts)
     this.ethLoading = true
 
     if (accounts.length === 0) {
@@ -97,11 +99,22 @@ class EthStore extends PersistableStore {
   }
 
   private async checkTokenId() {
+    console.log('Checking token id...')
     if (!contract || !this.userAddress) return
     try {
       this.ethLoading = true
-      const { _hex } = await contract.checkTokenId(this.userAddress)
-      this.tokenId = +_hex
+      const { _hex } = await contract.mintedTokensCount() // Last token ID
+      const lastId = +_hex
+      for (let id = 1; id <= lastId; id++) {
+        console.log(`Getting address for token ${id}...`)
+        const address = await contract.ownerOf(id)
+        console.log(`Address: ${address} & user address: ${this.userAddress}`)
+        if (address === this.userAddress) {
+          this.tokenId = id
+          console.log(`Token ID: ${id}`)
+          break
+        }
+      }
     } catch (error) {
       handleError(error)
       this.tokenId = undefined
@@ -113,7 +126,7 @@ class EthStore extends PersistableStore {
   getMerkleRoot() {
     if (!contract) return
 
-    return Promise.resolve(contract.merkleRoot())
+    return Promise.resolve(contract.allowlistMerkleRoot())
   }
 
   async mintNFT() {
