@@ -9,7 +9,7 @@ export default function useNft() {
 
   const [mintLoading, setMintLoading] = useState(false)
 
-  const mintAddress = async () => {
+  async function mintAddress() {
     if (tokenId !== undefined) return
     try {
       setMintLoading(true)

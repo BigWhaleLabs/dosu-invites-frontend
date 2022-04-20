@@ -1508,6 +1508,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@big-whale-labs/dosu-invites-contract@npm:^0.0.11":
+  version: 0.0.11
+  resolution: "@big-whale-labs/dosu-invites-contract@npm:0.0.11"
+  checksum: e5e304816997ed2fc12f2c2936ed546cf164923963c1c538c1870f971f6215ffc759c58a45e7c0791c1ac44302f088fd019de795df015c8b45b5b44ecffc8070
+  languageName: node
+  linkType: hard
+
 "@bitski/provider-engine@npm:^0.7.0-beta.2":
   version: 0.7.0-beta.2
   resolution: "@bitski/provider-engine@npm:0.7.0-beta.2"
@@ -6881,6 +6888,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "dosu-invites-frontend@workspace:."
   dependencies:
+    "@big-whale-labs/dosu-invites-contract": ^0.0.11
     "@borodutch-labs/localize-react": ^1.7.6
     "@coinbase/wallet-sdk": ^3.0.6
     "@esbuild-plugins/node-globals-polyfill": ^0.1.1

@@ -1,4 +1,2 @@
 postcss.config.js
 vite.config.ts
-src/helpers/abiTypes/*
-src/helpers/abi.json

@@ -1,3 +1,4 @@
+/* eslint-disable valtio/state-snapshot-rule */
 import { BodyText, LinkText } from 'components/Text'
 import {
   alignItems,
@@ -95,7 +96,7 @@ const ethText = classnames(
   textOverflow('truncate')
 )
 
-function VideoBlock() {
+function DragBlock() {
   const { framesToEth, framesToEthLength, displayedAddress } =
     useSnapshot(FramesStore)
   const { frame, draggableGrid, multiplier } = useSnapshot(PlayerStore)
@@ -168,4 +169,4 @@ function VideoBlock() {
   )
 }
 
-export default VideoBlock
+export default DragBlock

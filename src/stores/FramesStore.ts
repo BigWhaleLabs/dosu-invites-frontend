@@ -1,18 +1,7 @@
-import { Abi } from 'helpers/abiTypes/Abi'
-import { Abi__factory } from 'helpers/abiTypes/factories/Abi__factory'
-import { providers } from 'ethers'
 import { proxy } from 'valtio'
 import Invites from 'models/Invites'
+import dosuInvites from 'helpers/dosuInvites'
 
-const provider = new providers.InfuraProvider(
-  import.meta.env.VITE_ETH_NETWORK as string,
-  import.meta.env.VITE_INFURA_ID as string
-)
-
-const contract: Abi = Abi__factory.connect(
-  import.meta.env.VITE_CONTRACT_ADDRESS as string,
-  provider
-)
 interface FrameState {
   displayedAddress?: string
   framesToEthLength?: number
@@ -21,6 +10,8 @@ interface FrameState {
   updateDisplayedAddress: (address: string) => void
   getMintedAddresses: () => Promise<Invites>
 }
+
+const dosuContract = dosuInvites()
 
 const FramesStore = proxy<FrameState>({
   displayedAddress: undefined,
@@ -33,11 +24,11 @@ const FramesStore = proxy<FrameState>({
     FramesStore.displayedAddress = address
   },
   getMintedAddresses: async () => {
-    if (!contract) return Promise.resolve({})
-    const lastId = +(await contract.mintedTokensCount())._hex
+    if (!dosuContract) return Promise.resolve({})
+    const lastId = +(await dosuContract.mintedTokensCount())._hex
     const tokenToAddressMap: Invites = {}
     for (let id = 1; id <= lastId; id++) {
-      const address = await contract.ownerOf(id)
+      const address = await dosuContract.ownerOf(id)
       tokenToAddressMap[id] = address.toLocaleLowerCase()
     }
     return tokenToAddressMap

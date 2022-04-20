@@ -10,7 +10,7 @@ import NotFound from 'pages/NotFound'
 import Root from 'components/Root'
 import ThemeProvider from 'components/ThemeProvider'
 
-const App = () => {
+function App() {
   const { theme } = useSnapshot(AppStore)
 
   return (
