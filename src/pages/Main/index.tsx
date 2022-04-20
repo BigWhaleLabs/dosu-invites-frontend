@@ -1,6 +1,6 @@
 import { BodyText, LinkText } from 'components/Text'
 import { Button } from 'components/Button'
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import {
   alignItems,
   borderRadius,
@@ -10,6 +10,7 @@ import {
   height,
   justifyContent,
   margin,
+  maxHeight,
   zIndex,
 } from 'classnames/tailwind'
 import { observer } from 'mobx-react-lite'
@@ -21,12 +22,8 @@ import FramesStore from 'stores/FramesStore'
 import Loader from 'components/Loader'
 import PlayerStore from 'stores/PlayerStore'
 import truncateMiddle from 'helpers/truncateMiddle'
-import useBreakpoints from 'helpers/useBreakpoints'
 import useIpfs from 'pages/Main/useIpfs'
 import useNft from 'pages/Main/useNft'
-import useVideo from 'pages/Main/useVideo'
-
-const backend = import.meta.env.VITE_BACKEND as string
 
 const mainBox = classnames(
   display('flex'),
@@ -36,7 +33,11 @@ const mainBox = classnames(
   zIndex('z-10')
 )
 const marginBottom = classnames(margin('mb-6'))
-const altImg = classnames(height('h-fit'), borderRadius('rounded-3xl'))
+const altImg = classnames(
+  height('h-fit'),
+  maxHeight('max-h-max'),
+  borderRadius('rounded-3xl')
+)
 
 const inviteText = classnames(
   display('flex'),
@@ -53,28 +54,22 @@ function Main() {
   const { dragFrame } = useSnapshot(PlayerStore)
   const { mintAddress, mintLoading } = useNft()
   const { ipfsLink, ipfsLoading } = useIpfs()
-  const { reloadVideo, videoRef, setupVideo, videoJsOptions, onTimeUpdate } =
-    useVideo()
-  const { md } = useBreakpoints()
+
+  useEffect(() => {
+    FramesStore.requestFrames()
+  }, [])
 
   const hasTokenId = EthStore.tokenId !== undefined
 
   return (
     <div className={mainBox}>
-      {framesToEthLength && (
-        <>
-          {dragFrame > framesToEthLength ? (
-            <img
-              className={altImg}
-              src={md ? 'img/noInvite169.png' : 'img/noInvite11.png'}
-            />
-          ) : (
-            <img
-              className={altImg}
-              src={`http://bafybeigagsknbnerpon7efn7xha4trkbmmoscof2fhehriutxqmhewn4pe.ipfs.localhost:8080/`}
-            />
-          )}
-        </>
+      {!framesToEthLength || dragFrame > framesToEthLength ? (
+        <img
+          className={altImg}
+          src={!framesToEthLength ? 'img/blurInvite.png' : 'img/noInvite.png'}
+        />
+      ) : (
+        <img className={altImg} src={ipfsLink} />
       )}
 
       <Suspense
@@ -95,7 +90,7 @@ function Main() {
             <Button
               onClick={async () => {
                 await mintAddress()
-                setTimeout(() => reloadVideo(EthStore.tokenId), 10000)
+                setTimeout(() => FramesStore.requestFrames(), 10000)
               }}
               loading={mintLoading}
             >

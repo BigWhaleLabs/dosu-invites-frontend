@@ -27,10 +27,8 @@ import {
 import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import Draggable from 'react-draggable'
-import EthStore from 'stores/EthStore'
 import FramesStore from 'stores/FramesStore'
 import PlayerStore from 'stores/PlayerStore'
-import useVideo from 'pages/Main/useVideo'
 
 const marginBottom = classnames(margin('mb-6'))
 
@@ -39,7 +37,7 @@ const draggableWrapper = classnames(
   flex('flex-auto'),
   flexDirection('flex-col'),
   width('w-full'),
-  margin('mx-auto', marginBottom)
+  margin(marginBottom)
 )
 
 const draggableBox = classnames(
@@ -98,19 +96,18 @@ const ethText = classnames(
 )
 
 function VideoBlock() {
-  const { framesToEth, framesToEthLength } = useSnapshot(FramesStore)
-  const { frame } = useSnapshot(PlayerStore)
-  const { draggableGrid, multiplier } = useVideo()
+  const { framesToEth, framesToEthLength, displayedAddress } =
+    useSnapshot(FramesStore)
+  const { frame, draggableGrid, multiplier } = useSnapshot(PlayerStore)
 
   useEffect(() => {
-    console.log(framesToEth)
     if (!framesToEth) return
     FramesStore.framesToEthLength = Object.keys(framesToEth).length
   }, [framesToEth])
 
   useEffect(() => {
     if (framesToEth && framesToEth[frame]) {
-      EthStore.displayedAddress = framesToEth[frame]
+      FramesStore.updateDisplayedAddress(framesToEth[frame])
     }
   }, [frame, framesToEth])
 
@@ -121,10 +118,7 @@ function VideoBlock() {
           <div className={draggableBox}>
             <Draggable
               bounds={{
-                left:
-                  -draggableGrid *
-                  (!framesToEthLength ? 0 : framesToEthLength - 1) *
-                  multiplier,
+                left: -draggableGrid * framesToEthLength * multiplier,
                 right: 0,
               }}
               grid={[draggableGrid, draggableGrid]}
@@ -132,15 +126,15 @@ function VideoBlock() {
                 x: 'calc(50% - 0.85rem)',
                 y: 0,
               }}
-              position={{ x: -frame * draggableGrid * multiplier, y: 0 }}
+              position={{ x: -(frame - 1) * draggableGrid * multiplier, y: 0 }}
               axis="x"
               onDrag={(_e, data) => {
-                PlayerStore.updatePause(true)
-                PlayerStore.updateDragFrame(
-                  frame + -data.deltaX / draggableGrid
+                PlayerStore.updateFrame(
+                  frame + -data.deltaX / draggableGrid > framesToEthLength
+                    ? framesToEthLength
+                    : frame + -data.deltaX / draggableGrid
                 )
               }}
-              onStop={() => PlayerStore.updatePause(false)}
             >
               <div className={draggableText}>
                 {framesToEth &&
@@ -156,14 +150,14 @@ function VideoBlock() {
 
           <div className={ethAddressBox}>
             <BodyText>ETH ADDRESS</BodyText>
-            {EthStore.displayedAddress && (
+            {displayedAddress && (
               <LinkText>
                 <a
-                  href={`https://etherscan.io/address/${EthStore.displayedAddress}`}
+                  href={`https://etherscan.io/address/${displayedAddress}`}
                   target="_blank"
                   className={ethText}
                 >
-                  {EthStore.displayedAddress}
+                  {displayedAddress}
                 </a>
               </LinkText>
             )}

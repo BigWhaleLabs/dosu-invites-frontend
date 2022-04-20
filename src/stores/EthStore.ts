@@ -4,7 +4,6 @@ import { ErrorList } from 'helpers/handleError'
 import { Web3Provider } from '@ethersproject/providers'
 import { handleError } from 'helpers/handleError'
 import { proxy } from 'valtio'
-import Invites from 'models/Invites'
 import PersistableStore from 'stores/persistence/PersistableStore'
 import configuredModal from 'helpers/configuredModal'
 import generateMerkleProof from 'helpers/generateMerkleProof'
@@ -13,7 +12,6 @@ const ethNetwork = import.meta.env.VITE_ETH_NETWORK as string
 let contract: Abi
 
 class EthStore extends PersistableStore {
-  displayedAddress?: string
   userAddress?: string
   tokenId?: number
   ethLoading = false
@@ -52,7 +50,6 @@ class EthStore extends PersistableStore {
   }
 
   private async checkUserData() {
-    console.log('Checking user data...')
     if (!this.userAddress) return
     const minted = !(await contract.balanceOf(this.userAddress)).isZero()
     if (!minted) {
@@ -63,7 +60,6 @@ class EthStore extends PersistableStore {
   }
 
   private async handleAccountChanged(accounts: string[]) {
-    console.log('Accounts changed:', accounts)
     this.ethLoading = true
 
     if (accounts.length === 0) {
@@ -100,19 +96,17 @@ class EthStore extends PersistableStore {
   }
 
   private async checkTokenId() {
-    console.log('Checking token id...')
     if (!contract || !this.userAddress) return
     try {
       this.ethLoading = true
       const { _hex } = await contract.mintedTokensCount() // Last token ID
       const lastId = +_hex
       for (let id = 1; id <= lastId; id++) {
-        console.log(`Getting address for token ${id}...`)
         const address = await contract.ownerOf(id)
-        console.log(`Address: ${address} & user address: ${this.userAddress}`)
-        if (address === this.userAddress) {
+        if (
+          address.toLocaleLowerCase() === this.userAddress.toLocaleLowerCase()
+        ) {
           this.tokenId = id
-          console.log(`Token ID: ${id}`)
           break
         }
       }
@@ -142,21 +136,6 @@ class EthStore extends PersistableStore {
     } catch (error) {
       handleError(error)
     }
-  }
-
-  async getMintedAddresses() {
-    console.log(
-      (await !contract) ? 'Contract not loaded' : 'Getting minted addresses...'
-    )
-    if (!contract) return
-    const lastId = +(await contract.mintedTokensCount())._hex
-    const tokenToAddressMap: Invites = {}
-    for (let id = 0; id < lastId; id++) {
-      const address = await contract.ownerOf(id)
-      console.log(`Token ${id}: ${address}`)
-      tokenToAddressMap[id] = address
-    }
-    return await tokenToAddressMap
   }
 }
 

@@ -3,9 +3,16 @@ import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import { useState } from 'react'
 import EthStore from 'stores/EthStore'
+import FramesStore from 'stores/FramesStore'
+import PlayerStore from 'stores/PlayerStore'
 
 export default function useNft() {
   const { tokenId } = useSnapshot(EthStore)
+  const { frame } = useSnapshot(PlayerStore)
+  const { displayedAddress } = useSnapshot(FramesStore)
+
+  const baseIPFN =
+    'https://ipfs.io/ipfs/bafybeib6lg74yzlelypw7zyvlzqnyccw7zuxzp3mefzbrzjuqbuvb5w6dy'
 
   const [ipfsLink, setIpfsLink] = useState<string>()
   const [ipfsLoading, setIpfsLoading] = useState(false)
@@ -15,11 +22,10 @@ export default function useNft() {
       try {
         setIpfsLoading(true)
 
-        if (EthStore.tokenId === undefined) return
+        if (!FramesStore.displayedAddress) return
+        const ipfnFrame = `${baseIPFN}?filename=${frame}.png`
 
-        const tokenURI = `//www.invites.dosu.eth/ipfs/${tokenId}`
-
-        if (tokenURI) setIpfsLink(tokenURI)
+        if (ipfnFrame) setIpfsLink(ipfnFrame)
       } catch (error) {
         handleError(error)
       } finally {
@@ -28,7 +34,7 @@ export default function useNft() {
     }
 
     void checkTokenURI()
-  }, [tokenId])
+  }, [tokenId, frame, displayedAddress])
 
   return {
     ipfsLink,
