@@ -7,6 +7,7 @@ import {
   height,
   margin,
   maxWidth,
+  minHeight,
   padding,
 } from 'classnames/tailwind'
 
@@ -17,7 +18,8 @@ const root = classnames(
   margin('mx-auto'),
   padding('pb-10', 'pt-4', 'px-4'),
   maxWidth('max-w-4xl'),
-  height('h-screen')
+  height('h-full'),
+  minHeight('min-h-screen')
 )
 const Root: FC = ({ children }) => {
   return <div className={root}>{children}</div>
