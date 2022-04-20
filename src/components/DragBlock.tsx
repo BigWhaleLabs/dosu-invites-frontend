@@ -21,6 +21,7 @@ import {
   textAlign,
   textColor,
   textOverflow,
+  transitionProperty,
   userSelect,
   whitespace,
   width,
@@ -51,7 +52,8 @@ const draggableBox = classnames(
   borderWidth('border-2'),
   borderColor('border-border'),
   margin('my-12'),
-  padding('p-6')
+  padding('p-6'),
+  transitionProperty('transition-colors')
 )
 const draggableText = classnames(
   width('w-full'),
@@ -59,7 +61,8 @@ const draggableText = classnames(
   alignItems('items-center'),
   display('flex'),
   flexDirection('flex-row'),
-  textColor('text-primary')
+  textColor('text-primary'),
+  transitionProperty('transition-colors')
 )
 const draggableSymbol = classnames(
   width('w-8'),
@@ -75,7 +78,8 @@ const indicator = classnames(
   width('w-1'),
   height('h-6'),
   backgroundColor('bg-border'),
-  borderRadius('rounded-md')
+  borderRadius('rounded-md'),
+  transitionProperty('transition-colors')
 )
 
 const ethAddressBox = classnames(
@@ -86,7 +90,8 @@ const ethAddressBox = classnames(
   borderWidth('border-2'),
   borderColor('border-border'),
   margin('mx-auto'),
-  padding('p-6')
+  padding('p-6'),
+  transitionProperty('transition-colors')
 )
 
 const ethText = classnames(
