@@ -2,6 +2,7 @@ import { ErrorList } from 'helpers/handleError'
 import { Web3Provider } from '@ethersproject/providers'
 import { handleError } from 'helpers/handleError'
 import { proxy } from 'valtio'
+import NetworkChainIdToName from 'models/NetworkChainIdToName'
 import dosuInvites from 'helpers/dosuInvites'
 import env from 'helpers/env'
 import generateMerkleProof from 'helpers/generateMerkleProof'
@@ -31,13 +32,11 @@ class WalletStore {
   }
 
   async connect() {
+    this.loading = true
     try {
-      this.loading = true
-
       const instance = await web3Modal.connect()
-      this.provider = new Web3Provider(instance)
-      this.networkName = (await this.provider.getNetwork()).name
-      this.checkNetworkName()
+      this.provider = new Web3Provider(instance, env.VITE_ETH_NETWORK)
+      await this.setAndCheckNetworkName()
       this.userAddress = (await this.provider.listAccounts())[0]
       await this.fetchTokenId()
     } catch (error) {
@@ -69,13 +68,18 @@ class WalletStore {
       this.networkName = undefined
       this.tokenId = undefined
     })
-    provider.on('chainChanged', async () => {
-      if (!this.provider) return
-
-      this.networkName = (await this.provider.getNetwork()).name
-      this.checkNetworkName()
-      void this.fetchTokenId()
+    provider.on('chainChanged', async (chainId: string) => {
+      await this.setAndCheckNetworkName(chainId)
+      await this.fetchTokenId()
     })
+  }
+
+  private async setAndCheckNetworkName(chainId?: string) {
+    if (!this.provider) return
+    this.networkName =
+      (chainId && NetworkChainIdToName[chainId]) ||
+      (await this.provider.getNetwork()).name
+    this.checkNetworkName()
   }
 
   private checkNetworkName() {
