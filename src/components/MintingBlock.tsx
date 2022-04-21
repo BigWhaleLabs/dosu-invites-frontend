@@ -1,6 +1,7 @@
 import { Button } from 'components/Button'
-import { LinkText, SubheaderText } from 'components/Text'
+import { SubheaderText } from 'components/Text'
 import { useEffect, useState } from 'preact/hooks'
+import { useNavigate } from 'react-router-dom'
 import { useSnapshot } from 'valtio'
 import WalletStore from 'stores/WalletStore'
 import getAllowlist from 'helpers/getAllowlist'
@@ -8,6 +9,7 @@ import getAllowlist from 'helpers/getAllowlist'
 export default function MintingBlock() {
   const { userAddress, tokenId, loading } = useSnapshot(WalletStore)
   const [allowed, setAllowed] = useState<boolean>()
+  const navigate = useNavigate()
 
   useEffect(() => {
     async function checkData() {
@@ -25,7 +27,16 @@ export default function MintingBlock() {
         tokenId !== undefined ? (
           <>
             `Your Dosu Invite is ${tokenId}!`
-            <LinkText href={tokenId.toString()}>Go check it out</LinkText>
+            <Button
+              onClick={() => {
+                if (WalletStore.tokenId)
+                  navigate(`../${WalletStore.tokenId.toString()}`, {
+                    replace: true,
+                  })
+              }}
+            >
+              Go check it out
+            </Button>
           </>
         ) : (
           <Button
