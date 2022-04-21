@@ -88,6 +88,18 @@ class WalletStore {
     handleError(ErrorList.wrongNetwork(this.networkName, env.VITE_ETH_NETWORK))
   }
 
+  async changeNetworkToDefault() {
+    if (!this.provider) return
+    const network = env.VITE_ETH_NETWORK
+    const index = Object.values(NetworkChainIdToName).findIndex(
+      (name) => name === network
+    )
+
+    await this.provider.jsonRpcFetchFunc('wallet_switchEthereumChain', [
+      { chainId: Object.keys(NetworkChainIdToName)[index] },
+    ])
+  }
+
   private async fetchTokenId() {
     this.tokenId = undefined
     if (!this.isCorrectNetwork || !this.userAddress) return
