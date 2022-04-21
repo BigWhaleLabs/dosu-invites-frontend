@@ -105,7 +105,7 @@ class WalletStore {
     if (!this.userAddress || !this.provider) return // TODO: should throw an error?
     const dosuInvitesWithSigner = getDosuInvites(this.provider?.getSigner(0))
     try {
-      const proof = generateMerkleProof(this.userAddress)
+      const proof = await generateMerkleProof(this.userAddress)
 
       const transaction = await dosuInvitesWithSigner.mint(proof)
       await transaction.wait()
