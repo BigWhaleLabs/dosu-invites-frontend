@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@coinbase/wallet-sdk": "^3.0.8",
+    "@big-whale-labs/dosu-invites-contract": "^0.0.11",
     "@toruslabs/torus-embed": "^1.22.2",
     "@walletconnect/web3-provider": "^1.7.7",
     "axios": "^0.26.1",
@@ -39,12 +40,10 @@
     "react-router-dom": "^6.3.0",
     "react-spring": "^9.4.4",
     "react-toastify": "^8.2.0",
-    "unfetch": "^4.2.0",
     "valtio": "^1.5.2",
     "web3modal": "^1.9.7"
   },
   "devDependencies": {
-    "@big-whale-labs/dosu-invites-contract": "^0.0.11",
     "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
     "@preact/preset-vite": "^2.2.0",
     "@types/node": "^17.0.25",
