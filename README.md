@@ -2,15 +2,17 @@
 
 ## Environment variables
 
-| Name                      | Description                                                           |
-| ------------------------- | --------------------------------------------------------------------- |
-| `VITE_CONTRACT_ADDRESS`   | Dosu invites contract address                                         |
-| `VITE_FORTMATIC_KEY`      | Create a project and get one [here](https://dashboard.fortmatic.com/) |
-| `VITE_APP_NAME`           | App name which is displayed in some wallets                           |
-| `VITE_INFURA_ID`          | Create an app and get one [here](https://infura.io/dashboard)         |
-| `VITE_BITSKI_CLIENT_ID`   | Bitski client id                                                      |
-| `VITE_ETH_NETWORK`        | Eth network for your providers and contract                           |
-| `VITE_ALLOWLIST_ENDPOINT` | An address, where we fetch the allowlist                              |
+| Name                      | Description                                                                  |
+| ------------------------- | ---------------------------------------------------------------------------- |
+| `VITE_CONTRACT_ADDRESS`   | Dosu invites contract address                                                |
+| `VITE_FORTMATIC_KEY`      | Create a project and get one [here](https://dashboard.fortmatic.com/)        |
+| `VITE_APP_NAME`           | App name which is displayed in some wallets                                  |
+| `VITE_INFURA_ID`          | Create an app and get one [here](https://infura.io/dashboard)                |
+| `VITE_BITSKI_CLIENT_ID`   | Bitski client id                                                             |
+| `VITE_ETH_NETWORK`        | Eth network for your providers and contract                                  |
+| `VITE_ALLOWLIST_ENDPOINT` | An address, where we fetch the allowlist                                     |
+| `VITE_IPFS_ENDPOINT`      | An endpoint provided by `dosu-invites-backend` and configured at the hosting |
+| `BASE_URL`                | _Optional_: base url for IPFS hosted website                                 |
 
 ## Obtaining `VITE_BITSKI_CLIENT_ID`
 

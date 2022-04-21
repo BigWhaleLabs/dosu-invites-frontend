@@ -6,4 +6,5 @@ export default {
   VITE_FORTMATIC_KEY: import.meta.env.VITE_FORTMATIC_KEY as string,
   VITE_BITSKI_CLIENT_ID: import.meta.env.VITE_BITSKI_CLIENT_ID as string,
   VITE_ALLOWLIST_ENDPOINT: import.meta.env.VITE_ALLOWLIST_ENDPOINT as string,
+  VITE_IPFS_ENDPOINT: import.meta.env.VITE_IPFS_ENDPOINT as string,
 }
