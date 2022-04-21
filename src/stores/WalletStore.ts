@@ -32,12 +32,11 @@ class WalletStore {
   }
 
   async connect() {
+    this.loading = true
     try {
-      this.loading = true
-
       const instance = await web3Modal.connect()
       this.provider = new Web3Provider(instance, env.VITE_ETH_NETWORK)
-      await this.handleNetworkNameChange()
+      await this.setAndCheckNetworkName()
       this.userAddress = (await this.provider.listAccounts())[0]
       await this.fetchTokenId()
     } catch (error) {
@@ -70,28 +69,17 @@ class WalletStore {
       this.tokenId = undefined
     })
     provider.on('chainChanged', async (chainId: string) => {
-      await this.handleNetworkNameChange(chainId)
+      await this.setAndCheckNetworkName(chainId)
       await this.fetchTokenId()
     })
   }
 
-  private async handleNetworkNameChange(chainId?: string) {
+  private async setAndCheckNetworkName(chainId?: string) {
     if (!this.provider) return
-    try {
-      this.networkName = (await this.provider.getNetwork()).name
-      this.checkNetworkName()
-    } catch (error) {
-      const index = Object.keys(NetworkChainIdToName).findIndex(
-        (id) => id === chainId
-      )
-      this.networkName = Object.values(NetworkChainIdToName)[index]
-      handleError(
-        ErrorList.wrongNetwork(
-          this.networkName || 'a wrong',
-          env.VITE_ETH_NETWORK
-        )
-      )
-    }
+    this.networkName =
+      (chainId && NetworkChainIdToName[chainId]) ||
+      (await this.provider.getNetwork()).name
+    this.checkNetworkName()
   }
 
   private checkNetworkName() {
