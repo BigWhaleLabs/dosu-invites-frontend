@@ -24,7 +24,7 @@
     ]
   },
   "dependencies": {
-    "@big-whale-labs/dosu-invites-contract": "^0.0.5",
+    "@big-whale-labs/dosu-invites-contract": "^0.0.10",
     "@borodutch-labs/localize-react": "^1.7.6",
     "@coinbase/wallet-sdk": "^3.0.6",
     "@toruslabs/torus-embed": "^1.21.0",
@@ -54,7 +54,6 @@
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
     "@preact/preset-vite": "^2.2.0",
-    "@typechain/ethers-v5": "^10.0.0",
     "@types/node": "^17.0.23",
     "@types/react": "^17.0.43",
     "@types/react-dom": "^17.0.14",
@@ -80,7 +79,6 @@
     "rollup-plugin-visualizer": "^5.6.0",
     "tailwindcss": "^3.0.23",
     "tailwindcss-classnames": "^3.0.3",
-    "typechain": "^8.0.0",
     "typescript": "^4.6.3",
     "vite": "^2.9.1",
     "vite-plugin-environment": "^1.1.0",
