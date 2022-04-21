@@ -24,8 +24,8 @@
     ]
   },
   "dependencies": {
-    "@coinbase/wallet-sdk": "^3.0.8",
     "@big-whale-labs/dosu-invites-contract": "^0.0.11",
+    "@coinbase/wallet-sdk": "^3.0.8",
     "@toruslabs/torus-embed": "^1.22.2",
     "@walletconnect/web3-provider": "^1.7.7",
     "axios": "^0.26.1",
