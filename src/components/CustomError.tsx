@@ -6,7 +6,7 @@ const CustomError = () => {
   return (
     <div>
       Looks like you're using {WalletStore.networkName} network, please, switch
-      to {env.VITE_ETH_NETWORK}`
+      to {env.VITE_ETH_NETWORK}
       <Button
         outlined
         fullWidth
