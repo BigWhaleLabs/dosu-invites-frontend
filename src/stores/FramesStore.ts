@@ -1,6 +1,6 @@
 import { proxy } from 'valtio'
 import Invites from 'models/Invites'
-import dosuInvites from 'helpers/dosuInvites'
+import dosuInvites from 'helpers/getDosuInvites'
 
 interface FrameState {
   displayedAddress?: string

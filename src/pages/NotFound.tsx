@@ -13,7 +13,6 @@ export default function NotFound() {
     <div className={container}>
       <HeaderText>404</HeaderText>
       <DimmedSubheaderText>Not found</DimmedSubheaderText>
-
       <Footer />
     </div>
   )

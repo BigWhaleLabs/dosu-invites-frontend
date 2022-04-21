@@ -176,8 +176,8 @@ export const Button: FC<ButtonProps> = ({
         fullWidth,
         loading
       )}
-      onClick={!loading && !disabled ? onClick : undefined}
-      disabled={disabled}
+      onClick={onClick}
+      disabled={disabled || loading}
     >
       {children ? loadingStateChildren : loadingStateLeft(false)}
     </button>

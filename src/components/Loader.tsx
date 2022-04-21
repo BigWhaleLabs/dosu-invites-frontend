@@ -15,7 +15,6 @@ import {
   width,
   zIndex,
 } from 'classnames/tailwind'
-import { observer } from 'mobx-react-lite'
 import classNamesToString from 'helpers/classNamesToString'
 
 interface LoaderProps {
@@ -60,4 +59,4 @@ const Loader: FC<LoaderProps> = ({
   )
 }
 
-export default observer(Loader)
+export default Loader

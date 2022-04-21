@@ -1,11 +1,11 @@
 import { handleError } from 'helpers/handleError'
 import { useSnapshot } from 'valtio'
 import { useState } from 'react'
-import EthStore from 'stores/EthStore'
 import FramesStore from 'stores/FramesStore'
+import WalletStore from 'stores/WalletStore'
 
 export default function useNft() {
-  const { tokenId } = useSnapshot(EthStore)
+  const { tokenId } = useSnapshot(WalletStore)
 
   const [mintLoading, setMintLoading] = useState(false)
 
@@ -13,7 +13,7 @@ export default function useNft() {
     if (tokenId !== undefined) return
     try {
       setMintLoading(true)
-      await EthStore.mintNFT()
+      await WalletStore.mintNFT()
       FramesStore.requestFrames()
       setMintLoading(false)
     } catch (error) {

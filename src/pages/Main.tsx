@@ -1,29 +1,33 @@
-import { BodyText, LinkText } from 'components/Text'
-import { Button } from 'components/Button'
-import { Suspense, useEffect } from 'react'
+// import { BodyText, HeaderText, LinkText, SubheaderText } from 'components/Text'
+// import { Button } from 'components/Button'
+// import { Suspense, useEffect } from 'react'
 import {
   alignItems,
-  borderRadius,
+  // borderRadius,
   classnames,
   display,
   flexDirection,
-  height,
+  // height,
   justifyContent,
-  margin,
-  maxHeight,
+  // margin,
+  // maxHeight,
   zIndex,
 } from 'classnames/tailwind'
-import { observer } from 'mobx-react-lite'
 import { useSnapshot } from 'valtio'
-import DragBlock from 'components/DragBlock'
-import EthStore from 'stores/EthStore'
+// import DragBlock from 'components/DragBlock'
 import Footer from 'components/Footer'
-import FramesStore from 'stores/FramesStore'
-import Loader from 'components/Loader'
-import PlayerStore from 'stores/PlayerStore'
-import truncateMiddle from 'helpers/truncateMiddle'
-import useIpfs from 'pages/Main/useIpfs'
-import useNft from 'pages/Main/useNft'
+// import FramesStore from 'stores/FramesStore'
+// import Loader from 'components/Loader'
+import MintingBlock from 'components/MintingBlock'
+import NoAddressMessage from 'components/NoAddressMessage'
+// import PlayerStore from 'stores/PlayerStore'
+import NFTPicture from 'components/NFTPicture'
+import WalletStore from 'stores/WalletStore'
+import WrongNetworkMessage from 'components/WrongNetworkMessage'
+// import env from 'helpers/env'
+// import truncateMiddle from 'helpers/truncateMiddle'
+// import useIpfs from 'hooks/useIpfs'
+// import useNft from 'pages/Main/useNft'
 
 const mainBox = classnames(
   display('flex'),
@@ -32,38 +36,42 @@ const mainBox = classnames(
   alignItems('items-center'),
   zIndex('z-10')
 )
-const marginBottom = classnames(margin('mb-6'))
-const altImg = classnames(
-  height('h-fit'),
-  maxHeight('max-h-max'),
-  borderRadius('rounded-3xl')
-)
+// const marginBottom = classnames(margin('mb-6'))
+// const altImg = classnames(
+//   height('h-fit'),
+//   maxHeight('max-h-max'),
+//   borderRadius('rounded-3xl')
+// )
 
-const inviteText = classnames(
-  display('flex'),
-  flexDirection('flex-col'),
-  justifyContent('justify-center'),
-  alignItems('items-center')
-)
+// const inviteText = classnames(
+//   display('flex'),
+//   flexDirection('flex-col'),
+//   justifyContent('justify-center'),
+//   alignItems('items-center')
+// )
 
-const marginWrapper = classnames(margin('my-12'))
+// const marginWrapper = classnames(margin('my-12'))
 
 function Main() {
-  const { userAddress, ethLoading } = useSnapshot(EthStore)
-  const { framesToEthLength } = useSnapshot(FramesStore)
-  const { dragFrame } = useSnapshot(PlayerStore)
-  const { mintAddress, mintLoading } = useNft()
-  const { ipfsLink, ipfsLoading } = useIpfs()
+  const { userAddress, isCorrectNetwork } = useSnapshot(WalletStore)
+  // const { framesToEthLength } = useSnapshot(FramesStore)
+  // const { dragFrame } = useSnapshot(PlayerStore)
+  // const { mintAddress, mintLoading } = useNft()
+  // const { ipfsLink, ipfsLoading } = useIpfs()
 
-  useEffect(() => {
-    FramesStore.requestFrames()
-  }, [])
+  // useEffect(() => {
+  //   FramesStore.requestFrames()
+  // }, [])
 
-  const hasTokenId = EthStore.tokenId !== undefined
+  // const hasTokenId = EthStore.tokenId !== undefined
 
   return (
     <div className={mainBox}>
-      {!framesToEthLength || dragFrame > framesToEthLength ? (
+      <NFTPicture />
+      {!userAddress && <NoAddressMessage />}
+      {userAddress && !isCorrectNetwork && <WrongNetworkMessage />}
+      {userAddress && isCorrectNetwork && <MintingBlock />}
+      {/* {!framesToEthLength || dragFrame > framesToEthLength ? (
         <img
           className={altImg}
           src={!framesToEthLength ? 'img/blurInvite.png' : 'img/noInvite.png'}
@@ -131,11 +139,11 @@ function Main() {
             </div>
           )}
         </div>
-      )}
+      )} */}
 
       <Footer />
     </div>
   )
 }
 
-export default observer(Main)
+export default Main

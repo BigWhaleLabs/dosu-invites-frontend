@@ -11,7 +11,7 @@ const network = import.meta.env.VITE_ETH_NETWORK as string
 const appName = import.meta.env.VITE_APP_NAME as string
 const theme = AppStore.theme
 
-const configuredModal = new Web3Modal({
+const web3modal = new Web3Modal({
   cacheProvider: true,
   theme,
   disableInjectedProvider: false,
@@ -51,4 +51,4 @@ const configuredModal = new Web3Modal({
   },
 })
 
-export default configuredModal
+export default web3modal

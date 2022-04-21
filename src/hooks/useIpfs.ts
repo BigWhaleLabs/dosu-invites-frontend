@@ -2,12 +2,12 @@ import { handleError } from 'helpers/handleError'
 import { useEffect } from 'preact/hooks'
 import { useSnapshot } from 'valtio'
 import { useState } from 'react'
-import EthStore from 'stores/EthStore'
 import FramesStore from 'stores/FramesStore'
 import PlayerStore from 'stores/PlayerStore'
+import WalletStore from 'stores/WalletStore'
 
 export default function useNft() {
-  const { tokenId } = useSnapshot(EthStore)
+  const { tokenId } = useSnapshot(WalletStore)
   const { frame } = useSnapshot(PlayerStore)
   const { displayedAddress } = useSnapshot(FramesStore)
 

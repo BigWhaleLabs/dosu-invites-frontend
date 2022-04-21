@@ -1,12 +1,11 @@
 import { serializeError } from 'eth-rpc-errors'
 import { toast } from 'react-toastify'
-import axios from 'axios'
 
 export const ProofGenerationErrors = {}
 
 export const ErrorList = {
   wrongNetwork: (userNetwork: string, contractNetwork: string) =>
-    `Looks like you're using ${userNetwork} network, try switching to ${contractNetwork} and connect again`,
+    `Looks like you're using ${userNetwork} network, please, switch to ${contractNetwork}`,
   invalidProof: 'Merkle Tree Proof is not valid',
   unknown: 'An unknown error occurred, please, contact us',
   clear: '',
@@ -15,21 +14,22 @@ export const ErrorList = {
 export function handleError(error: unknown) {
   console.error(error)
 
-  let displayedError: string | undefined
+  let errorMessageToDisplay: string | undefined
 
-  if (typeof error === 'string') displayedError = error
+  if (typeof error === 'string') errorMessageToDisplay = error
 
-  if (error instanceof Error || axios.isAxiosError(error))
-    displayedError = error.message
+  if (error instanceof Error) errorMessageToDisplay = error.message
 
-  const message = serializeError(error).message
-  if (message)
-    if (/cannot estimate gas/.test(message)) {
-      displayedError = ErrorList.invalidProof
-    } else {
-      displayedError = message
-    }
-  if (!displayedError) displayedError = ErrorList.unknown
+  if (!errorMessageToDisplay) {
+    const message = serializeError(error).message
+    if (message)
+      if (/cannot estimate gas/.test(message)) {
+        errorMessageToDisplay = ErrorList.invalidProof
+      } else {
+        errorMessageToDisplay = message
+      }
+  }
+  if (!errorMessageToDisplay) errorMessageToDisplay = ErrorList.unknown
 
-  toast.error(displayedError)
+  toast.error(errorMessageToDisplay)
 }
