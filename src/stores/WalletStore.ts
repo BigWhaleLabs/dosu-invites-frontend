@@ -78,9 +78,8 @@ class WalletStore {
   }
 
   private checkNetworkName() {
-    if (!this.networkName || this.isCorrectNetwork) {
-      return
-    }
+    if (!this.networkName || this.isCorrectNetwork) return
+
     handleError(ErrorList.wrongNetwork(this.networkName, env.VITE_ETH_NETWORK))
   }
 
