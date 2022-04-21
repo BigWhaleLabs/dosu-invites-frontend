@@ -8,6 +8,7 @@ export const ErrorList = {
     `Looks like you're using ${userNetwork} network, please, switch to ${contractNetwork}`,
   invalidProof: 'Merkle Tree Proof is not valid',
   unknown: 'An unknown error occurred, please, contact us',
+  ipfsImage: "Can't fetch an image from IPFS, please try again",
   clear: '',
 }
 
