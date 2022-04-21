@@ -3,8 +3,8 @@ import { MerkleTree } from 'merkletreejs'
 import { utils } from 'ethers'
 import getAllowlist from 'helpers/getAllowlist'
 
-export default function checkInMerkleTree(ethAddress: string) {
-  const addresses = getAllowlist() // TODO: get it from https://allowlist.dosu.io/allowlist, making this function async
+export default async function checkInMerkleTree(ethAddress: string) {
+  const addresses = await getAllowlist()
 
   const leafNodes = addresses.map((address: string) => utils.keccak256(address))
   const merkleTree = new MerkleTree(leafNodes, utils.keccak256, {
