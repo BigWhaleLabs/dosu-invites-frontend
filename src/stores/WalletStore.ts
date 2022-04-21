@@ -2,6 +2,7 @@ import { ErrorList } from 'helpers/handleError'
 import { Web3Provider } from '@ethersproject/providers'
 import { handleError } from 'helpers/handleError'
 import { proxy } from 'valtio'
+import NetworkHex from 'models/Network'
 import dosuInvites from 'helpers/dosuInvites'
 import env from 'helpers/env'
 import generateMerkleProof from 'helpers/generateMerkleProof'
@@ -77,7 +78,17 @@ class WalletStore {
   private checkNetworkName() {
     if (!this.networkName || this.isCorrectNetwork) return
 
-    handleError(ErrorList.wrongNetwork(this.networkName, env.VITE_ETH_NETWORK))
+    handleError(ErrorList.wrongNetwork)
+  }
+
+  async changeNetwork() {
+    if (!this.provider) return
+    const network = env.VITE_ETH_NETWORK as string
+    const hexIndex = Object.keys(NetworkHex).indexOf(network)
+
+    await this.provider.jsonRpcFetchFunc('wallet_switchEthereumChain', [
+      { chainId: Object.values(NetworkHex)[hexIndex] },
+    ])
   }
 
   private async fetchTokenId() {

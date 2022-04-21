@@ -1,11 +1,11 @@
 import { serializeError } from 'eth-rpc-errors'
 import { toast } from 'react-toastify'
+import CustomError from 'components/CustomError'
 
 export const ProofGenerationErrors = {}
 
 export const ErrorList = {
-  wrongNetwork: (userNetwork: string, contractNetwork: string) =>
-    `Looks like you're using ${userNetwork} network, please, switch to ${contractNetwork}`,
+  wrongNetwork: 'Wrong network',
   invalidProof: 'Merkle Tree Proof is not valid',
   unknown: 'An unknown error occurred, please, contact us',
   clear: '',
@@ -31,5 +31,9 @@ export function handleError(error: unknown) {
   }
   if (!errorMessageToDisplay) errorMessageToDisplay = ErrorList.unknown
 
-  toast.error(errorMessageToDisplay)
+  toast.error(
+    errorMessageToDisplay.includes('Wrong network')
+      ? CustomError
+      : errorMessageToDisplay
+  )
 }
