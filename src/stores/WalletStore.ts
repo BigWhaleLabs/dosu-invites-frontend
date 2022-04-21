@@ -17,9 +17,8 @@ class WalletStore {
   }
   set provider(provider: Web3Provider | undefined) {
     this._provider = provider
-    if (!provider) {
-      return
-    }
+    if (!provider) return
+
     this.addProviderHandlers(provider)
   }
 
@@ -58,9 +57,8 @@ class WalletStore {
       void this.fetchTokenId()
     })
     provider.on('disconnect', (accounts: string[]) => {
-      if (this.userAddress && !accounts.includes(this.userAddress)) {
-        return
-      }
+      if (this.userAddress && !accounts.includes(this.userAddress)) return
+
       provider.removeAllListeners()
       this.provider = undefined
       this.userAddress = undefined
@@ -68,9 +66,8 @@ class WalletStore {
       this.tokenId = undefined
     })
     provider.on('chainChanged', async () => {
-      if (!this.provider) {
-        return
-      }
+      if (!this.provider) return
+
       this.networkName = (await this.provider.getNetwork()).name
       this.checkNetworkName()
       void this.fetchTokenId()
@@ -78,17 +75,15 @@ class WalletStore {
   }
 
   private checkNetworkName() {
-    if (!this.networkName || this.isCorrectNetwork) {
-      return
-    }
+    if (!this.networkName || this.isCorrectNetwork) return
+
     handleError(ErrorList.wrongNetwork(this.networkName, env.VITE_ETH_NETWORK))
   }
 
   private async fetchTokenId() {
     this.tokenId = undefined
-    if (!this.isCorrectNetwork || !this.userAddress) {
-      return
-    }
+    if (!this.isCorrectNetwork || !this.userAddress) return
+
     this.loading = true
     try {
       const transferFilter = dosuInvites.filters.Transfer(
