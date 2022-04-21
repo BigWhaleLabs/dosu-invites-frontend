@@ -1,9 +1,9 @@
-enum NetworkHex {
-  homestead = '0x1',
-  ropsten = '0x3',
-  rinkeby = '0x4',
-  goerli = '0x5',
-  kovan = '0x2a',
+enum NetworkNameToChainId {
+  '0x1' = 'homestead',
+  '0x3' = 'ropsten',
+  '0x4' = 'rinkeby',
+  '0x5' = 'goerli',
+  '0x2a' = 'kovan',
 }
 
-export default NetworkHex
+export default NetworkNameToChainId

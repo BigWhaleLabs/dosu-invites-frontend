@@ -5,7 +5,8 @@ import CustomError from 'components/CustomError'
 export const ProofGenerationErrors = {}
 
 export const ErrorList = {
-  wrongNetwork: 'Wrong network',
+  wrongNetwork: (userNetwork: string, contractNetwork: string) =>
+    `Looks like you're using ${userNetwork} network, please, switch to ${contractNetwork}`,
   invalidProof: 'Merkle Tree Proof is not valid',
   unknown: 'An unknown error occurred, please, contact us',
   clear: '',
@@ -32,7 +33,7 @@ export function handleError(error: unknown) {
   if (!errorMessageToDisplay) errorMessageToDisplay = ErrorList.unknown
 
   toast.error(
-    errorMessageToDisplay.includes('Wrong network')
+    errorMessageToDisplay.includes('network, please, switch to')
       ? CustomError
       : errorMessageToDisplay
   )

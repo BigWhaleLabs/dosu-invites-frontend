@@ -11,7 +11,7 @@ const CustomError = () => {
         outlined
         fullWidth
         title="Switch"
-        onClick={() => WalletStore.changeNetwork()}
+        onClick={() => WalletStore.changeNetworkToDefault()}
       />
     </div>
   )
