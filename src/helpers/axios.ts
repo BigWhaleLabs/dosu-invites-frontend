@@ -1,7 +1,8 @@
 import { handleError } from 'helpers/handleError'
 import axios from 'axios'
+import env from 'helpers/env'
 
-const baseURL = import.meta.env.VITE_BACKEND as string
+const baseURL = env.VITE_ALLOWLIST_ENDPOINT
 const headers = { 'Content-Type': 'application/json' }
 
 const Api = axios.create({ baseURL, headers })
