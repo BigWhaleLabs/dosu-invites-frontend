@@ -1,6 +1,6 @@
 import { SubheaderText } from 'components/Text'
 
-// Todo:
+// TODO:
 // Should fetch the allowlist from https://allowlist.dosu.io/allowlist (url should come from .env)
 // Should check if the WalletStore.userAddress is in the allowlist
 // If not, show the "You are not allowlisted to mint a Dosu Invite, sorry!" message
