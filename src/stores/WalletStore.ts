@@ -2,7 +2,7 @@ import { ErrorList } from 'helpers/handleError'
 import { Web3Provider } from '@ethersproject/providers'
 import { handleError } from 'helpers/handleError'
 import { proxy } from 'valtio'
-import NetworkNameToChainId from 'models/Network'
+import NetworkChainIdToName from 'models/Network'
 import dosuInvites from 'helpers/dosuInvites'
 import env from 'helpers/env'
 import generateMerkleProof from 'helpers/generateMerkleProof'
@@ -84,12 +84,12 @@ class WalletStore {
   async changeNetworkToDefault() {
     if (!this.provider) return
     const network = env.VITE_ETH_NETWORK
-    const index = Object.values(NetworkNameToChainId).findIndex(
+    const index = Object.values(NetworkChainIdToName).findIndex(
       (name) => name === network
     )
 
     await this.provider.jsonRpcFetchFunc('wallet_switchEthereumChain', [
-      { chainId: Object.keys(NetworkNameToChainId)[index] },
+      { chainId: Object.keys(NetworkChainIdToName)[index] },
     ])
   }
 

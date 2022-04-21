@@ -1,4 +1,4 @@
-enum NetworkNameToChainId {
+enum NetworkChainIdToName {
   '0x1' = 'homestead',
   '0x3' = 'ropsten',
   '0x4' = 'rinkeby',
@@ -6,4 +6,4 @@ enum NetworkNameToChainId {
   '0x2a' = 'kovan',
 }
 
-export default NetworkNameToChainId
+export default NetworkChainIdToName
