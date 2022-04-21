@@ -1,6 +1,5 @@
 import { serializeError } from 'eth-rpc-errors'
 import { toast } from 'react-toastify'
-import CustomError from 'components/CustomError'
 
 export const ProofGenerationErrors = {}
 
@@ -34,9 +33,5 @@ export function handleError(error: unknown) {
   }
   if (!errorMessageToDisplay) errorMessageToDisplay = ErrorList.unknown
 
-  toast.error(
-    errorMessageToDisplay.includes('network, please, switch to')
-      ? CustomError
-      : errorMessageToDisplay
-  )
+  toast.error(errorMessageToDisplay)
 }
