@@ -2,6 +2,7 @@ import { ErrorList } from 'helpers/handleError'
 import { Web3Provider } from '@ethersproject/providers'
 import { handleError } from 'helpers/handleError'
 import { proxy } from 'valtio'
+import NetworkHex from 'models/Network'
 import dosuInvites from 'helpers/dosuInvites'
 import env from 'helpers/env'
 import generateMerkleProof from 'helpers/generateMerkleProof'
@@ -17,9 +18,6 @@ class WalletStore {
   }
   set provider(provider: Web3Provider | undefined) {
     this._provider = provider
-    if (!provider) return
-
-    this.addProviderHandlers(provider)
   }
 
   userAddress?: string
@@ -35,9 +33,9 @@ class WalletStore {
       this.loading = true
 
       const instance = await web3Modal.connect()
-      this.provider = new Web3Provider(instance)
-      this.networkName = (await this.provider.getNetwork()).name
-      this.checkNetworkName()
+      this.provider = new Web3Provider(instance, 'ropsten')
+      this.addProviderHandlers(instance)
+      await this.handleNetworkName()
       this.userAddress = (await this.provider.listAccounts())[0]
       await this.fetchTokenId()
     } catch (error) {
@@ -65,13 +63,29 @@ class WalletStore {
       this.networkName = undefined
       this.tokenId = undefined
     })
-    provider.on('chainChanged', async () => {
-      if (!this.provider) return
+    provider.on('chainChanged', async (chainId: string) => {
+      await this.handleNetworkName(chainId)
+      await this.fetchTokenId()
+    })
+  }
 
+  private async handleNetworkName(chainId?: string) {
+    if (!this.provider) return
+    try {
       this.networkName = (await this.provider.getNetwork()).name
       this.checkNetworkName()
-      void this.fetchTokenId()
-    })
+    } catch (error) {
+      const index = Object.values(NetworkHex).findIndex(
+        (network) => network === chainId
+      )
+      this.networkName = Object.keys(NetworkHex)[index]
+      handleError(
+        ErrorList.wrongNetwork(
+          this.networkName || 'the wrong',
+          env.VITE_ETH_NETWORK
+        )
+      )
+    }
   }
 
   private checkNetworkName() {
