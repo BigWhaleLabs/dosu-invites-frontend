@@ -18,6 +18,9 @@ class WalletStore {
   }
   set provider(provider: Web3Provider | undefined) {
     this._provider = provider
+    if (!provider) return
+
+    this.addProviderHandlers(provider)
   }
 
   userAddress?: string
@@ -34,7 +37,6 @@ class WalletStore {
 
       const instance = await web3Modal.connect()
       this.provider = new Web3Provider(instance, env.VITE_ETH_NETWORK)
-      this.addProviderHandlers(instance)
       await this.handleNetworkNameChange()
       this.userAddress = (await this.provider.listAccounts())[0]
       await this.fetchTokenId()
