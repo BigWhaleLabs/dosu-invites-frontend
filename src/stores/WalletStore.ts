@@ -72,10 +72,15 @@ class WalletStore {
 
   private async setAndCheckNetworkName(chainId?: string) {
     if (!this.provider) return
-    this.networkName =
-      (chainId && networkChainIdToName[chainId]) ||
-      (await this.provider.getNetwork()).name
-    this.checkNetworkName()
+
+    try {
+      this.networkName =
+        (chainId && networkChainIdToName[chainId]) ||
+        (await this.provider.getNetwork()).name
+      this.checkNetworkName()
+    } catch (error) {
+      handleError(ErrorList.wrongNetwork('a wrong', env.VITE_ETH_NETWORK))
+    }
   }
 
   private checkNetworkName() {
