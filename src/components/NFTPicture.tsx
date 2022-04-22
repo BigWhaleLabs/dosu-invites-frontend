@@ -18,14 +18,18 @@ function OwnerBlock() {
   const { ownerAddress } = useSnapshot(IpfsStore)
 
   return (
-    !!ownerAddress && (
-      <SubheaderText>
-        Owner:{' '}
-        <LinkText href={`https://ropsten.etherscan.io/address/${ownerAddress}`}>
-          {ownerAddress}
-        </LinkText>
-      </SubheaderText>
-    )
+    <>
+      {!!ownerAddress && (
+        <SubheaderText>
+          Owner:{' '}
+          <LinkText
+            href={`https://ropsten.etherscan.io/address/${ownerAddress}`}
+          >
+            {ownerAddress}
+          </LinkText>
+        </SubheaderText>
+      )}
+    </>
   )
 }
 

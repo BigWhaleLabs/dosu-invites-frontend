@@ -14,7 +14,7 @@ import classnames, {
   margin,
 } from 'classnames/tailwind'
 import copy from 'copy-to-clipboard'
-import useLocation from 'components/useLocation'
+import usePath from 'hooks/usePath'
 
 const container = classnames(
   display('flex'),
@@ -28,7 +28,7 @@ function AllowChecker() {
   const { allowlist } = useSnapshot(IpfsStore)
   const userAddress = WalletStore.userAddress
   const { tokenId, loading } = useSnapshot(WalletStore)
-  const { id, path } = useLocation()
+  const { pathId, path } = usePath()
   const [allowed, setAllowed] = useState<boolean>()
   const [copied, setCopied] = useState(false)
   const navigate = useNavigate()
@@ -54,7 +54,7 @@ function AllowChecker() {
           <div className={container}>
             Your Dosu Invite is #{tokenId}!
             <div className={buttonContainer}>
-              {id === tokenId ? (
+              {pathId === tokenId ? (
                 <Button
                   disabled={copied}
                   title={
