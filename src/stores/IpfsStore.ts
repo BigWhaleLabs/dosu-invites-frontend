@@ -1,8 +1,13 @@
 import { proxy } from 'valtio'
 import getAllowlist from 'helpers/getAllowlist'
 
-const IpfsStore = proxy({
-  allowlist: Promise.resolve(['']),
+type IpfsStoreType = {
+  allowlist: Promise<string[]>
+  requestAllowlist: () => void
+}
+
+const IpfsStore = proxy<IpfsStoreType>({
+  allowlist: Promise.resolve([]),
   requestAllowlist: () => {
     IpfsStore.allowlist = getAllowlist()
   },
