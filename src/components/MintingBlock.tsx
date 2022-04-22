@@ -3,7 +3,7 @@ import { SubheaderText } from 'components/Text'
 import { Suspense } from 'react'
 import { proxy, useSnapshot } from 'valtio'
 import { useEffect, useState } from 'preact/hooks'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import IpfsStore from 'stores/IpfsStore'
 import WalletStore from 'stores/WalletStore'
 import classnames, {
@@ -14,7 +14,6 @@ import classnames, {
   margin,
 } from 'classnames/tailwind'
 import copy from 'copy-to-clipboard'
-import usePath from 'hooks/usePath'
 
 const container = classnames(
   display('flex'),
@@ -28,7 +27,8 @@ function AllowChecker() {
   const { allowlist } = useSnapshot(IpfsStore)
   const userAddress = WalletStore.userAddress
   const { tokenId, loading } = useSnapshot(WalletStore)
-  const { pathId, path } = usePath()
+  const { pathname } = useLocation()
+  const { id } = useParams()
   const [allowed, setAllowed] = useState<boolean>()
   const [copied, setCopied] = useState(false)
   const navigate = useNavigate()
@@ -54,7 +54,7 @@ function AllowChecker() {
           <div className={container}>
             Your Dosu Invite is #{tokenId}!
             <div className={buttonContainer}>
-              {pathId === tokenId ? (
+              {Number(id) === tokenId ? (
                 <Button
                   disabled={copied}
                   title={
@@ -63,7 +63,7 @@ function AllowChecker() {
                       : "Here's your NFT! Share this link with friends!"
                   }
                   onClick={() => {
-                    copy(path)
+                    copy(pathname)
                     setCopied(true)
                     setTimeout(() => setCopied(false), 1000)
                   }}
