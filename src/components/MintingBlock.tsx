@@ -28,12 +28,11 @@ export default function MintingBlock() {
 
   useEffect(() => {
     async function checkData() {
-      if (!userAddress) return
+      if (!WalletStore.userAddress) return
       const allowlist = await getAllowlist()
+      const invitedAddress = WalletStore.userAddress.toLowerCase()
       setAllowed(
-        allowlist.findIndex(
-          (address) => userAddress.toLowerCase() === address
-        ) > -1
+        allowlist.findIndex((address) => invitedAddress === address) > -1
       )
     }
 
