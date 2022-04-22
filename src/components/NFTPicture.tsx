@@ -12,7 +12,9 @@ import dosuInvites from 'helpers/dosuInvites'
 import env from 'helpers/env'
 import useLocation from 'components/useLocation'
 
-type ComponentWithID = { id: number }
+interface ComponentWithID {
+  id: number
+}
 const image = classnames(height('h-fit'), borderRadius('rounded-3xl'))
 
 const OwnerBlock: FC<ComponentWithID> = ({ id }) => {
