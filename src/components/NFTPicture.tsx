@@ -1,64 +1,55 @@
 import { ErrorList, handleError } from 'helpers/handleError'
-import { FC, Suspense } from 'react'
 import { LinkText, SubheaderText } from 'components/Text'
+import { Suspense } from 'react'
 import { useEffect, useState } from 'preact/hooks'
 import { useNavigate } from 'react-router-dom'
 import { useSnapshot } from 'valtio'
 import ErrorBoundary from 'components/ErrorBoundary'
 import IpfsStore from 'stores/IpfsStore'
+import Loader from 'components/Loader'
 import LoadingImage from 'components/LoadingImage'
 import classnames, { borderRadius, height } from 'classnames/tailwind'
-import dosuInvites from 'helpers/dosuInvites'
 import env from 'helpers/env'
-import usePath from 'hooks/usePath'
+import useSafeId from 'helpers/useSafeId'
 
-interface ComponentWithID {
-  id: number
-}
 const image = classnames(height('h-fit'), borderRadius('rounded-3xl'))
 
-const OwnerBlock: FC<ComponentWithID> = ({ id }) => {
-  const [ownerAddress, setOwnerAddress] = useState<string>()
-
-  useEffect(() => {
-    async function requestOwner() {
-      try {
-        const owner = await dosuInvites.ownerOf(id)
-        setOwnerAddress(owner)
-      } catch (error) {
-        handleError(`There is no owner with tokenId ${id}`)
-      }
-    }
-
-    void requestOwner()
-  }, [id])
+function OwnerBlock() {
+  const { ownerAddress } = useSnapshot(IpfsStore)
 
   return (
-    <SubheaderText>
-      Owner:{' '}
-      <LinkText href={`https://ropsten.etherscan.io/address/${ownerAddress}`}>
-        {ownerAddress}
-      </LinkText>
-    </SubheaderText>
+    <>
+      {!!ownerAddress && (
+        <SubheaderText>
+          Owner:{' '}
+          <LinkText
+            href={`https://ropsten.etherscan.io/address/${ownerAddress}`}
+          >
+            {ownerAddress}
+          </LinkText>
+        </SubheaderText>
+      )}
+    </>
   )
 }
 
-function NFTFragment({ id }: ComponentWithID) {
+function NFTFragment() {
   const { totalMinted } = useSnapshot(IpfsStore)
   const [imageLoading, setImageLoading] = useState<boolean>()
   const navigate = useNavigate()
   const total = totalMinted.toNumber()
+  const safeId = useSafeId()
 
   useEffect(() => {
     function initialize() {
       if (total <= 0) return
-      if (id > total) {
-        return navigate('/not-found')
-      }
+      return safeId > total
+        ? navigate('/not-found')
+        : IpfsStore.requestOwnerAddress(safeId)
     }
 
     void initialize()
-  }, [id, navigate, total])
+  }, [safeId, navigate, total])
 
   return !total ? (
     <SubheaderText>
@@ -68,35 +59,32 @@ function NFTFragment({ id }: ComponentWithID) {
     <>
       {imageLoading && <LoadingImage />}
       <img
-        src={`${env.VITE_IPFS_ENDPOINT}/${id || 1}.png`}
+        src={`${env.VITE_IPFS_ENDPOINT}/${safeId || 1}.png`}
         className={image}
         onLoad={() => setImageLoading(false)}
         onLoadStart={() => setImageLoading(true)}
         onError={() => {
           setImageLoading(false)
           handleError(
-            id > total ? ErrorList.notExistIpfsImage(id) : ErrorList.ipfsImage
+            safeId > total
+              ? ErrorList.notExistIpfsImage(safeId)
+              : ErrorList.ipfsImage
           )
         }}
       />
-      <OwnerBlock id={id} />
+      <Suspense fallback={<Loader />}>
+        <OwnerBlock />
+      </Suspense>
     </>
   )
 }
 
 export default function NFTPicture() {
-  const { pathId } = usePath()
-  const safeId = Number(pathId || 1)
-
-  useEffect(() => {
-    void IpfsStore.requestTotalMinted()
-  }, [])
-
   return (
     <>
       <ErrorBoundary fallbackText="Something went wrong, please, try again later!">
         <Suspense fallback={<LoadingImage />}>
-          <NFTFragment id={safeId} />
+          <NFTFragment />
         </Suspense>
       </ErrorBoundary>
     </>
