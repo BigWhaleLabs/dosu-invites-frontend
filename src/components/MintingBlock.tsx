@@ -30,7 +30,11 @@ export default function MintingBlock() {
     async function checkData() {
       if (!userAddress) return
       const allowlist = await getAllowlist()
-      setAllowed(allowlist.includes(userAddress))
+      setAllowed(
+        allowlist.findIndex(
+          (address) => userAddress.toLowerCase() === address
+        ) > -1
+      )
     }
 
     void checkData()
