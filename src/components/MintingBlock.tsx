@@ -11,7 +11,9 @@ import classnames, {
   justifyContent,
   margin,
 } from 'classnames/tailwind'
+import copy from 'copy-to-clipboard'
 import getAllowlist from 'helpers/getAllowlist'
+import useLocation from 'components/useLocation'
 
 const container = classnames(
   display('flex'),
@@ -23,8 +25,10 @@ const buttonContainer = classnames(margin('mt-4'))
 
 export default function MintingBlock() {
   const { tokenId, loading } = useSnapshot(WalletStore)
+  const { id, path } = useLocation()
   const userAddress = WalletStore.userAddress
   const [allowed, setAllowed] = useState<boolean>()
+  const [copied, setCopied] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -46,16 +50,32 @@ export default function MintingBlock() {
           <div className={container}>
             Your Dosu Invite is #{tokenId}!
             <div className={buttonContainer}>
-              <Button
-                onClick={() => {
-                  if (WalletStore.tokenId)
-                    navigate(`/${WalletStore.tokenId.toString()}`, {
-                      replace: true,
-                    })
-                }}
-              >
-                Go check it out
-              </Button>
+              {id === tokenId ? (
+                <Button
+                  disabled={copied}
+                  title={
+                    copied
+                      ? 'Copied!'
+                      : "Here's your NFT! Share this link with friends!"
+                  }
+                  onClick={() => {
+                    copy(path)
+                    setCopied(true)
+                    setTimeout(() => setCopied(false), 1000)
+                  }}
+                />
+              ) : (
+                <Button
+                  onClick={() => {
+                    if (WalletStore.tokenId)
+                      navigate(`/${WalletStore.tokenId.toString()}`, {
+                        replace: true,
+                      })
+                  }}
+                >
+                  Go check it out
+                </Button>
+              )}
             </div>
           </div>
         ) : (

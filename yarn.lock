@@ -6756,6 +6756,7 @@ __metadata:
     autoprefixer: ^10.4.4
     axios: ^0.26.1
     bitski: ^0.14.0
+    copy-to-clipboard: ^3.3.1
     cross-env: ^7.0.3
     eslint: ^8.13.0
     eslint-config-prettier: ^8.5.0
