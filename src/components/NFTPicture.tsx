@@ -1,4 +1,3 @@
-/* eslint-disable valtio/state-snapshot-rule */
 import { ErrorList, handleError } from 'helpers/handleError'
 import { FC, Suspense } from 'react'
 import { LinkText, SubheaderText } from 'components/Text'
@@ -7,16 +6,17 @@ import { useNavigate } from 'react-router-dom'
 import { useSnapshot } from 'valtio'
 import ErrorBoundary from 'components/ErrorBoundary'
 import IpfsStore from 'stores/IpfsStore'
-import Loader from 'components/Loader'
+import LoadingImage from 'components/LoadingImage'
 import classnames, { borderRadius, height } from 'classnames/tailwind'
 import dosuInvites from 'helpers/dosuInvites'
 import env from 'helpers/env'
 import useLocation from 'components/useLocation'
 
+type ComponentWithID = { id: number }
 const image = classnames(height('h-fit'), borderRadius('rounded-3xl'))
 
-const OwnerBlock: FC<{ id: number }> = ({ id }) => {
-  const [ownerAddress, setOwnerAddress] = useState('')
+const OwnerBlock: FC<ComponentWithID> = ({ id }) => {
+  const [ownerAddress, setOwnerAddress] = useState<string>()
 
   useEffect(() => {
     async function requestOwner() {
@@ -41,17 +41,15 @@ const OwnerBlock: FC<{ id: number }> = ({ id }) => {
   )
 }
 
-const NFTFragment: FC<{ id: number }> = ({ id }) => {
-  const { totalFrame } = useSnapshot(IpfsStore)
-  const [imageLoading, setImageLoading] = useState(true)
+function NFTFragment({ id }: ComponentWithID) {
+  const { totalMinted } = useSnapshot(IpfsStore)
+  const [imageLoading, setImageLoading] = useState<boolean>()
   const navigate = useNavigate()
-  const total = totalFrame.toNumber()
+  const total = totalMinted.toNumber()
 
   useEffect(() => {
     function initialize() {
-      if (total <= 0) {
-        return
-      }
+      if (total <= 0) return
       if (id > total) {
         return navigate('/not-found')
       }
@@ -66,11 +64,12 @@ const NFTFragment: FC<{ id: number }> = ({ id }) => {
     </SubheaderText>
   ) : (
     <>
-      {imageLoading && <Loader />}
+      {imageLoading && <LoadingImage />}
       <img
         src={`${env.VITE_IPFS_ENDPOINT}/${id || 1}.png`}
         className={image}
         onLoad={() => setImageLoading(false)}
+        onLoadStart={() => setImageLoading(true)}
         onError={() => {
           setImageLoading(false)
           handleError(
@@ -86,12 +85,12 @@ const NFTFragment: FC<{ id: number }> = ({ id }) => {
 export default function NFTPicture() {
   const { id } = useLocation()
   const safeId = Number(id || 1)
-  void IpfsStore.requestTotalFrames()
+  void IpfsStore.requestTotalMinted()
 
   return (
     <>
       <ErrorBoundary fallbackText="Something went wrong, please, try again later!">
-        <Suspense fallback={<Loader />}>
+        <Suspense fallback={<LoadingImage />}>
           <NFTFragment id={safeId} />
         </Suspense>
       </ErrorBoundary>
