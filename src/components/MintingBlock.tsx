@@ -46,7 +46,7 @@ export default function MintingBlock() {
               <Button
                 onClick={() => {
                   if (WalletStore.tokenId)
-                    navigate(`../${WalletStore.tokenId.toString()}`, {
+                    navigate(`/${WalletStore.tokenId.toString()}`, {
                       replace: true,
                     })
                 }}
