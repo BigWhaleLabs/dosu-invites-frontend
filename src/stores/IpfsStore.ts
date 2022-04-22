@@ -6,7 +6,7 @@ const IpfsStore = proxy({
   totalFrame: Promise.resolve(BigNumber.from(0)),
   owner: Promise.resolve(''),
 
-  requestTotalFrames() {
+  requestTotalFrames: () => {
     IpfsStore.totalFrame = dosuInvites.totalSupply()
   },
   requestOwnerAddress(id: number) {

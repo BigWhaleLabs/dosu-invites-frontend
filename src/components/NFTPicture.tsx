@@ -66,7 +66,7 @@ const NFTFragment: FC<{ id: number }> = ({ id }) => {
     </SubheaderText>
   ) : (
     <>
-      {imageLoading && <SubheaderText>Loading image</SubheaderText>}
+      {imageLoading && <Loader />}
       <img
         src={`${env.VITE_IPFS_ENDPOINT}/${id || 1}.png`}
         className={image}
@@ -86,7 +86,7 @@ const NFTFragment: FC<{ id: number }> = ({ id }) => {
 export default function NFTPicture() {
   const { id } = useLocation()
   const safeId = Number(id || 1)
-  IpfsStore.requestTotalFrames()
+  void IpfsStore.requestTotalFrames()
 
   return (
     <>
