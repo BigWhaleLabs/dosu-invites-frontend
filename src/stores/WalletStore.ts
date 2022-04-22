@@ -122,8 +122,9 @@ class WalletStore {
   async mint() {
     if (!this.userAddress || !this.provider)
       return handleError(ErrorList.pleaseReconnect)
-    const dosuInvitesWithSigner = getDosuInvites(this.provider?.getSigner(0))
     try {
+      this.loading = true
+      const dosuInvitesWithSigner = getDosuInvites(this.provider.getSigner(0))
       const proof = await generateMerkleProof(this.userAddress)
 
       const transaction = await dosuInvitesWithSigner.mint(proof)
@@ -131,6 +132,8 @@ class WalletStore {
       await this.fetchTokenId()
     } catch (error) {
       handleError(error)
+    } finally {
+      this.loading = false
     }
   }
 }
