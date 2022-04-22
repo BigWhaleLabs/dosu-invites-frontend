@@ -22,7 +22,8 @@ const container = classnames(
 const buttonContainer = classnames(margin('mt-4'))
 
 export default function MintingBlock() {
-  const { userAddress, tokenId, loading } = useSnapshot(WalletStore)
+  const { tokenId, loading } = useSnapshot(WalletStore)
+  const userAddress = WalletStore.userAddress
   const [allowed, setAllowed] = useState<boolean>()
   const navigate = useNavigate()
 
