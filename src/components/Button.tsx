@@ -35,6 +35,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: () => void
   title?: string
   disabled?: boolean
+  disabledColor?: boolean
   outlined?: boolean
   circle?: boolean
   transparent?: boolean
@@ -93,6 +94,7 @@ const buttonDisabled = (
 
 const button = (
   disabled?: boolean,
+  disabledColor?: boolean,
   outlined?: boolean,
   circle?: boolean,
   transparent?: boolean,
@@ -125,7 +127,9 @@ const button = (
       shadow ? 'md:shadow-lg' : undefined,
       shadow ? 'shadow-lg' : undefined
     ),
-    disabled || loading ? undefined : buttonHover(outlined, transparent),
+    disabled || loading || disabledColor
+      ? undefined
+      : buttonHover(outlined, transparent),
     display('flex'),
     justifyContent('justify-center'),
     alignItems('items-center'),
@@ -142,6 +146,7 @@ export const Button: FC<ButtonProps> = ({
   title,
   children,
   disabled,
+  disabledColor,
   outlined,
   circle,
   fullWidth,
@@ -169,6 +174,7 @@ export const Button: FC<ButtonProps> = ({
     <button
       className={button(
         disabled,
+        disabledColor,
         outlined,
         circle,
         transparent,
@@ -177,7 +183,7 @@ export const Button: FC<ButtonProps> = ({
         loading
       )}
       onClick={onClick}
-      disabled={disabled || loading}
+      disabled={disabled || loading || disabledColor}
     >
       {children ? loadingStateChildren : loadingStateLeft(false)}
     </button>

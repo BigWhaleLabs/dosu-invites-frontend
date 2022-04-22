@@ -15,6 +15,7 @@ export default function ConnectWalletButton() {
       onClick={() => WalletStore.connect()}
       outlined
       loading={loading}
+      disabledColor={!!userAddress}
     >
       {userAddress ? (
         md ? (
