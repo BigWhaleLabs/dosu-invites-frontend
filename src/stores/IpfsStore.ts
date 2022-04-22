@@ -1,16 +1,25 @@
 import { BigNumber } from 'ethers'
 import { proxy } from 'valtio'
 import dosuInvites from 'helpers/dosuInvites'
+import getAllowlist from 'helpers/getAllowlist'
 
-const IpfsStore = proxy({
+type IpfsStoreType = {
+  allowlist: Promise<string[]>
+  totalMinted: Promise<BigNumber>
+
+  requestAllowlist: () => void
+  requestTotalMinted: () => void
+}
+
+const IpfsStore = proxy<IpfsStoreType>({
+  allowlist: Promise.resolve([]),
   totalMinted: Promise.resolve(BigNumber.from(0)),
-  owner: Promise.resolve(''),
 
+  requestAllowlist: () => {
+    IpfsStore.allowlist = getAllowlist()
+  },
   requestTotalMinted: () => {
     IpfsStore.totalMinted = dosuInvites.totalSupply()
-  },
-  requestOwnerAddress(id: number) {
-    IpfsStore.owner = dosuInvites.ownerOf(id)
   },
 })
 
