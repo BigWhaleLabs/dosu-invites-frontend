@@ -10,9 +10,9 @@ import Loader from 'components/Loader'
 import LoadingImage from 'components/LoadingImage'
 import classnames, { borderRadius, display, height } from 'classnames/tailwind'
 import env from 'helpers/env'
-import useSafeId from 'helpers/useSafeId'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
+import useSafeId from 'helpers/useSafeId'
 
 const image = (isHidden: boolean) =>
   classnames(

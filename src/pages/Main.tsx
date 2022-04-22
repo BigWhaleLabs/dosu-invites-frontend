@@ -1,3 +1,4 @@
+import { SubheaderText } from 'components/Text'
 import {
   alignItems,
   classnames,
@@ -12,7 +13,6 @@ import MintingBlock from 'components/MintingBlock'
 import NFTPicture from 'components/NFTPicture'
 import WalletStore from 'stores/WalletStore'
 import WrongNetworkMessage from 'components/WrongNetworkMessage'
-import { SubheaderText } from 'components/Text'
 
 const mainBox = classnames(
   display('flex'),
