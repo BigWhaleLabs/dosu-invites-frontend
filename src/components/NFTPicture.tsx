@@ -17,14 +17,16 @@ const image = classnames(height('h-fit'), borderRadius('rounded-3xl'))
 function OwnerBlock() {
   const { ownerAddress } = useSnapshot(IpfsStore)
 
-  return ownerAddress ? (
-    <SubheaderText>
-      Owner:{' '}
-      <LinkText href={`https://ropsten.etherscan.io/address/${ownerAddress}`}>
-        {ownerAddress}
-      </LinkText>
-    </SubheaderText>
-  ) : null
+  return (
+    !!ownerAddress && (
+      <SubheaderText>
+        Owner:{' '}
+        <LinkText href={`https://ropsten.etherscan.io/address/${ownerAddress}`}>
+          {ownerAddress}
+        </LinkText>
+      </SubheaderText>
+    )
+  )
 }
 
 function NFTFragment() {
@@ -37,11 +39,9 @@ function NFTFragment() {
   useEffect(() => {
     function initialize() {
       if (total <= 0) return
-      if (safeId > total) {
-        return navigate('/not-found')
-      } else {
-        IpfsStore.requestOwnerAddress(safeId)
-      }
+      return safeId > total
+        ? navigate('/not-found')
+        : IpfsStore.requestOwnerAddress(safeId)
     }
 
     void initialize()
