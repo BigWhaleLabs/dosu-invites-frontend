@@ -162,3 +162,8 @@ export const LinkText: FC<{
     {children}
   </a>
 )
+
+const errorText = textColor('text-red-500')
+export const ErrorText: FC = ({ children }) => {
+  return <p className={errorText}>{children}</p>
+}
