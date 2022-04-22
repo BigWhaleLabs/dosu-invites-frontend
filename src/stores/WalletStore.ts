@@ -22,8 +22,10 @@ class WalletStore {
     return this.networkName === env.VITE_ETH_NETWORK
   }
 
-  get cachedProvider() {
-    return web3Modal.cachedProvider
+  constructor() {
+    if (web3Modal.cachedProvider) {
+      void this.connect()
+    }
   }
 
   async connect() {
@@ -143,8 +145,4 @@ class WalletStore {
   }
 }
 
-const exportedStore = proxy(new WalletStore())
-
-if (exportedStore.cachedProvider) void exportedStore.connect()
-
-export default exportedStore
+export default proxy(new WalletStore())
