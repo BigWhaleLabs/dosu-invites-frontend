@@ -28,9 +28,9 @@ function Main() {
   return (
     <div className={mainBox}>
       <NFTPicture />
-      {/* {!userAddress && <NoAddressMessage />}
+      {!userAddress && <NoAddressMessage />}
       {userAddress && !isCorrectNetwork && <WrongNetworkMessage />}
-      {userAddress && isCorrectNetwork && <MintingBlock />} */}
+      {userAddress && isCorrectNetwork && <MintingBlock />}
 
       <Footer />
     </div>

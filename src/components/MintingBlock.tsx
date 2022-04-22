@@ -4,7 +4,22 @@ import { useEffect, useState } from 'preact/hooks'
 import { useNavigate } from 'react-router-dom'
 import { useSnapshot } from 'valtio'
 import WalletStore from 'stores/WalletStore'
+import classnames, {
+  alignItems,
+  display,
+  flexDirection,
+  justifyContent,
+  margin,
+} from 'classnames/tailwind'
 import getAllowlist from 'helpers/getAllowlist'
+
+const container = classnames(
+  display('flex'),
+  flexDirection('flex-col'),
+  justifyContent('justify-center'),
+  alignItems('items-center')
+)
+const buttonContainer = classnames(margin('mt-4'))
 
 export default function MintingBlock() {
   const { userAddress, tokenId, loading } = useSnapshot(WalletStore)
@@ -25,19 +40,21 @@ export default function MintingBlock() {
     <SubheaderText>
       {allowed ? (
         tokenId !== undefined ? (
-          <>
-            `Your Dosu Invite is ${tokenId}!`
-            <Button
-              onClick={() => {
-                if (WalletStore.tokenId)
-                  navigate(`../${WalletStore.tokenId.toString()}`, {
-                    replace: true,
-                  })
-              }}
-            >
-              Go check it out
-            </Button>
-          </>
+          <div className={container}>
+            Your Dosu Invite is #{tokenId}!
+            <div className={buttonContainer}>
+              <Button
+                onClick={() => {
+                  if (WalletStore.tokenId)
+                    navigate(`../${WalletStore.tokenId.toString()}`, {
+                      replace: true,
+                    })
+                }}
+              >
+                Go check it out
+              </Button>
+            </div>
+          </div>
         ) : (
           <Button
             title="Mint"

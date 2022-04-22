@@ -15,23 +15,18 @@ export const ErrorList = {
 
 export function handleError(error: unknown) {
   console.error(error)
+  toast.error(getMessageFromError(error))
+}
 
-  let errorMessageToDisplay: string | undefined
-
-  if (typeof error === 'string') errorMessageToDisplay = error
-
-  if (error instanceof Error) errorMessageToDisplay = error.message
-
-  if (!errorMessageToDisplay) {
-    const message = serializeError(error).message
-    if (message)
-      if (/cannot estimate gas/.test(message)) {
-        errorMessageToDisplay = ErrorList.invalidProof
-      } else {
-        errorMessageToDisplay = message
-      }
+function getMessageFromError(error: unknown) {
+  if (typeof error === 'string') return error
+  const message = serializeError(error).message
+  if (message) {
+    if (/cannot estimate gas/.test(message)) {
+      return ErrorList.invalidProof
+    } else {
+      return message
+    }
   }
-  if (!errorMessageToDisplay) errorMessageToDisplay = ErrorList.unknown
-
-  toast.error(errorMessageToDisplay)
+  return ErrorList.unknown
 }

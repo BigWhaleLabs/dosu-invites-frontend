@@ -153,7 +153,12 @@ export const LinkText: FC<{
   href?: string | undefined
   centered?: boolean
 }> = ({ children, href, centered }) => (
-  <a className={linkText(centered)} href={href} rel="noopener noreferrer">
+  <a
+    className={linkText(centered)}
+    href={href}
+    rel="noopener noreferrer"
+    target="_blank"
+  >
     {children}
   </a>
 )

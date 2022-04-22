@@ -2,26 +2,17 @@ import { ErrorList } from 'helpers/handleError'
 import { Web3Provider } from '@ethersproject/providers'
 import { handleError } from 'helpers/handleError'
 import { proxy } from 'valtio'
-import NetworkChainIdToName from 'models/NetworkChainIdToName'
 import dosuInvites from 'helpers/dosuInvites'
 import env from 'helpers/env'
 import generateMerkleProof from 'helpers/generateMerkleProof'
 import getDosuInvites from 'helpers/getDosuInvites'
+import networkChainIdToName from 'models/networkChainIdToName'
 import web3Modal from 'helpers/web3Modal'
 
 class WalletStore {
   loading = false
 
-  _provider?: Web3Provider
-  get provider() {
-    return this._provider
-  }
-  set provider(provider: Web3Provider | undefined) {
-    this._provider = provider
-    if (!provider) return
-
-    this.addProviderHandlers(provider)
-  }
+  provider?: Web3Provider
 
   userAddress?: string
   networkName?: string
@@ -36,6 +27,7 @@ class WalletStore {
     try {
       const instance = await web3Modal.connect()
       this.provider = new Web3Provider(instance, env.VITE_ETH_NETWORK)
+      this.addProviderHandlers()
       await this.setAndCheckNetworkName()
       this.userAddress = (await this.provider.listAccounts())[0]
       await this.fetchTokenId()
@@ -49,22 +41,32 @@ class WalletStore {
     }
   }
 
-  private addProviderHandlers(provider: Web3Provider) {
-    provider.on('error', (error: Error) => handleError(error))
-    provider.on('accountsChanged', (accounts: string[]) => {
+  private addProviderHandlers() {
+    if (!this.provider) {
+      return
+    }
+    this.provider.on('error', (error: Error) => {
+      console.log('error')
+      handleError(error)
+    })
+    this.provider.on('accountsChanged', (accounts: string[]) => {
+      console.log('accountsChanged')
       this.userAddress = accounts[0]
       void this.fetchTokenId()
     })
-    provider.on('disconnect', (accounts: string[]) => {
+    this.provider.on('disconnect', (accounts: string[]) => {
+      console.log('disconnect')
       if (this.userAddress && !accounts.includes(this.userAddress)) return
-
-      provider.removeAllListeners()
+      if (this.provider) {
+        this.provider.removeAllListeners()
+      }
       this.provider = undefined
       this.userAddress = undefined
       this.networkName = undefined
       this.tokenId = undefined
     })
-    provider.on('chainChanged', async (chainId: string) => {
+    this.provider.on('chainChanged', async (chainId: string) => {
+      console.log('chainChanged')
       await this.setAndCheckNetworkName(chainId)
       await this.fetchTokenId()
     })
@@ -73,7 +75,7 @@ class WalletStore {
   private async setAndCheckNetworkName(chainId?: string) {
     if (!this.provider) return
     this.networkName =
-      (chainId && NetworkChainIdToName[chainId]) ||
+      (chainId && networkChainIdToName[chainId]) ||
       (await this.provider.getNetwork()).name
     this.checkNetworkName()
   }
@@ -87,12 +89,12 @@ class WalletStore {
   async changeNetworkToDefault() {
     if (!this.provider) return
     const network = env.VITE_ETH_NETWORK
-    const index = Object.values(NetworkChainIdToName).findIndex(
+    const index = Object.values(networkChainIdToName).findIndex(
       (name) => name === network
     )
 
     await this.provider.jsonRpcFetchFunc('wallet_switchEthereumChain', [
-      { chainId: Object.keys(NetworkChainIdToName)[index] },
+      { chainId: Object.keys(networkChainIdToName)[index] },
     ])
   }
 
