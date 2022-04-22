@@ -46,20 +46,15 @@ class WalletStore {
   }
 
   private addProviderHandlers(provider: Web3Provider) {
-    if (!provider) {
-      return
-    }
+    if (!provider) return
     provider.on('error', (error: Error) => {
-      console.log('error')
       handleError(error)
     })
     provider.on('accountsChanged', (accounts: string[]) => {
-      console.log('accountsChanged')
       this.userAddress = accounts[0]
       void this.fetchTokenId()
     })
     provider.on('disconnect', (accounts: string[]) => {
-      console.log('disconnect')
       if (this.userAddress && !accounts.includes(this.userAddress)) return
       if (this.provider) {
         this.provider.removeAllListeners()
@@ -70,7 +65,6 @@ class WalletStore {
       this.tokenId = undefined
     })
     provider.on('chainChanged', async (chainId: string) => {
-      console.log('chainChanged')
       await this.setAndCheckNetworkName(chainId)
       await this.fetchTokenId()
     })
