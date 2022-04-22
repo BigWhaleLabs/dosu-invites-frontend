@@ -10,9 +10,9 @@ import { useSnapshot } from 'valtio'
 import Footer from 'components/Footer'
 import MintingBlock from 'components/MintingBlock'
 import NFTPicture from 'components/NFTPicture'
-import NoAddressMessage from 'components/NoAddressMessage'
 import WalletStore from 'stores/WalletStore'
 import WrongNetworkMessage from 'components/WrongNetworkMessage'
+import { SubheaderText } from 'components/Text'
 
 const mainBox = classnames(
   display('flex'),
@@ -28,7 +28,11 @@ function Main() {
   return (
     <div className={mainBox}>
       <NFTPicture />
-      {!userAddress && <NoAddressMessage />}
+      {!userAddress && (
+        <SubheaderText centered>
+          Please, connect your wallet to mint a Dosu Invite!
+        </SubheaderText>
+      )}
       {userAddress && !isCorrectNetwork && <WrongNetworkMessage />}
       {userAddress && isCorrectNetwork && <MintingBlock />}
 

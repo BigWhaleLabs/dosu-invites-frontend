@@ -11,6 +11,8 @@ import LoadingImage from 'components/LoadingImage'
 import classnames, { borderRadius, display, height } from 'classnames/tailwind'
 import env from 'helpers/env'
 import useSafeId from 'helpers/useSafeId'
+import truncateMiddle from 'helpers/truncateMiddle'
+import useBreakpoints from 'helpers/useBreakpoints'
 
 const image = (isHidden: boolean) =>
   classnames(
@@ -21,6 +23,7 @@ const image = (isHidden: boolean) =>
 
 function OwnerBlock() {
   const { ownerAddress } = useSnapshot(IpfsStore)
+  const { md } = useBreakpoints()
 
   return (
     <>
@@ -30,7 +33,7 @@ function OwnerBlock() {
           <LinkText
             href={`https://ropsten.etherscan.io/address/${ownerAddress}`}
           >
-            {ownerAddress}
+            {md ? ownerAddress : truncateMiddle(ownerAddress)}
           </LinkText>
         </SubheaderText>
       )}

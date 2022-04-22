@@ -37,9 +37,7 @@ class WalletStore {
       await this.fetchTokenId()
     } catch (error) {
       if (error !== 'Modal closed by user') handleError(error)
-      this.userAddress = undefined
-      this.networkName = undefined
-      this.tokenId = undefined
+      this.clearData()
     } finally {
       this.loading = false
     }
@@ -59,15 +57,19 @@ class WalletStore {
       if (this.provider) {
         this.provider.removeAllListeners()
       }
-      this.provider = undefined
-      this.userAddress = undefined
-      this.networkName = undefined
-      this.tokenId = undefined
+      this.clearData(true)
     })
     provider.on('chainChanged', async (chainId: string) => {
       await this.setAndCheckNetworkName(chainId)
       await this.fetchTokenId()
     })
+  }
+
+  private clearData(clearProvider = false) {
+    if (clearProvider) this.provider = undefined
+    this.userAddress = undefined
+    this.networkName = undefined
+    this.tokenId = undefined
   }
 
   private async setAndCheckNetworkName(chainId?: string) {

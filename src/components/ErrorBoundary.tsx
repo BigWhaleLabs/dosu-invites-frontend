@@ -2,7 +2,7 @@ import { Component } from 'react'
 import { ErrorText } from 'components/Text'
 import { margin } from 'classnames/tailwind'
 
-const errorContrainer = margin('my-4')
+const errorContainer = margin('my-4')
 
 export default class ErrorBoundary extends Component<{
   fallbackText: string
@@ -21,7 +21,7 @@ export default class ErrorBoundary extends Component<{
     if (this.state.hasError) {
       console.error('Boundary error: ', this.state.error)
       return (
-        <div className={errorContrainer}>
+        <div className={errorContainer}>
           <ErrorText>{this.props.fallbackText}</ErrorText>
         </div>
       )
