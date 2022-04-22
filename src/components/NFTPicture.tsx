@@ -10,7 +10,7 @@ import LoadingImage from 'components/LoadingImage'
 import classnames, { borderRadius, height } from 'classnames/tailwind'
 import dosuInvites from 'helpers/dosuInvites'
 import env from 'helpers/env'
-import usePath from 'components/usePath'
+import usePath from 'hooks/usePath'
 
 interface ComponentWithID {
   id: number

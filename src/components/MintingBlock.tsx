@@ -14,7 +14,7 @@ import classnames, {
   margin,
 } from 'classnames/tailwind'
 import copy from 'copy-to-clipboard'
-import usePath from 'components/usePath'
+import usePath from 'hooks/usePath'
 
 const container = classnames(
   display('flex'),
