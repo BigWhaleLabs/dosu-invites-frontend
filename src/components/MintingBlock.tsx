@@ -99,10 +99,6 @@ function AllowChecker() {
 }
 
 export default function MintingBlock() {
-  useEffect(() => {
-    void IpfsStore.requestAllowlist()
-  }, [])
-
   return (
     <Suspense
       fallback={
