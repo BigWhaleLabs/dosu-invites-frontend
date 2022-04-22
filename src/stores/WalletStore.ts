@@ -49,10 +49,6 @@ class WalletStore {
     }
   }
 
-  checkTokenIdOwner(tokenId: number) {
-    return dosuInvites.ownerOf(tokenId)
-  }
-
   private addProviderHandlers(provider: Web3Provider) {
     provider.on('error', (error: Error) => handleError(error))
     provider.on('accountsChanged', (accounts: string[]) => {

@@ -19,6 +19,7 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Main />} />
+            <Route path="/not-found" element={<NotFound />} />
             <Route path="/:id" element={<Main />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
