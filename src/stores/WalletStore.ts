@@ -22,6 +22,10 @@ class WalletStore {
     return this.networkName === env.VITE_ETH_NETWORK
   }
 
+  get cachedProvider() {
+    return web3Modal.cachedProvider
+  }
+
   async connect() {
     this.loading = true
     try {
