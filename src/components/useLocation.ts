@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 export default function useLocation() {
-  const [id, setId] = useState<number>()
-  const frame = +location.pathname.split('/')[1]
+  const [pathId, setPathId] = useState<number>()
+  const { id } = useParams()
   const path = location.href
 
   useEffect(() => {
-    if (isNaN(frame)) return
+    if (!id) return
 
-    setId(frame)
-  }, [frame, setId])
+    setPathId(Number(id))
+  }, [id])
 
-  return { id, path }
+  return { pathId, path }
 }
