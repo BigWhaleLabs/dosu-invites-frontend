@@ -43,7 +43,7 @@ const OwnerBlock: FC<{ id: number }> = ({ id }) => {
 
 const NFTFragment: FC<{ id: number }> = ({ id }) => {
   const { totalFrame } = useSnapshot(IpfsStore)
-  const [imageLoading, setImageLoading] = useState(true)
+  const [imageLoading, setImageLoading] = useState(false)
   const navigate = useNavigate()
   const total = totalFrame.toNumber()
 
@@ -70,6 +70,7 @@ const NFTFragment: FC<{ id: number }> = ({ id }) => {
       <img
         src={`${env.VITE_IPFS_ENDPOINT}/${id || 1}.png`}
         className={image}
+        onLoadStart={() => setImageLoading(true)}
         onLoad={() => setImageLoading(false)}
         onError={() => {
           setImageLoading(false)
