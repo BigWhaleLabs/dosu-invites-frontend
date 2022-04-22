@@ -19,19 +19,11 @@ import classNamesToString from 'helpers/classNamesToString'
 
 interface LoaderProps {
   overlay?: boolean
-  color?: string
   size?: 'small' | 'default' | 'large'
-  speed?: number
   className?: string
 }
 
-const Loader: FC<LoaderProps> = ({
-  color,
-  overlay,
-  size,
-  speed,
-  className,
-}) => {
+const Loader: FC<LoaderProps> = ({ overlay, size, className }) => {
   const wrapperStyles = classnames(
     display('flex'),
     flexDirection('flex-row'),
@@ -50,9 +42,8 @@ const Loader: FC<LoaderProps> = ({
   return (
     <div className={classNamesToString([wrapperStyles, className])}>
       <WaveTopBottomLoading
-        color={color || 'var(--accent)'}
+        color="var(--accent)"
         size={size}
-        speed={speed}
         style={{ position: 'relative', margin: 'auto' }}
       />
     </div>

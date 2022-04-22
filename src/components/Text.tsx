@@ -47,16 +47,6 @@ export const DimmedSubheaderText: FC = ({ children }) => (
   <div className={dimmedSubheaderText}>{children}</div>
 )
 
-const bodyText = (center: boolean) =>
-  classnames(
-    primaryText,
-    fontSize('text-lg'),
-    center ? textAlign('text-center') : null
-  )
-export const BodyText: FC<{ center?: boolean }> = ({ center, children }) => (
-  <div className={bodyText(center || false)}>{children}</div>
-)
-
 const subheaderText = (
   centered?: boolean,
   h2?: boolean,
@@ -100,30 +90,14 @@ export const SubheaderText: FC<{
     <p className={subheaderText(centered)}>{children}</p>
   )
 
-const secondaryText = classnames(
-  transitionColors,
-  textColor('text-primary-text-dimmed')
-)
-export const SecondaryText: FC = ({ children }) => (
-  <div className={secondaryText}>{children}</div>
-)
-
-const tinyText = classnames(fontSize('text-xs'))
-export const TinyText: FC = ({ children }) => (
-  <div className={classnames(tinyText, secondaryText)}>{children}</div>
-)
-
 const footerText = classnames(
-  secondaryText,
+  transitionColors,
+  textColor('text-primary-text-dimmed'),
   fontSize('text-xs'),
   fontFamily('font-primary')
 )
 export const FooterText: FC = ({ children }) => {
   return <div className={footerText}>{children}</div>
-}
-
-export const PopupBodyText: FC = ({ children }) => {
-  return <div className={primaryText}>{children}</div>
 }
 
 const logoDot = classnames(textColor('text-accent'))
