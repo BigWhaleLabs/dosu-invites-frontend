@@ -10,7 +10,7 @@ import LoadingImage from 'components/LoadingImage'
 import classnames, { borderRadius, height } from 'classnames/tailwind'
 import dosuInvites from 'helpers/dosuInvites'
 import env from 'helpers/env'
-import useLocation from 'components/useLocation'
+import usePath from 'components/usePath'
 
 interface ComponentWithID {
   id: number
@@ -85,7 +85,7 @@ function NFTFragment({ id }: ComponentWithID) {
 }
 
 export default function NFTPicture() {
-  const { pathId } = useLocation()
+  const { pathId } = usePath()
   const safeId = Number(pathId || 1)
 
   useEffect(() => {

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
-export default function useLocation() {
+export default function usePath() {
   const [pathId, setPathId] = useState<number>()
   const { id } = useParams()
-  const path = location.href
+  const location = useLocation()
 
   useEffect(() => {
     if (!id) return
@@ -12,5 +12,5 @@ export default function useLocation() {
     setPathId(Number(id))
   }, [id])
 
-  return { pathId, path }
+  return { pathId, path: location.pathname }
 }

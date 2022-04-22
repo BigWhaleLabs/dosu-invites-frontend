@@ -14,7 +14,7 @@ import classnames, {
   margin,
 } from 'classnames/tailwind'
 import copy from 'copy-to-clipboard'
-import useLocation from 'components/useLocation'
+import usePath from 'components/usePath'
 
 const container = classnames(
   display('flex'),
@@ -28,7 +28,7 @@ function AllowChecker() {
   const { allowlist } = useSnapshot(IpfsStore)
   const userAddress = WalletStore.userAddress
   const { tokenId, loading } = useSnapshot(WalletStore)
-  const { pathId, path } = useLocation()
+  const { pathId, path } = usePath()
   const [allowed, setAllowed] = useState<boolean>()
   const [copied, setCopied] = useState(false)
   const navigate = useNavigate()
