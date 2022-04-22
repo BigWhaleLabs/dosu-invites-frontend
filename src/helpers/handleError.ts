@@ -9,6 +9,7 @@ export const ErrorList = {
   invalidProof: 'Merkle Tree Proof is not valid',
   unknown: 'An unknown error occurred, please, try again later',
   ipfsImage: "Can't fetch the image from IPFS, please, try again later",
+  notExistIpfsImage: (id: number) => `There is no image with ID ${id}`,
   pleaseReconnect: 'Lost connection with your wallet, please, reconnect',
   clear: '',
 }
