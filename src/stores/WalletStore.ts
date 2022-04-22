@@ -31,7 +31,7 @@ class WalletStore {
     try {
       const instance = await web3Modal.connect()
       this.provider = new Web3Provider(instance, env.VITE_ETH_NETWORK)
-      this.addProviderHandlers()
+      this.addProviderHandlers(instance)
       await this.setAndCheckNetworkName()
       this.userAddress = (await this.provider.listAccounts())[0]
       await this.fetchTokenId()
@@ -45,21 +45,16 @@ class WalletStore {
     }
   }
 
-  private addProviderHandlers() {
-    if (!this.provider) {
-      return
-    }
-    this.provider.on('error', (error: Error) => {
-      console.log('error')
+  private addProviderHandlers(provider: Web3Provider) {
+    if (!provider) return
+    provider.on('error', (error: Error) => {
       handleError(error)
     })
-    this.provider.on('accountsChanged', (accounts: string[]) => {
-      console.log('accountsChanged')
+    provider.on('accountsChanged', (accounts: string[]) => {
       this.userAddress = accounts[0]
       void this.fetchTokenId()
     })
-    this.provider.on('disconnect', (accounts: string[]) => {
-      console.log('disconnect')
+    provider.on('disconnect', (accounts: string[]) => {
       if (this.userAddress && !accounts.includes(this.userAddress)) return
       if (this.provider) {
         this.provider.removeAllListeners()
@@ -69,8 +64,7 @@ class WalletStore {
       this.networkName = undefined
       this.tokenId = undefined
     })
-    this.provider.on('chainChanged', async (chainId: string) => {
-      console.log('chainChanged')
+    provider.on('chainChanged', async (chainId: string) => {
       await this.setAndCheckNetworkName(chainId)
       await this.fetchTokenId()
     })
