@@ -87,7 +87,10 @@ function NFTFragment({ id }: ComponentWithID) {
 export default function NFTPicture() {
   const { id } = useLocation()
   const safeId = Number(id || 1)
-  void IpfsStore.requestTotalMinted()
+
+  useEffect(() => {
+    void IpfsStore.requestTotalMinted()
+  }, [])
 
   return (
     <>
