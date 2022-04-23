@@ -1,18 +1,20 @@
+import { ErrorList } from 'helpers/handleError'
 import { MerkleTree } from 'merkletreejs'
 import { utils } from 'ethers'
 import getAllowlist from 'helpers/getAllowlist'
 
-export default function checkInMerkleTree(ethAddress: string) {
-  const addresses = getAllowlist()
+export default async function checkInMerkleTree(ethAddress: string) {
+  const addresses = await getAllowlist()
 
+  const leaf = utils.keccak256(ethAddress)
   const leafNodes = addresses.map((address: string) => utils.keccak256(address))
   const merkleTree = new MerkleTree(leafNodes, utils.keccak256, {
     sortPairs: true,
   })
 
-  const claimingIndex = addresses.findIndex((address) => address === ethAddress)
+  const claimingIndex = leafNodes.findIndex((address) => address === leaf)
 
-  if (claimingIndex < 0) return 'Looks like you dont have an invite'
+  if (claimingIndex < 0) throw new Error(ErrorList.invalidProof)
 
   const claimingAddress = leafNodes[claimingIndex]
   const hexProof = merkleTree.getHexProof(claimingAddress)

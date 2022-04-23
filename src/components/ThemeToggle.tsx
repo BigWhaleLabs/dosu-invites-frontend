@@ -43,7 +43,7 @@ const toggleButton = classnames(
 )
 const iconDiv = classnames(width('w-7'), height('h-7'), toggleButton)
 
-const ThemeToggle = () => {
+function ThemeToggle() {
   const { theme } = useSnapshot(AppStore)
 
   const moonAnimation = useSpring({

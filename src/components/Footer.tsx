@@ -28,7 +28,7 @@ const Footer = () => {
         <a rel="noopener noreferrer" href="https://dosu.io/privacy">
           Privacy
         </a>
-        <span className={dotPadding}>{'•'}</span>
+        <span className={dotPadding}>•</span>
         <a rel="noopener noreferrer" href="https://dosu.io/terms">
           Terms
         </a>

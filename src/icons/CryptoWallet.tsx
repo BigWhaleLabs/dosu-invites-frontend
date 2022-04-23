@@ -1,19 +1,12 @@
-import { FC } from 'react'
-import { observer } from 'mobx-react-lite'
-import ISVGIcon from 'models/ISVGIcon'
-import classNamesToString from 'helpers/classNamesToString'
-import classnames, { transitionProperty } from 'classnames/tailwind'
+import { transitionProperty } from 'classnames/tailwind'
 
-const CryptoWallet: FC<ISVGIcon> = ({
-  title = 'Crypto wallet icon',
-  height = 24,
-  width = 24,
-  className,
-}) => {
+const CryptoWallet = () => {
+  const width = 24
+  const height = 24
+  const title = 'Crypto wallet icon'
   const commonProps = {
-    className: classnames(transitionProperty('transition-colors')),
+    className: transitionProperty('transition-colors'),
   }
-  const classes = classnames(transitionProperty('transition-colors'))
 
   return (
     <svg
@@ -22,7 +15,7 @@ const CryptoWallet: FC<ISVGIcon> = ({
       height={height}
       viewBox="0 0 24 24"
       fill="currentColor"
-      className={classNamesToString([classes, className])}
+      {...commonProps}
     >
       <title>{title}</title>
       <path d="M16 12h2v4h-2z" />
@@ -34,4 +27,4 @@ const CryptoWallet: FC<ISVGIcon> = ({
   )
 }
 
-export default observer(CryptoWallet)
+export default CryptoWallet

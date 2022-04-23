@@ -1,7 +1,6 @@
 /** @type {import("@types/tailwindcss/tailwind-config").TailwindConfig } */
 module.exports = {
   content: ['./public/index.html', './src/**/!(tailwind).{ts,tsx}'],
-  plugins: [require('tailwind-scrollbar-hide')],
   theme: {
     fontFamily: {
       logo: 'Poppins',

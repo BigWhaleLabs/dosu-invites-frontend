@@ -5,7 +5,6 @@ import {
   borderColor,
   borderRadius,
   borderWidth,
-  boxShadow,
   classnames,
   cursor,
   display,
@@ -19,7 +18,6 @@ import {
   pointerEvents,
   textColor,
   transitionProperty,
-  width,
 } from 'classnames/tailwind'
 import Loading from 'icons/Loading'
 
@@ -35,40 +33,26 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: () => void
   title?: string
   disabled?: boolean
+  disabledColor?: boolean
   outlined?: boolean
   circle?: boolean
-  transparent?: boolean
-  shadow?: boolean
-  fullWidth?: boolean
   loading?: boolean
 }
 
-const buttonHover = (outlined?: boolean, transparent?: boolean) =>
+const buttonHover = (outlined?: boolean) =>
   classnames(
-    backgroundColor(
-      transparent
-        ? undefined
-        : outlined
-        ? 'hover:bg-accent'
-        : 'hover:bg-primary-dimmed'
-    ),
+    backgroundColor(outlined ? 'hover:bg-accent' : 'hover:bg-primary-dimmed'),
     textColor(outlined ? 'hover:text-white' : undefined)
   )
 
-const buttonDisabled = (
-  disabled?: boolean,
-  outlined?: boolean,
-  transparent?: boolean
-) =>
+const buttonDisabled = (disabled?: boolean, outlined?: boolean) =>
   classnames(
     backgroundColor(
-      disabled && !transparent
+      disabled
         ? outlined
           ? 'bg-transparent'
           : 'bg-primary-disabled'
         : outlined
-        ? 'bg-transparent'
-        : transparent
         ? 'bg-transparent'
         : 'bg-accent'
     ),
@@ -77,8 +61,6 @@ const buttonDisabled = (
         ? 'text-primary-disabled-text'
         : outlined
         ? 'text-accent'
-        : transparent
-        ? 'text-primary'
         : 'text-white'
     ),
     cursor(disabled ? 'cursor-not-allowed' : undefined),
@@ -93,39 +75,26 @@ const buttonDisabled = (
 
 const button = (
   disabled?: boolean,
+  disabledColor?: boolean,
   outlined?: boolean,
   circle?: boolean,
-  transparent?: boolean,
-  shadow?: boolean,
-  fullWidth?: boolean,
   loading?: boolean
 ) =>
   classnames(
     transitionProperty('transition-all'),
     pointerEvents('pointer-events-auto'),
-    buttonDisabled(loading || disabled, outlined, transparent),
+    buttonDisabled(loading || disabled, outlined),
     borderWidth(outlined ? 'border' : undefined),
     borderRadius(
-      outlined
-        ? 'rounded-3xl'
-        : circle
-        ? 'rounded-full'
-        : transparent
-        ? undefined
-        : 'rounded'
+      outlined ? 'rounded-3xl' : circle ? 'rounded-full' : 'rounded'
     ),
-    width(fullWidth ? 'w-full' : undefined),
     padding(
-      outlined && !circle ? 'py-2' : transparent ? undefined : 'py-3',
-      outlined && !circle ? 'md:py-2' : transparent ? undefined : 'md:py-2',
-      circle ? 'px-3' : transparent ? undefined : 'px-4',
-      circle ? 'md:px-4' : transparent ? undefined : 'md:px-6'
+      outlined && !circle ? 'py-2' : 'py-3',
+      outlined && !circle ? 'md:py-2' : 'md:py-2',
+      circle ? 'px-3' : 'px-4',
+      circle ? 'md:px-4' : 'md:px-6'
     ),
-    boxShadow(
-      shadow ? 'md:shadow-lg' : undefined,
-      shadow ? 'shadow-lg' : undefined
-    ),
-    disabled || loading ? undefined : buttonHover(outlined, transparent),
+    disabled || loading || disabledColor ? undefined : buttonHover(outlined),
     display('flex'),
     justifyContent('justify-center'),
     alignItems('items-center'),
@@ -142,11 +111,9 @@ export const Button: FC<ButtonProps> = ({
   title,
   children,
   disabled,
+  disabledColor,
   outlined,
   circle,
-  fullWidth,
-  transparent,
-  shadow,
   loading,
 }) => {
   const childBlock = loading ? <Loading /> : children
@@ -167,17 +134,9 @@ export const Button: FC<ButtonProps> = ({
 
   return (
     <button
-      className={button(
-        disabled,
-        outlined,
-        circle,
-        transparent,
-        shadow,
-        fullWidth,
-        loading
-      )}
-      onClick={!loading && !disabled ? onClick : undefined}
-      disabled={disabled}
+      className={button(disabled, disabledColor, outlined, circle, loading)}
+      onClick={onClick}
+      disabled={disabled || loading || disabledColor}
     >
       {children ? loadingStateChildren : loadingStateLeft(false)}
     </button>

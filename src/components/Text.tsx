@@ -47,83 +47,28 @@ export const DimmedSubheaderText: FC = ({ children }) => (
   <div className={dimmedSubheaderText}>{children}</div>
 )
 
-const bodyText = (center: boolean) =>
-  classnames(
-    primaryText,
-    fontSize('text-lg'),
-    center ? textAlign('text-center') : null
-  )
-export const BodyText: FC<{ center?: boolean }> = ({ center, children }) => (
-  <div className={bodyText(center || false)}>{children}</div>
-)
-
-const subheaderText = (
-  centered?: boolean,
-  h2?: boolean,
-  h3?: boolean,
-  h4?: boolean,
-  h5?: boolean,
-  h6?: boolean
-) =>
+const subheaderText = (centered?: boolean) =>
   classnames(
     primaryText,
     fontWeight('font-bold'),
     padding('py-3'),
     textAlign(centered ? 'text-center' : undefined),
-    fontSize(
-      h2 ? { 'md:text-5xl': true, 'text-4xl': true } : 'text-xl',
-      h3 ? { 'md:text-4xl': true, 'text-3xl': true } : undefined,
-      h4 ? { 'md:text-3xl': true, 'text-2xl': true } : undefined,
-      h5 ? { 'md:text-2xl': true, 'text-xl': true } : undefined,
-      h6 ? { 'md:text-2xl': true, 'text-xl': true } : undefined
-    )
+    fontSize('text-xl')
   )
 export const SubheaderText: FC<{
   centered?: boolean
-  h2?: boolean
-  h3?: boolean
-  h4?: boolean
-  h5?: boolean
-  h6?: boolean
-}> = ({ children, centered, h2, h3, h4, h5, h6 }) =>
-  h2 ? (
-    <h2 className={subheaderText(centered, h2, h3, h4, h5, h6)}>{children}</h2>
-  ) : h3 ? (
-    <h3 className={subheaderText(centered, h2, h3, h4, h5, h6)}>{children}</h3>
-  ) : h4 ? (
-    <h4 className={subheaderText(centered, h2, h3, h4, h5, h6)}>{children}</h4>
-  ) : h5 ? (
-    <h5 className={subheaderText(centered, h2, h3, h4, h5, h6)}>{children}</h5>
-  ) : h6 ? (
-    <h6 className={subheaderText(centered, h2, h3, h4, h5, h6)}>{children}</h6>
-  ) : (
-    <p className={subheaderText(centered)}>{children}</p>
-  )
-
-const secondaryText = classnames(
-  transitionColors,
-  textColor('text-primary-text-dimmed')
-)
-export const SecondaryText: FC = ({ children }) => (
-  <div className={secondaryText}>{children}</div>
-)
-
-const tinyText = classnames(fontSize('text-xs'))
-export const TinyText: FC = ({ children }) => (
-  <div className={classnames(tinyText, secondaryText)}>{children}</div>
+}> = ({ children, centered }) => (
+  <p className={subheaderText(centered)}>{children}</p>
 )
 
 const footerText = classnames(
-  secondaryText,
+  transitionColors,
+  textColor('text-primary-text-dimmed'),
   fontSize('text-xs'),
   fontFamily('font-primary')
 )
 export const FooterText: FC = ({ children }) => {
   return <div className={footerText}>{children}</div>
-}
-
-export const PopupBodyText: FC = ({ children }) => {
-  return <div className={primaryText}>{children}</div>
 }
 
 const logoDot = classnames(textColor('text-accent'))
@@ -153,7 +98,17 @@ export const LinkText: FC<{
   href?: string | undefined
   centered?: boolean
 }> = ({ children, href, centered }) => (
-  <a className={linkText(centered)} href={href} rel="noopener noreferrer">
+  <a
+    className={linkText(centered)}
+    href={href}
+    rel="noopener noreferrer"
+    target="_blank"
+  >
     {children}
   </a>
 )
+
+const errorText = textColor('text-red-500')
+export const ErrorText: FC = ({ children }) => {
+  return <p className={errorText}>{children}</p>
+}

@@ -1,5 +1,4 @@
 import { FC } from 'react'
-import { observer } from 'mobx-react-lite'
 import AppStore from 'stores/AppStore'
 import ISVGIcon from 'models/ISVGIcon'
 import classNamesToString from 'helpers/classNamesToString'
@@ -47,4 +46,4 @@ const Idea: FC<ISVGIcon> = ({
   )
 }
 
-export default observer(Idea)
+export default Idea
