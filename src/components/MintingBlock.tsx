@@ -3,7 +3,7 @@ import { SubheaderText } from 'components/Text'
 import { Suspense } from 'react'
 import { proxy, useSnapshot } from 'valtio'
 import { useEffect, useState } from 'preact/hooks'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import IpfsStore from 'stores/IpfsStore'
 import WalletStore from 'stores/WalletStore'
 import classnames, {
@@ -27,7 +27,6 @@ function AllowChecker() {
   const { allowlist } = useSnapshot(IpfsStore)
   const userAddress = WalletStore.userAddress
   const { tokenId, loading } = useSnapshot(WalletStore)
-  const { pathname } = useLocation()
   const { id } = useParams()
   const [allowed, setAllowed] = useState<boolean>()
   const [copied, setCopied] = useState(false)
@@ -60,10 +59,10 @@ function AllowChecker() {
                   title={
                     copied
                       ? 'Copied!'
-                      : "Here's your NFT! Share this link with friends!"
+                      : "Here's your NFT! Share this link with frens!"
                   }
                   onClick={() => {
-                    copy(pathname)
+                    copy(window.location.href)
                     setCopied(true)
                     setTimeout(() => setCopied(false), 1000)
                   }}

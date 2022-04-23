@@ -8,7 +8,12 @@ import ErrorBoundary from 'components/ErrorBoundary'
 import IpfsStore from 'stores/IpfsStore'
 import Loader from 'components/Loader'
 import LoadingImage from 'components/LoadingImage'
-import classnames, { borderRadius, display, height } from 'classnames/tailwind'
+import classnames, {
+  borderRadius,
+  display,
+  height,
+  margin,
+} from 'classnames/tailwind'
 import env from 'helpers/env'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
@@ -20,6 +25,7 @@ const image = (isHidden: boolean) =>
     height('h-fit'),
     borderRadius('rounded-3xl')
   )
+const container = margin('mt-4')
 
 function OwnerBlock() {
   const { ownerAddress } = useSnapshot(IpfsStore)
@@ -28,14 +34,16 @@ function OwnerBlock() {
   return (
     <>
       {!!ownerAddress && (
-        <SubheaderText>
-          Owner:{' '}
-          <LinkText
-            href={`https://ropsten.etherscan.io/address/${ownerAddress}`}
-          >
-            {md ? ownerAddress : truncateMiddle(ownerAddress)}
-          </LinkText>
-        </SubheaderText>
+        <div className={container}>
+          <SubheaderText>
+            Owner:{' '}
+            <LinkText
+              href={`https://ropsten.etherscan.io/address/${ownerAddress}`}
+            >
+              {md ? ownerAddress : truncateMiddle(ownerAddress)}
+            </LinkText>
+          </SubheaderText>
+        </div>
       )}
     </>
   )
