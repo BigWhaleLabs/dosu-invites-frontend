@@ -57,9 +57,11 @@ function NFTFragment() {
   const safeId = useSafeId()
 
   useEffect(() => {
-    safeId > totalFrames
-      ? navigate('/not-found')
-      : IpfsStore.requestOwnerAddress(safeId)
+    if (safeId > totalFrames) {
+      navigate('/not-found')
+    } else {
+      IpfsStore.requestOwnerAddress(safeId)
+    }
   }, [safeId, navigate, totalFrames])
 
   return !totalFrames ? (
