@@ -6,7 +6,7 @@ import getAllowlist from 'helpers/getAllowlist'
 type IpfsStoreType = {
   allowlist: Promise<string[]>
   totalMinted: Promise<BigNumber>
-  ownerAddress: string | undefined
+  ownerAddress: Promise<string | undefined>
 
   requestAllowlist: () => void
   requestTotalMinted: () => void
@@ -16,7 +16,7 @@ type IpfsStoreType = {
 const IpfsStore = proxy<IpfsStoreType>({
   allowlist: getAllowlist(),
   totalMinted: dosuInvites.totalSupply(),
-  ownerAddress: undefined,
+  ownerAddress: Promise.resolve<string | undefined>(undefined),
 
   requestAllowlist: () => {
     IpfsStore.allowlist = getAllowlist()
@@ -25,7 +25,7 @@ const IpfsStore = proxy<IpfsStoreType>({
     IpfsStore.totalMinted = dosuInvites.totalSupply()
   },
   requestOwnerAddress: async (id: number) => {
-    IpfsStore.ownerAddress = await dosuInvites.ownerOf(id)
+    IpfsStore.ownerAddress = Promise.resolve(await dosuInvites.ownerOf(id))
   },
 })
 
