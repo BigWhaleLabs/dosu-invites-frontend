@@ -83,7 +83,7 @@ function NFTFragment() {
           handleError(
             safeId > totalFrames
               ? ErrorList.notExistIpfsImage(safeId)
-              : ErrorList.ipfsImage
+              : ErrorList.ipfsImageBeingLoaded
           )
         }}
       />
