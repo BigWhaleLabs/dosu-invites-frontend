@@ -8,7 +8,8 @@ export const ErrorList = {
     `Looks like you're using ${userNetwork} network, please, switch to ${contractNetwork}`,
   invalidProof: 'Merkle Tree Proof is not valid',
   unknown: 'An unknown error occurred, please, try again later',
-  ipfsImage: "Can't fetch the image from IPFS, please, try again later",
+  ipfsImageBeingLoaded:
+    'NFT is being uploaded to IPFS, please, try again in a few minutes',
   notExistIpfsImage: (imageId: number) =>
     `There is no image with ID ${imageId}`,
   pleaseReconnect: 'Lost connection with your wallet, please, reconnect',
