@@ -24,8 +24,8 @@ const IpfsStore = proxy<IpfsStoreType>({
   requestTotalMinted: () => {
     IpfsStore.totalMinted = dosuInvites.totalSupply()
   },
-  requestOwnerAddress: async (id: number) => {
-    IpfsStore.ownerAddress = Promise.resolve(await dosuInvites.ownerOf(id))
+  requestOwnerAddress: (id: number) => {
+    IpfsStore.ownerAddress = dosuInvites.ownerOf(id)
   },
 })
 

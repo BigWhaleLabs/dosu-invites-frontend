@@ -30,6 +30,11 @@ const container = margin('mt-4')
 function OwnerBlock() {
   const { ownerAddress } = useSnapshot(IpfsStore)
   const { md } = useBreakpoints()
+  const safeId = useSafeId()
+
+  useEffect(() => {
+    IpfsStore.requestOwnerAddress(safeId)
+  }, [safeId])
 
   return (
     <>
@@ -57,13 +62,7 @@ function NFTFragment() {
   const safeId = useSafeId()
 
   useEffect(() => {
-    function initialize() {
-      if (totalFrames <= 0) return
-      if (safeId > totalFrames) navigate('/not-found')
-      if (safeId <= totalFrames) IpfsStore.requestOwnerAddress(safeId)
-    }
-
-    void initialize()
+    if (safeId > totalFrames) navigate('/not-found')
   }, [safeId, navigate, totalFrames])
 
   return !totalFrames ? (
@@ -95,13 +94,18 @@ function NFTFragment() {
 }
 
 export default function NFTPicture() {
+  const safeId = useSafeId()
   return (
     <>
-      <ErrorBoundary fallbackText="Something went wrong, please, try again later!">
-        <Suspense fallback={<LoadingImage />}>
-          <NFTFragment />
-        </Suspense>
-      </ErrorBoundary>
+      {!!safeId && (
+        <>
+          <ErrorBoundary fallbackText="Something went wrong, please, try again later!">
+            <Suspense fallback={<LoadingImage />}>
+              <NFTFragment />
+            </Suspense>
+          </ErrorBoundary>
+        </>
+      )}
     </>
   )
 }
