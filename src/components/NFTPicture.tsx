@@ -57,13 +57,11 @@ function NFTFragment() {
   const safeId = useSafeId()
 
   useEffect(() => {
-    function initialize() {
-      if (totalFrames <= 0) return
-      if (safeId > totalFrames) navigate('/not-found')
-      if (safeId <= totalFrames) IpfsStore.requestOwnerAddress(safeId)
+    if (safeId > totalFrames) {
+      navigate('/not-found')
+    } else {
+      IpfsStore.requestOwnerAddress(safeId)
     }
-
-    void initialize()
   }, [safeId, navigate, totalFrames])
 
   return !totalFrames ? (
@@ -87,21 +85,25 @@ function NFTFragment() {
           )
         }}
       />
-      <Suspense fallback={<Loader />}>
-        <OwnerBlock />
-      </Suspense>
     </>
   )
 }
 
 export default function NFTPicture() {
+  const safeId = useSafeId()
   return (
     <>
-      <ErrorBoundary fallbackText="Something went wrong, please, try again later!">
-        <Suspense fallback={<LoadingImage />}>
-          <NFTFragment />
-        </Suspense>
-      </ErrorBoundary>
+      {!!safeId && (
+        <ErrorBoundary fallbackText="Something went wrong, please, try again later!">
+          <Suspense fallback={<LoadingImage />}>
+            <NFTFragment />
+          </Suspense>
+
+          <Suspense fallback={<Loader />}>
+            <OwnerBlock />
+          </Suspense>
+        </ErrorBoundary>
+      )}
     </>
   )
 }
