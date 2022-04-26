@@ -1,6 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import { injectStyle } from 'react-toastify/dist/inject-style'
 import { useSnapshot } from 'valtio'
 import AppStore from 'stores/AppStore'
 import Main from 'pages/Main'
@@ -11,8 +10,6 @@ import ThemeProvider from 'components/ThemeProvider'
 
 function App() {
   const { theme } = useSnapshot(AppStore)
-
-  injectStyle()
 
   return (
     <ThemeProvider>
