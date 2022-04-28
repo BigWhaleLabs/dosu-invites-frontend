@@ -8,7 +8,7 @@ export default function WrongNetworkMessage() {
   const { networkName } = useSnapshot(WalletStore)
   return (
     <>
-      <SubheaderText>
+      <SubheaderText centered>
         You're using {networkName} network. Please, switch to{' '}
         {env.VITE_ETH_NETWORK} network.
       </SubheaderText>
