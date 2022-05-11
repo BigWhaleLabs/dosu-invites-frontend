@@ -38,7 +38,7 @@ function OwnerBlock() {
           <SubheaderText>
             Owner:{' '}
             <LinkText
-              href={`https://ropsten.etherscan.io/address/${ownerAddress}`}
+              href={`https://rinkeby.etherscan.io/address/${ownerAddress}`}
             >
               {md ? ownerAddress : truncateMiddle(ownerAddress)}
             </LinkText>

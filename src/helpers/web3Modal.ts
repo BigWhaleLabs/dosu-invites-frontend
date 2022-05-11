@@ -7,7 +7,7 @@ import WalletConnect from '@walletconnect/web3-provider'
 import Web3Modal from 'web3modal'
 import env from 'helpers/env'
 
-const infuraId = env.VITE_INFURA_ID as string
+const rpc = env.VITE_ETH_RPC as string
 const network = env.VITE_ETH_NETWORK as string
 const appName = env.VITE_APP_NAME as string
 const theme = AppStore.theme
@@ -31,14 +31,18 @@ const web3modal = new Web3Modal({
     walletconnect: {
       package: WalletConnect,
       options: {
-        infuraId,
+        rpc: {
+          4: rpc,
+        },
       },
     },
     coinbasewallet: {
       package: CoinbaseWalletSDK,
       options: {
         appName,
-        infuraId,
+        rpc: {
+          4: rpc,
+        },
         darkMode: theme === 'dark' ? true : false,
       },
     },
