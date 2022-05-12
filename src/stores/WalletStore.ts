@@ -7,6 +7,7 @@ import env from 'helpers/env'
 import generateMerkleProof from 'helpers/generateMerkleProof'
 import getDosuInvites from 'helpers/getDosuInvites'
 import networkChainIdToName from 'models/networkChainIdToName'
+import queryBlockLimit from 'helpers/queryBlockLimit'
 import web3Modal from 'helpers/web3Modal'
 
 class WalletStore {
@@ -113,7 +114,10 @@ class WalletStore {
         undefined,
         this.userAddress
       )
-      const transferEvents = await dosuInvites.queryFilter(transferFilter)
+      const transferEvents = await dosuInvites.queryFilter(
+        transferFilter,
+        queryBlockLimit
+      )
       this.tokenId = transferEvents
         .find((event) => event.args.to === this.userAddress)
         ?.args.tokenId.toNumber()
