@@ -7,23 +7,25 @@ import useBreakpoints from 'helpers/useBreakpoints'
 
 export default function ConnectWalletButton() {
   const { userAddress, loading } = useSnapshot(WalletStore)
-  const { md } = useBreakpoints()
+  const { sm, md } = useBreakpoints()
 
   return (
     <Button
       circle
       onClick={() => WalletStore.connect()}
-      outlined
+      outlined={!!userAddress}
       loading={loading}
       disabledColor={!!userAddress}
     >
       {userAddress ? (
         md ? (
           userAddress
-        ) : (
+        ) : sm ? (
           truncateMiddle(userAddress)
+        ) : (
+          <CryptoWallet />
         )
-      ) : md ? (
+      ) : md || sm ? (
         'Connect ETH Wallet'
       ) : (
         <CryptoWallet />
