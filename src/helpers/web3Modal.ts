@@ -1,8 +1,6 @@
-import { Bitski } from 'bitski'
 import AppStore from 'stores/AppStore'
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk'
 import Fortmatic from 'fortmatic'
-import Torus from '@toruslabs/torus-embed'
 import WalletConnect from '@walletconnect/web3-provider'
 import Web3Modal from 'web3modal'
 import env from 'helpers/env'
@@ -25,9 +23,6 @@ const web3modal = new Web3Modal({
         network,
       },
     },
-    torus: {
-      package: Torus,
-    },
     walletconnect: {
       package: WalletConnect,
       options: {
@@ -44,13 +39,6 @@ const web3modal = new Web3Modal({
           4: rpc,
         },
         darkMode: theme === 'dark' ? true : false,
-      },
-    },
-    bitski: {
-      package: Bitski,
-      options: {
-        clientId: env.VITE_BITSKI_CLIENT_ID as string,
-        callbackUrl: `${window.location.origin}/callback.html`,
       },
     },
   },
