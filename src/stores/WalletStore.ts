@@ -1,4 +1,5 @@
 import { ErrorList } from 'helpers/handleError'
+import { QUERY_BLOCK_LIMIT } from '@big-whale-labs/constants'
 import { Web3Provider } from '@ethersproject/providers'
 import { handleError } from 'helpers/handleError'
 import { proxy } from 'valtio'
@@ -7,7 +8,6 @@ import env from 'helpers/env'
 import generateMerkleProof from 'helpers/generateMerkleProof'
 import getDosuInvites from 'helpers/getDosuInvites'
 import networkChainIdToName from 'models/networkChainIdToName'
-import queryBlockLimit from 'helpers/queryBlockLimit'
 import web3Modal from 'helpers/web3Modal'
 
 class WalletStore {
@@ -116,7 +116,7 @@ class WalletStore {
       )
       const transferEvents = await dosuInvites.queryFilter(
         transferFilter,
-        queryBlockLimit
+        QUERY_BLOCK_LIMIT
       )
       this.tokenId = transferEvents
         .find((event) => event.args.to === this.userAddress)
