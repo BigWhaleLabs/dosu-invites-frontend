@@ -24,12 +24,12 @@
     ]
   },
   "dependencies": {
+    "@big-whale-labs/constants": "^0.0.5",
     "@big-whale-labs/dosu-invites-contract": "^0.0.11",
     "@coinbase/wallet-sdk": "^3.0.11",
     "@toruslabs/torus-embed": "^1.22.5",
     "@walletconnect/web3-provider": "^1.7.8",
     "axios": "^0.27.2",
-    "bitski": "^0.14.1",
     "copy-to-clipboard": "^3.3.1",
     "eth-rpc-errors": "^4.0.3",
     "ethers": "^5.6.5",

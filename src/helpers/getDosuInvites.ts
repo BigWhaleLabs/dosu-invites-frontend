@@ -5,5 +5,8 @@ import env from 'helpers/env'
 export default function getDosuInvites(
   provider: providers.JsonRpcSigner | providers.Provider
 ) {
-  return DosuInvites__factory.connect(env.VITE_CONTRACT_ADDRESS, provider)
+  return DosuInvites__factory.connect(
+    env.VITE_DOSU_INVITES_CONTRACT_ADDRESS,
+    provider
+  )
 }
