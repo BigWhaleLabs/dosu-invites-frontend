@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import { LogoDot, LogoText } from 'components/Text'
 import { useNavigate } from 'react-router-dom'
 
@@ -6,7 +5,7 @@ interface LogoProps {
   large?: boolean
 }
 
-const Logo: FC<LogoProps> = ({ large = false }) => {
+export default function ({ large = false }: LogoProps) {
   const navigate = useNavigate()
 
   return (
@@ -22,5 +21,3 @@ const Logo: FC<LogoProps> = ({ large = false }) => {
     </button>
   )
 }
-
-export default Logo

@@ -42,8 +42,7 @@ const toggleButton = classnames(
   transitionTimingFunction('ease-linear')
 )
 const iconDiv = classnames(width('w-7'), height('h-7'), toggleButton)
-
-function ThemeToggle() {
+export default function () {
   const { theme } = useSnapshot(AppStore)
 
   const moonAnimation = useSpring({
@@ -77,5 +76,3 @@ function ThemeToggle() {
     </button>
   )
 }
-
-export default ThemeToggle

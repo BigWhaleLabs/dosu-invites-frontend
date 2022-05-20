@@ -1,9 +1,9 @@
-import { Button } from 'components/Button'
 import { SubheaderText } from 'components/Text'
 import { Suspense } from 'react'
 import { proxy, useSnapshot } from 'valtio'
 import { useEffect, useState } from 'preact/hooks'
 import { useNavigate, useParams } from 'react-router-dom'
+import Button from 'components/Button'
 import IpfsStore from 'stores/IpfsStore'
 import WalletStore from 'stores/WalletStore'
 import classnames, {
@@ -97,7 +97,7 @@ function AllowChecker() {
   )
 }
 
-export default function MintingBlock() {
+export default function () {
   return (
     <Suspense
       fallback={

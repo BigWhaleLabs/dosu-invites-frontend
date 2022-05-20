@@ -1,16 +1,24 @@
-import { FC } from 'react'
 import AppStore from 'stores/AppStore'
-import ISVGIcon from 'models/ISVGIcon'
+import Theme from 'models/Theme'
 import classNamesToString from 'helpers/classNamesToString'
-import classnames, { transitionProperty } from 'classnames/tailwind'
+import classnames, {
+  TTailwindString,
+  transitionProperty,
+} from 'classnames/tailwind'
 
-const Moon: FC<ISVGIcon> = ({
+export default function ({
   theme,
   title = 'Moon icon',
   height = 24,
   width = 24,
   className,
-}) => {
+}: {
+  theme?: Theme
+  title?: string
+  height?: number
+  width?: number
+  className: TTailwindString
+}) {
   const themeSheme = theme || AppStore.theme
   const colors = {
     svg: themeSheme === 'light' ? 'none' : 'var(--accent)',
@@ -49,5 +57,3 @@ const Moon: FC<ISVGIcon> = ({
     </svg>
   )
 }
-
-export default Moon

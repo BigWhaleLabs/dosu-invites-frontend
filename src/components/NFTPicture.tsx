@@ -1,4 +1,3 @@
-import { ErrorList, handleError } from 'helpers/handleError'
 import { LinkText, SubheaderText } from 'components/Text'
 import { Suspense } from 'react'
 import { useEffect, useState } from 'preact/hooks'
@@ -15,6 +14,7 @@ import classnames, {
   margin,
 } from 'classnames/tailwind'
 import env from 'helpers/env'
+import handleError, { ErrorList } from 'helpers/handleError'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useSafeId from 'helpers/useSafeId'
@@ -89,7 +89,7 @@ function NFTFragment() {
   )
 }
 
-export default function NFTPicture() {
+export default function () {
   const safeId = useSafeId()
   return (
     <>

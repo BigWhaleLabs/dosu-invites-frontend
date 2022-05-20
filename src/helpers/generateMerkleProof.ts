@@ -3,7 +3,7 @@ import { MerkleTree } from 'merkletreejs'
 import { utils } from 'ethers'
 import getAllowlist from 'helpers/getAllowlist'
 
-export default async function checkInMerkleTree(ethAddress: string) {
+export default async function (ethAddress: string) {
   const addresses = await getAllowlist()
 
   const leaf = utils.keccak256(ethAddress)

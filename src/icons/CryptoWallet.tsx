@@ -1,6 +1,6 @@
 import { transitionProperty } from 'classnames/tailwind'
 
-const CryptoWallet = () => {
+export default function () {
   const width = 24
   const height = 24
   const title = 'Crypto wallet icon'
@@ -26,5 +26,3 @@ const CryptoWallet = () => {
     </svg>
   )
 }
-
-export default CryptoWallet

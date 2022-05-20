@@ -16,7 +16,7 @@ export const ErrorList = {
   clear: '',
 }
 
-export function handleError(error: unknown) {
+export default function (error: unknown) {
   console.error(error)
   toast.error(getMessageFromError(error))
 }

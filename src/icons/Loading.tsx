@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import {
   animation,
   classnames,
@@ -11,8 +10,7 @@ import {
 const loader = classnames(animation('animate-spin'), textColor('text-accent'))
 const icon = (big?: boolean) =>
   classnames(loader, width(big ? 'w-7' : 'w-5'), height(big ? 'h-7' : 'h-5'))
-
-const Loading: FC<{ big?: boolean }> = ({ big }) => {
+export default function ({ big }: { big?: boolean }) {
   return (
     <svg className={icon(big)} viewBox="0 0 24 24">
       <circle
@@ -31,5 +29,3 @@ const Loading: FC<{ big?: boolean }> = ({ big }) => {
     </svg>
   )
 }
-
-export default Loading

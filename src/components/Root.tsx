@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import {
   classnames,
   container,
@@ -10,6 +9,7 @@ import {
   minHeight,
   padding,
 } from 'classnames/tailwind'
+import ChildrenProp from 'models/ChildrenProp'
 
 const root = classnames(
   display('flex'),
@@ -21,8 +21,6 @@ const root = classnames(
   height('h-full'),
   minHeight('min-h-screen')
 )
-const Root: FC = ({ children }) => {
+export default function ({ children }: ChildrenProp) {
   return <div className={root}>{children}</div>
 }
-
-export default Root

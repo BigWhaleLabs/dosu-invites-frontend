@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import {
   classnames,
   fontFamily,
@@ -12,12 +11,10 @@ import {
   transitionProperty,
   wordBreak,
 } from 'classnames/tailwind'
+import ChildrenProp from 'models/ChildrenProp'
 
 const transitionColors = classnames(transitionProperty('transition-colors'))
-export const primaryText = classnames(
-  transitionColors,
-  textColor('text-primary')
-)
+const primaryText = classnames(transitionColors, textColor('text-primary'))
 
 const headerText = (h1?: boolean) =>
   classnames(
@@ -29,9 +26,9 @@ const headerText = (h1?: boolean) =>
     fontSize('text-5xl', 'md:text-6xl'),
     margin('mt-3', 'mb-3')
   )
-export const HeaderText: FC<{ h1?: boolean }> = ({ children, h1 }) => (
-  <p className={headerText(h1)}>{children}</p>
-)
+export function HeaderText({ children, h1 }: ChildrenProp & { h1?: boolean }) {
+  return <p className={headerText(h1)}>{children}</p>
+}
 
 const dimmedSubheaderText = classnames(
   transitionColors,
@@ -43,9 +40,9 @@ const dimmedSubheaderText = classnames(
   fontSize('text-xl', 'md:text-2xl'),
   lineHeight('md:leading-8')
 )
-export const DimmedSubheaderText: FC = ({ children }) => (
-  <div className={dimmedSubheaderText}>{children}</div>
-)
+export function DimmedSubheaderText({ children }: ChildrenProp) {
+  return <div className={dimmedSubheaderText}>{children}</div>
+}
 
 const subheaderText = (centered?: boolean) =>
   classnames(
@@ -55,11 +52,14 @@ const subheaderText = (centered?: boolean) =>
     textAlign(centered ? 'text-center' : undefined),
     fontSize('text-xl')
   )
-export const SubheaderText: FC<{
+export function SubheaderText({
+  children,
+  centered,
+}: ChildrenProp & {
   centered?: boolean
-}> = ({ children, centered }) => (
-  <p className={subheaderText(centered)}>{children}</p>
-)
+}) {
+  return <p className={subheaderText(centered)}>{children}</p>
+}
 
 const footerText = classnames(
   transitionColors,
@@ -67,12 +67,12 @@ const footerText = classnames(
   fontSize('text-xs'),
   fontFamily('font-primary')
 )
-export const FooterText: FC = ({ children }) => {
+export function FooterText({ children }: ChildrenProp) {
   return <div className={footerText}>{children}</div>
 }
 
 const logoDot = classnames(textColor('text-accent'))
-export const LogoDot: FC = ({ children }) => {
+export function LogoDot({ children }: ChildrenProp) {
   return <span className={logoDot}>{children}</span>
 }
 
@@ -84,7 +84,10 @@ const logoText = (large?: boolean) =>
     fontSize(large ? 'text-5xl' : 'text-3xl'),
     fontWeight('font-semibold')
   )
-export const LogoText: FC<{ large?: boolean }> = ({ large, children }) => {
+export function LogoText({
+  large,
+  children,
+}: ChildrenProp & { large?: boolean }) {
   return <span className={logoText(large)}>{children}</span>
 }
 
@@ -94,21 +97,27 @@ const linkText = (centered?: boolean) =>
     transitionColors,
     textColor('text-primary-dimmed')
   )
-export const LinkText: FC<{
+export function LinkText({
+  children,
+  href,
+  centered,
+}: ChildrenProp & {
   href?: string | undefined
   centered?: boolean
-}> = ({ children, href, centered }) => (
-  <a
-    className={linkText(centered)}
-    href={href}
-    rel="noopener noreferrer"
-    target="_blank"
-  >
-    {children}
-  </a>
-)
+}) {
+  return (
+    <a
+      className={linkText(centered)}
+      href={href}
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      {children}
+    </a>
+  )
+}
 
 const errorText = textColor('text-red-500')
-export const ErrorText: FC = ({ children }) => {
+export function ErrorText({ children }: ChildrenProp) {
   return <p className={errorText}>{children}</p>
 }

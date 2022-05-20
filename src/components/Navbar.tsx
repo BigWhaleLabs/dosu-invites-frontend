@@ -46,7 +46,7 @@ const themeToggleBox = classnames(
 
 const buttonBox = classnames(margin('xl:ml-10', 'ml-3'))
 
-function Navbar() {
+export default function () {
   return (
     <nav className={navbar}>
       <Logo />
@@ -59,5 +59,3 @@ function Navbar() {
     </nav>
   )
 }
-
-export default Navbar

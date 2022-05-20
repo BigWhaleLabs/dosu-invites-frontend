@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 const smSize = 320
 const mdSize = 768
 
-export default function useBreakpoints() {
+export default function () {
   const [width, setWidth] = useState(window.innerWidth)
 
   useEffect(() => {

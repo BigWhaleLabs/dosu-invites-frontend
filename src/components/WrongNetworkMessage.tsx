@@ -1,10 +1,10 @@
-import { Button } from 'components/Button'
 import { SubheaderText } from 'components/Text'
 import { useSnapshot } from 'valtio'
+import Button from 'components/Button'
 import WalletStore from 'stores/WalletStore'
 import env from 'helpers/env'
 
-export default function WrongNetworkMessage() {
+export default function () {
   const { networkName } = useSnapshot(WalletStore)
   return (
     <>

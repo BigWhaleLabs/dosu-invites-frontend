@@ -15,8 +15,7 @@ const wrapper = classnames(
   display('flex')
 )
 const image = classnames(height('h-fit'), borderRadius('rounded-3xl'))
-
-const LoadingImage = () => {
+export default function () {
   return (
     <div className={wrapper}>
       <img src="img/blurInvite.png" className={image} />
@@ -29,5 +28,3 @@ const LoadingImage = () => {
     </div>
   )
 }
-
-export default LoadingImage

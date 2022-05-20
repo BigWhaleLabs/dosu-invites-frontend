@@ -8,7 +8,7 @@ import NotFound from 'pages/NotFound'
 import Root from 'components/Root'
 import ThemeProvider from 'components/ThemeProvider'
 
-function App() {
+export default function () {
   const { theme } = useSnapshot(AppStore)
 
   return (
@@ -28,5 +28,3 @@ function App() {
     </ThemeProvider>
   )
 }
-
-export default App

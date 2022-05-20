@@ -8,7 +8,7 @@ const container = classnames(
   height('h-full')
 )
 
-export default function NotFound() {
+export default function () {
   return (
     <div className={container}>
       <HeaderText>404</HeaderText>

@@ -1,4 +1,3 @@
-import { ButtonHTMLAttributes, FC } from 'react'
 import {
   alignItems,
   backgroundColor,
@@ -19,17 +18,10 @@ import {
   textColor,
   transitionProperty,
 } from 'classnames/tailwind'
+import ChildrenProp from 'models/ChildrenProp'
 import Loading from 'icons/Loading'
 
-export enum ButtonType {
-  primary = 'primary',
-  accent = 'accent',
-  error = 'error',
-  success = 'success',
-  primaryDimmed = 'primary-dimmed',
-}
-
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps {
   onClick?: () => void
   title?: string
   disabled?: boolean
@@ -106,7 +98,7 @@ const button = (
 
 const loadingMargin = classnames(margin('mr-1', 'md:mr-3'))
 
-export const Button: FC<ButtonProps> = ({
+export default function ({
   onClick,
   title,
   children,
@@ -115,7 +107,7 @@ export const Button: FC<ButtonProps> = ({
   outlined,
   circle,
   loading,
-}) => {
+}: ChildrenProp & ButtonProps) {
   const childBlock = loading ? <Loading /> : children
   const loadingStateLeft = (child?: boolean) => (
     <>

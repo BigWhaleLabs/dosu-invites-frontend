@@ -1,11 +1,11 @@
-import { Button } from 'components/Button'
 import { useSnapshot } from 'valtio'
+import Button from 'components/Button'
 import CryptoWallet from 'icons/CryptoWallet'
 import WalletStore from 'stores/WalletStore'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 
-export default function ConnectWalletButton() {
+export default function () {
   const { userAddress, loading } = useSnapshot(WalletStore)
   const { sm, md } = useBreakpoints()
 

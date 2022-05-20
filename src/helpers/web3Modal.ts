@@ -5,12 +5,12 @@ import WalletConnect from '@walletconnect/web3-provider'
 import Web3Modal from 'web3modal'
 import env from 'helpers/env'
 
-const rpc = env.VITE_ETH_RPC as string
-const network = env.VITE_ETH_NETWORK as string
-const appName = env.VITE_APP_NAME as string
+const rpc = env.VITE_ETH_RPC
+const network = env.VITE_ETH_NETWORK
+const appName = env.VITE_APP_NAME
 const theme = AppStore.theme
 
-const web3modal = new Web3Modal({
+export default new Web3Modal({
   cacheProvider: true,
   theme,
   disableInjectedProvider: false,
@@ -19,7 +19,7 @@ const web3modal = new Web3Modal({
     fortmatic: {
       package: Fortmatic,
       options: {
-        key: env.VITE_FORTMATIC_KEY as string,
+        key: env.VITE_FORTMATIC_KEY,
         network,
       },
     },
@@ -43,5 +43,3 @@ const web3modal = new Web3Modal({
     },
   },
 })
-
-export default web3modal

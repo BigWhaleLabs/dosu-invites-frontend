@@ -20,8 +20,7 @@ const footerContainer = classnames(
   textAlign('text-center')
 )
 const dotPadding = classnames(padding('px-3'))
-
-const Footer = () => {
+export default function () {
   return (
     <div className={footerContainer}>
       <FooterText>
@@ -36,5 +35,3 @@ const Footer = () => {
     </div>
   )
 }
-
-export default Footer

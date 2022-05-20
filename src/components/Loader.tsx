@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import { WaveTopBottomLoading } from 'react-loadingg'
 import {
   alignItems,
@@ -23,7 +22,7 @@ interface LoaderProps {
   className?: string
 }
 
-const Loader: FC<LoaderProps> = ({ overlay, size, className }) => {
+export default function ({ overlay, size, className }: LoaderProps) {
   const wrapperStyles = classnames(
     display('flex'),
     flexDirection('flex-row'),
@@ -49,5 +48,3 @@ const Loader: FC<LoaderProps> = ({ overlay, size, className }) => {
     </div>
   )
 }
-
-export default Loader

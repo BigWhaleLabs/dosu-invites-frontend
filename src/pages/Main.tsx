@@ -22,7 +22,7 @@ const mainBox = classnames(
   zIndex('z-10')
 )
 
-function Main() {
+export default function () {
   const { userAddress, isCorrectNetwork } = useSnapshot(WalletStore)
 
   return (
@@ -40,5 +40,3 @@ function Main() {
     </div>
   )
 }
-
-export default Main

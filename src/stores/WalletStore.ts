@@ -1,12 +1,12 @@
 import { ErrorList } from 'helpers/handleError'
 import { QUERY_BLOCK_LIMIT } from '@big-whale-labs/constants'
 import { Web3Provider } from '@ethersproject/providers'
-import { handleError } from 'helpers/handleError'
 import { proxy } from 'valtio'
 import dosuInvites from 'helpers/dosuInvites'
 import env from 'helpers/env'
 import generateMerkleProof from 'helpers/generateMerkleProof'
 import getDosuInvites from 'helpers/getDosuInvites'
+import handleError from 'helpers/handleError'
 import networkChainIdToName from 'models/networkChainIdToName'
 import web3Modal from 'helpers/web3Modal'
 
@@ -147,8 +147,8 @@ class WalletStore {
   }
 }
 
-const exportedStore = proxy(new WalletStore())
+const walletStore = proxy(new WalletStore())
 
-if (exportedStore.cachedProvider) void exportedStore.connect()
+if (walletStore.cachedProvider) void walletStore.connect()
 
-export default exportedStore
+export default walletStore
