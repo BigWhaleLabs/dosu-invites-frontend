@@ -39,6 +39,7 @@ export default ({ mode }) => {
     },
     resolve: {
       alias: {
+        util: 'rollup-plugin-node-polyfills/polyfills/util',
         stream: 'stream-browserify',
         https: 'agent-base',
       },
