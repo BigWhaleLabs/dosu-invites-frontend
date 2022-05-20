@@ -10,10 +10,9 @@ import handleError from 'helpers/handleError'
 import networkChainIdToName from 'models/networkChainIdToName'
 import web3Modal from 'helpers/web3Modal'
 
+let provider: Web3Provider
 class WalletStore {
   loading = false
-
-  provider?: Web3Provider
 
   userAddress?: string
   networkName?: string
@@ -31,10 +30,10 @@ class WalletStore {
     this.loading = true
     try {
       const instance = await web3Modal.connect()
-      this.provider = new Web3Provider(instance, env.VITE_ETH_NETWORK)
+      provider = new Web3Provider(instance, env.VITE_ETH_NETWORK)
       this.addProviderHandlers(instance)
       await this.setAndCheckNetworkName()
-      this.userAddress = (await this.provider.listAccounts())[0]
+      this.userAddress = (await provider.listAccounts())[0]
       await this.fetchTokenId()
     } catch (error) {
       if (error !== 'Modal closed by user') handleError(error)
@@ -55,8 +54,8 @@ class WalletStore {
     })
     provider.on('disconnect', (accounts: string[]) => {
       if (this.userAddress && !accounts.includes(this.userAddress)) return
-      if (this.provider) {
-        this.provider.removeAllListeners()
+      if (provider) {
+        provider.removeAllListeners()
       }
       this.clearData(true)
     })
@@ -67,19 +66,19 @@ class WalletStore {
   }
 
   private clearData(clearProvider = false) {
-    if (clearProvider) this.provider = undefined
+    if (clearProvider) web3Modal.clearCachedProvider()
     this.userAddress = undefined
     this.networkName = undefined
     this.tokenId = undefined
   }
 
   private async setAndCheckNetworkName(chainId?: string) {
-    if (!this.provider) return
+    if (!provider) return
 
     try {
       this.networkName =
         (chainId && networkChainIdToName[chainId]) ||
-        (await this.provider.getNetwork()).name
+        (await provider.getNetwork()).name
       this.checkNetworkName()
     } catch (error) {
       handleError(ErrorList.wrongNetwork('a wrong', env.VITE_ETH_NETWORK))
@@ -93,13 +92,13 @@ class WalletStore {
   }
 
   async changeNetworkToDefault() {
-    if (!this.provider) return
+    if (!provider) return
     const network = env.VITE_ETH_NETWORK
     const index = Object.values(networkChainIdToName).findIndex(
       (name) => name === network
     )
 
-    await this.provider.jsonRpcFetchFunc('wallet_switchEthereumChain', [
+    await provider.jsonRpcFetchFunc('wallet_switchEthereumChain', [
       { chainId: Object.keys(networkChainIdToName)[index] },
     ])
   }
@@ -129,11 +128,11 @@ class WalletStore {
   }
 
   async mint() {
-    if (!this.userAddress || !this.provider)
+    if (!this.userAddress || !provider)
       return handleError(ErrorList.pleaseReconnect)
     try {
       this.loading = true
-      const dosuInvitesWithSigner = getDosuInvites(this.provider.getSigner(0))
+      const dosuInvitesWithSigner = getDosuInvites(provider.getSigner(0))
       const proof = await generateMerkleProof(this.userAddress)
 
       const transaction = await dosuInvitesWithSigner.mint(proof)
