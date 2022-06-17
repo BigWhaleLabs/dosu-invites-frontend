@@ -1,5 +1,4 @@
 import { ErrorList } from 'helpers/handleError'
-import { QUERY_BLOCK_LIMIT } from '@big-whale-labs/constants'
 import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
 import dosuInvites from 'helpers/dosuInvites'
@@ -113,10 +112,7 @@ class WalletStore {
         undefined,
         this.userAddress
       )
-      const transferEvents = await dosuInvites.queryFilter(
-        transferFilter,
-        QUERY_BLOCK_LIMIT
-      )
+      const transferEvents = await dosuInvites.queryFilter(transferFilter)
       this.tokenId = transferEvents
         .find((event) => event.args.to === this.userAddress)
         ?.args.tokenId.toNumber()
