@@ -1607,10 +1607,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@big-whale-labs/constants@npm:^0.0.16":
-  version: 0.0.16
-  resolution: "@big-whale-labs/constants@npm:0.0.16"
-  checksum: aa08adb87f3c4771acd3900da40ea01c384cfe9e3f0c4bd57574158eaf766a1153e13f9a89c3c20ea81ce37ce356900b311cf0ebb9ca8e6e377b8fcd991b2fed
+"@big-whale-labs/constants@npm:^0.0.18":
+  version: 0.0.18
+  resolution: "@big-whale-labs/constants@npm:0.0.18"
+  checksum: 07d24c651cdd2d02938d6c7dc090cae71c6fa57b4cfe588630d126faa844adbe2086fef42c92e41172d51b361df103322016739fed84ad0bed5febf751306fd1
   languageName: node
   linkType: hard
 
@@ -6806,7 +6806,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "dosu-invites-frontend@workspace:."
   dependencies:
-    "@big-whale-labs/constants": ^0.0.16
+    "@big-whale-labs/constants": ^0.0.18
     "@big-whale-labs/dosu-invites-contract": ^0.0.12
     "@coinbase/wallet-sdk": ^3.3.0
     "@esbuild-plugins/node-globals-polyfill": ^0.1.1
@@ -6834,7 +6834,6 @@ __metadata:
     eslint-plugin-valtio: ^0.4.4
     eth-rpc-errors: ^4.0.3
     ethers: ^5.6.8
-    fortmatic: ^2.4.0
     merkletreejs: ^0.2.31
     postcss: ^8.4.14
     preact: ^10.8.1
@@ -8707,13 +8706,6 @@ __metadata:
     combined-stream: ^1.0.6
     mime-types: ^2.1.12
   checksum: 10c1780fa13dbe1ff3100114c2ce1f9307f8be10b14bf16e103815356ff567b6be39d70fc4a40f8990b9660012dc24b0f5e1dde1b6426166eb23a445ba068ca3
-  languageName: node
-  linkType: hard
-
-"fortmatic@npm:^2.4.0":
-  version: 2.4.0
-  resolution: "fortmatic@npm:2.4.0"
-  checksum: c0556a79454a17e141db5c9fd07dfa6f975ad67f88d09353cfbb137d02036077a0acd4c455f58f3196d3eff827b0bb2508e783b7ef756249ebb326f6898bc422
   languageName: node
   linkType: hard
 

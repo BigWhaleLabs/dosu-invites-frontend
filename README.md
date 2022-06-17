@@ -2,16 +2,15 @@
 
 ## Environment variables
 
-| Name                                 | Description                                                                                        |
-| ------------------------------------ | -------------------------------------------------------------------------------------------------- |
-| `VITE_DOSU_INVITES_CONTRACT_ADDRESS` | Dosu Invites contract address (defaults to @bwl/constants)                                         |
-| `VITE_FORTMATIC_KEY`                 | Create a project and get one [here](https://dashboard.fortmatic.com/) (defaults to @bwl/constants) |
-| `VITE_APP_NAME`                      | App name which is displayed in some wallets                                                        |
-| `VITE_ETH_NETWORK`                   | Eth network for your providers and contract (defaults to @bwl/constants)                           |
-| `VITE_ETH_RPC`                       | Ethereum node RPC URI (defaults to @bwl/constants)                                                 |
-| `VITE_ALLOWLIST_ENDPOINT`            | An address, where we fetch the allowlist                                                           |
-| `VITE_IPFS_ENDPOINT`                 | An endpoint provided by `dosu-invites-backend` and configured at the hosting                       |
-| `BASE_URL`                           | _Optional_: base url for IPFS hosted website                                                       |
+| Name                                 | Description                                                                  |
+| ------------------------------------ | ---------------------------------------------------------------------------- |
+| `VITE_DOSU_INVITES_CONTRACT_ADDRESS` | Dosu Invites contract address (defaults to @bwl/constants)                   |
+| `VITE_APP_NAME`                      | App name which is displayed in some wallets                                  |
+| `VITE_ETH_NETWORK`                   | Eth network for your providers and contract (defaults to @bwl/constants)     |
+| `VITE_ETH_RPC`                       | Ethereum node RPC URI (defaults to @bwl/constants)                           |
+| `VITE_ALLOWLIST_ENDPOINT`            | An address, where we fetch the allowlist                                     |
+| `VITE_IPFS_ENDPOINT`                 | An endpoint provided by `dosu-invites-backend` and configured at the hosting |
+| `BASE_URL`                           | _Optional_: base url for IPFS hosted website                                 |
 
 ## Local launch
 

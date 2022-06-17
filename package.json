@@ -24,7 +24,7 @@
     ]
   },
   "dependencies": {
-    "@big-whale-labs/constants": "^0.0.16",
+    "@big-whale-labs/constants": "^0.0.18",
     "@big-whale-labs/dosu-invites-contract": "^0.0.12",
     "@coinbase/wallet-sdk": "^3.3.0",
     "@walletconnect/web3-provider": "^1.7.8",
@@ -33,7 +33,6 @@
     "envalid": "^7.3.1",
     "eth-rpc-errors": "^4.0.3",
     "ethers": "^5.6.8",
-    "fortmatic": "^2.4.0",
     "merkletreejs": "^0.2.31",
     "preact": "^10.8.1",
     "react-dom": "^18.2.0",

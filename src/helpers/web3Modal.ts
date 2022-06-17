@@ -1,6 +1,5 @@
 import AppStore from 'stores/AppStore'
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk'
-import Fortmatic from 'fortmatic'
 import WalletConnect from '@walletconnect/web3-provider'
 import Web3Modal from 'web3modal'
 import env from 'helpers/env'
@@ -16,18 +15,11 @@ export default new Web3Modal({
   disableInjectedProvider: false,
   network,
   providerOptions: {
-    fortmatic: {
-      package: Fortmatic,
-      options: {
-        key: env.VITE_FORTMATIC_KEY,
-        network,
-      },
-    },
     walletconnect: {
       package: WalletConnect,
       options: {
         rpc: {
-          4: rpc,
+          5: rpc,
         },
       },
     },
@@ -36,7 +28,7 @@ export default new Web3Modal({
       options: {
         appName,
         rpc: {
-          4: rpc,
+          5: rpc,
         },
         darkMode: theme === 'dark' ? true : false,
       },
