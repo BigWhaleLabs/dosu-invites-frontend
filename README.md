@@ -4,7 +4,7 @@
 
 | Name                                 | Description                                                                  |
 | ------------------------------------ | ---------------------------------------------------------------------------- |
-| `VITE_DOSU_INVITES_CONTRACT_ADDRESS` | Dosu Invites contract address (defaults to @bwl/constants)                   |
+| `VITE_DOSU_INVITES_CONTRACT_ADDRESS` | Dosu Invites contract address                                                |
 | `VITE_APP_NAME`                      | App name which is displayed in some wallets                                  |
 | `VITE_ETH_NETWORK`                   | Eth network for your providers and contract (defaults to @bwl/constants)     |
 | `VITE_ETH_RPC`                       | Ethereum node RPC URI (defaults to @bwl/constants)                           |
