@@ -1623,6 +1623,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@big-whale-labs/frontend-utils@npm:^0.0.6":
+  version: 0.0.6
+  resolution: "@big-whale-labs/frontend-utils@npm:0.0.6"
+  dependencies:
+    axios: ^0.27.2
+    eth-rpc-errors: ^4.0.3
+    react-toastify: ^9.0.8
+  checksum: 40064bd27aafa7f825ddf250da8b84117b044f8c9300184045e461eec48e4581cb5fa980e1776e626c04633611728e13d43a573c8655f1b78aa5d95f35d205f3
+  languageName: node
+  linkType: hard
+
 "@coinbase/wallet-sdk@npm:^3.3.0":
   version: 3.3.0
   resolution: "@coinbase/wallet-sdk@npm:3.3.0"
@@ -6834,6 +6845,7 @@ __metadata:
   dependencies:
     "@big-whale-labs/constants": ^0.1.0
     "@big-whale-labs/dosu-invites-contract": ^0.0.12
+    "@big-whale-labs/frontend-utils": ^0.0.6
     "@coinbase/wallet-sdk": ^3.3.0
     "@esbuild-plugins/node-globals-polyfill": ^0.1.1
     "@preact/preset-vite": ^2.3.0
@@ -13751,6 +13763,18 @@ __metadata:
     react: ">=16"
     react-dom: ">=16"
   checksum: 5baf2705e20e698619fdffe9fba89d55bd4314ab49075704522a2166fcb6b17d9d34781cef937e818d583a410d11b37bfe6ed8a02638b08a672998741cf40e1c
+  languageName: node
+  linkType: hard
+
+"react-toastify@npm:^9.0.8":
+  version: 9.0.8
+  resolution: "react-toastify@npm:9.0.8"
+  dependencies:
+    clsx: ^1.1.1
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: d48fa369b3d19c63f9b6b1ecef076911aa97a43bb84ecdb1532e6f32932e3625c1c3e12a4c63e7eb211d33b8aa962e9b9a81ab6a47fef2c51185ce8c9a780336
   languageName: node
   linkType: hard
 
