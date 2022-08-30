@@ -1623,14 +1623,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@big-whale-labs/frontend-utils@npm:^0.0.6":
-  version: 0.0.6
-  resolution: "@big-whale-labs/frontend-utils@npm:0.0.6"
+"@big-whale-labs/frontend-utils@npm:^0.0.7":
+  version: 0.0.7
+  resolution: "@big-whale-labs/frontend-utils@npm:0.0.7"
   dependencies:
     axios: ^0.27.2
     eth-rpc-errors: ^4.0.3
     react-toastify: ^9.0.8
-  checksum: 40064bd27aafa7f825ddf250da8b84117b044f8c9300184045e461eec48e4581cb5fa980e1776e626c04633611728e13d43a573c8655f1b78aa5d95f35d205f3
+  checksum: 245e4faaeeb2eca08eb203ac34255bc5d0a98f74132edcaf587d0a9e6bcd74834f78e9955eddb714e5a86c1d921bc4787e745f3b5b340d4fe6cbf1536cceee9e
   languageName: node
   linkType: hard
 
@@ -6845,7 +6845,7 @@ __metadata:
   dependencies:
     "@big-whale-labs/constants": ^0.1.0
     "@big-whale-labs/dosu-invites-contract": ^0.0.12
-    "@big-whale-labs/frontend-utils": ^0.0.6
+    "@big-whale-labs/frontend-utils": ^0.0.7
     "@coinbase/wallet-sdk": ^3.3.0
     "@esbuild-plugins/node-globals-polyfill": ^0.1.1
     "@preact/preset-vite": ^2.3.0
