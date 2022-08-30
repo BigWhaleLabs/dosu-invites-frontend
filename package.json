@@ -26,6 +26,7 @@
   "dependencies": {
     "@big-whale-labs/constants": "^0.1.0",
     "@big-whale-labs/dosu-invites-contract": "^0.0.12",
+    "@big-whale-labs/frontend-utils": "^0.0.7",
     "@coinbase/wallet-sdk": "^3.3.0",
     "@walletconnect/web3-provider": "^1.7.8",
     "axios": "^0.27.2",

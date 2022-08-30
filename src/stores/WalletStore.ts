@@ -1,11 +1,10 @@
-import { ErrorList } from 'helpers/handleError'
+import { ErrorList, handleError } from '@big-whale-labs/frontend-utils'
 import { Web3Provider } from '@ethersproject/providers'
 import { proxy } from 'valtio'
 import dosuInvites from 'helpers/dosuInvites'
 import env from 'helpers/env'
 import generateMerkleProof from 'helpers/generateMerkleProof'
 import getDosuInvites from 'helpers/getDosuInvites'
-import handleError from 'helpers/handleError'
 import networkChainIdToName from 'models/networkChainIdToName'
 import web3Modal from 'helpers/web3Modal'
 

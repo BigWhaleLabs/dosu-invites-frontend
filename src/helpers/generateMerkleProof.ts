@@ -1,4 +1,4 @@
-import { ErrorList } from 'helpers/handleError'
+import { ErrorList } from '@big-whale-labs/frontend-utils'
 import { MerkleTree } from 'merkletreejs'
 import { utils } from 'ethers'
 import getAllowlist from 'helpers/getAllowlist'

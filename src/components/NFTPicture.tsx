@@ -1,3 +1,4 @@
+import { ErrorList, handleError } from '@big-whale-labs/frontend-utils'
 import { LinkText, SubheaderText } from 'components/Text'
 import { Suspense } from 'react'
 import { useEffect, useState } from 'preact/hooks'
@@ -14,7 +15,6 @@ import classnames, {
   margin,
 } from 'classnames/tailwind'
 import env from 'helpers/env'
-import handleError, { ErrorList } from 'helpers/handleError'
 import truncateMiddle from 'helpers/truncateMiddle'
 import useBreakpoints from 'helpers/useBreakpoints'
 import useSafeId from 'helpers/useSafeId'
